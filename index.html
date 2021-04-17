@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rogue Adventures</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  
+  <body>
+    <section id="start" class="d-flex justify-content-center">
+      <div>
+        <h1 class="d-flex justify-content-center">Select player</h1>
+        <button type="button" onclick="setCharacter(rogue)">Rogue</button>
+        <button type="button" onclick="setCharacter(barbarian)">Barbarian</button>
+        <button type="button" onclick="setCharacter(paladin)">Paladin</button>
+        <button type="button" onclick="setCharacter(wizard)">Wizard</button>
+      </div> 
+    </section>
+    
+    <main id="game" class="d-flex justify-content-center">
+
+      <div id="player" class="card left">
+      </div>
+
+      <section id="events" class="sm-card d-flex justify-content-center hidden">
+         <div class="m-1">
+           <button type="button" onclick="spawnEnemy()">Battle!</button>
+          </div>
+          <div class="m-1">
+            <button type="button" onclick="rest()">rest</button>
+           </div>
+        </section>
+       
+        <section id="actions" class="sm-card d-flex justify-content-center hidden">
+          <div class="m-1">
+            <button type="button" onclick="attack()">Attack</button>
+          </div>
+          <div class="m-1">
+            <button type="button" onclick="block()">Block</button>
+          </div>
+        </section>
+      
+      <section class="card d-flex right">
+        <div id="enemy" class="hidden">
+        </div>
+      </section>
+      
+    </main>
+    <script src="main.js"></script>
+  </body>
+  </html>
