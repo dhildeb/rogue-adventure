@@ -74,7 +74,7 @@ let enemy = {hpMax
   
   // game
   function setCharacter(character){
-event.preventDefault()
+character.preventDefault()
     player = character
     savePlayer()
     drawPlayer()
