@@ -4,20 +4,24 @@ let defenseMax = 0
 let powerMax = 3
 let magicMax = 0
 let speedMax = 2
-
+// adjustable stats
 let hp = 0
 let defense = 0
 let power = 0
 let magic = 0
 let speed = 0
-
 let exp = 0
 let lvl = 0
+//abilities
+let evade = 0
+
+//general
 let turn = 0 
 let days = 0
+let expMax = 5
 
 // characters
-let rogue = {name: "rogue", hpMax: hpMax + 5, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax + 1,hp: hpMax + 5, defense: defenseMax, power: powerMax, magic: magicMax, speed: speedMax + 1, lvl: lvl, exp: exp}
+let rogue = {name: "rogue", hpMax: hpMax + 5, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax + 1,hp: hpMax + 5, defense: defenseMax, power: powerMax, magic: magicMax, speed: speedMax + 1, lvl: lvl, exp: exp, evade: evade}
 let barbarian = {name: "barbarian", hpMax: hpMax + 15, defenseMax: defenseMax, powerMax: powerMax + 2, magicMax: magicMax, speedMax: speedMax,hp: hpMax + 15, defense: defenseMax, power: powerMax + 2, magic: magicMax, speed: speedMax, lvl: lvl, exp: exp}
 let paladin = {name: "paladin", hpMax: hpMax + 10, defenseMax: defenseMax + 1, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, hp: hpMax + 10, defense: defenseMax + 1, power: powerMax, magic: magicMax, speed: speedMax,  lvl: lvl, exp: exp}
 let wizard = {name: "wizard", hpMax: hpMax, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax + 3, speedMax: speedMax, hp: hpMax, defense: defenseMax, power: powerMax, magic: magicMax + 3, speed: speedMax, lvl: lvl, exp: exp}
@@ -161,6 +165,15 @@ let enemy = {hpMax
     </div>
     </div>
     `
+    if(player.name == "rogue"){
+      template += `<div class="d-flex space-between">
+      <p>
+      <span>
+      Evade: ${Math.floor(player.evade * 100)} %
+      </span>
+      </p>
+      </div>`
+    }
       document.getElementById("player").innerHTML = template
   }
   
@@ -210,7 +223,6 @@ enemy.defenseMax = Math.floor(Math.random()*2)
       document.getElementById("enemy").innerHTML = template
   }
 
-  // implement and refine following code >>>>
   function turnTracker(){
   
     if(player.speed == 0){
@@ -221,14 +233,25 @@ enemy.defenseMax = Math.floor(Math.random()*2)
 drawPlayer()
     }
   }
-  
-  //enemy
 
   function enemyAttack(){
     let attack = enemy.powerMax
+    
+    if(player.evade){
+      let hit = Math.floor(Math.random()*100)
+      let dodge = Math.floor(player.evade*100)
+      console.log(dodge+"/"+hit)
+    if(dodge > hit){
+    attack = 0
+    window.alert("Dodged!")
+    }
+    }
+    
     attack -= player.defenseMax
     attack -= player.defense
     player.defense -= (enemy.powerMax - player.defenseMax)
+console.log(Math.floor(player.evade*100))
+
 
     if(player.defense < 0){
       player.defense = 0
@@ -244,7 +267,6 @@ drawPlayer()
     window.alert("you take "+attack+" damage")
   }
 
-  //perform random action
   function enemyTurn(){
     enemy.speed = enemy.speedMax
     while(enemy.speed > 0){
@@ -264,15 +286,36 @@ if(player.hp <= 0){
   function victory(){
   if (enemy.hpMax <= 0){
 player.exp += enemy.lvl
+lvlUp()
 player.speed = player.speedMax
 window.alert("YOU WON!")
 document.getElementById("enemy").classList.add("hidden")
 document.getElementById("events").classList.remove("hidden")
 document.getElementById("actions").classList.add("hidden")
 enemy.hpMax = hpMax
-drawPlayer()
+savePlayer()
   }
 
+}
+
+function lvlUp(){
+
+if((player.name == "rogue" && player.exp == expMax && player.lvl == 0)){
+player.lvl++
+player.evade = .1
+player.hpMax += 5
+player.hp += 5
+expMax *= 2
+}
+if((player.name == "rogue" && player.exp == expMax && player.lvl > 0)){
+  player.lvl++
+  player.evade *= 1.3
+  player.hpMax += (5 * player.lvl)
+  player.hp += (5 * player.lvl)
+  expMax *= 2
+  }
+
+drawPlayer()
 }
 
 loadPlayer()
