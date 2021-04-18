@@ -161,8 +161,8 @@ function sell(event){
   let item = form.name.value
   let found = equipment.find(item => item);
   let index = equipment.indexOf(item)
-  
-  if(found){
+
+  if(found == item){
 
     deleteItem(index)
  
