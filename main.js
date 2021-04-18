@@ -54,7 +54,6 @@ let enemy = {hpMax
 
   //game data
   function setCharacter(character){
-    event.preventDefault()
     player = character
     savePlayer()
     drawPlayer()
@@ -314,7 +313,7 @@ function drawItems(){
   <p>
   coin pouch:
   <p>
-  copper : ${coinPouch[0]}, silver : ${coinPouch[1]}, gold : ${coinPouch[2]}, platinum : ${coinPouch[3]}
+  cp : ${coinPouch[0]}, sp : ${coinPouch[1]}, gp : ${coinPouch[2]}, pp : ${coinPouch[3]}
   </p>
   </p>
   <p>
