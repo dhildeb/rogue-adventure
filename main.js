@@ -475,52 +475,52 @@ function lvlUp(){
     player.evade = .1
     player.hpMax += 3
     player.hp += 3
-    player.player.expMax *= 2
+    player.expMax *= 2
   }else if((player.name == "rogue" && player.exp == player.expMax && player.lvl > 0)){
     player.lvl++
     player.evade *= 1.3
     player.hpMax += (3 * player.lvl)
     player.hp += (3 * player.lvl)
-    player.player.expMax *= 2
+    player.expMax *= 2
   }
   if((player.name == "barbarian" && player.exp == player.expMax && player.lvl == 0)){
     player.lvl++
     player.powerMax++
     player.hpMax += 5
     player.hp += 5
-    player.player.expMax *= 2
+    player.expMax *= 2
   }else if((player.name == "barbarian" && player.exp == player.expMax && player.lvl > 0)){
     player.lvl++
     player.powerMax++
     player.hpMax += (5 * player.lvl)
     player.hp += (5 * player.lvl)
-    player.player.expMax *= 2
+    player.expMax *= 2
   }
   if((player.name == "paladin" && player.exp == player.expMax && player.lvl == 0)){
     player.lvl++
     player.defenseMax++
     player.hpMax += 4
     player.hp += 4
-    player.player.expMax *= 2
+    player.expMax *= 2
   }else if((player.name == "paladin" && player.exp == player.expMax && player.lvl > 0)){
     player.lvl++
     player.defenseMax++
     player.hpMax += (4 * player.lvl)
     player.hp += (4 * player.lvl)
-    player.player.expMax *= 2
+    player.expMax *= 2
   }  
   if((player.name == "wizard" && player.exp == player.expMax && player.lvl == 0)){
     player.lvl++
     player.magicMax += 1
     player.hpMax += 2
     player.hp += 2
-    player.player.expMax *= 2
+    player.expMax *= 2
   }else if((player.name == "wizard" && player.exp == player.expMax && player.lvl > 0)){
     player.lvl++
     player.magicMax += 1
     player.hpMax += (2 * player.lvl)
     player.hp += (2 * player.lvl)
-    player.player.expMax *= 2
+    player.expMax *= 2
   }
   
   
