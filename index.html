@@ -26,26 +26,51 @@
       <div id="player" class="card left">
       </div>
 
-      <section id="events" class="sm-card d-flex justify-content-center hidden">
-         <div class="m-1">
+      <section id="events" class="sm-card hidden">
+         <div class="m-1 d-flex justify-content-center">
            <button type="button" onclick="spawnEnemy()">Battle!</button>
           </div>
-          <div class="m-1">
+          <div class="m-1 d-flex justify-content-center">
             <button type="button" onclick="rest()">rest</button>
+           </div>
+           <div class="m-1 d-flex justify-content-center">
+            <button type="button" onclick="shop()">shop</button>
            </div>
         </section>
        
-        <section id="actions" class="sm-card d-flex justify-content-center hidden">
-          <div class="m-1">
+        <section id="actions" class="sm-card hidden">
+          <div class="m-1 d-flex justify-content-center">
             <button type="button" onclick="attack()">Attack</button>
           </div>
-          <div class="m-1">
+          <div class="m-1 d-flex justify-content-center">
             <button type="button" onclick="block()">Block</button>
+          </div>
+          <div class="m-1 d-flex justify-content-center">
+            <button type="button" onclick="drawItems()">use item</button>
           </div>
         </section>
       
-      <section class="card d-flex right">
+      <section class="card">
+        <div id="pouch" class="hidden">
+        </div>
         <div id="enemy" class="hidden">
+        </div>
+        <div id="shop" class="hidden">
+
+    <div class="m-1 d-flex justify-content-center">
+    <form class="" onsubmit="sell(event)">
+    <input id="default" placeholder="item" type="text" name="name" required>
+    <button class="" type="submit">sell</button>
+    </form>
+    </div>
+
+   <div class="m-1 d-flex justify-content-center">
+   <button type="button" onclick="buy()">buy</button>
+   <p class="m-1">healing potion</p>
+  </div>
+  <div>
+    <button type="button" onclick="leave()">leave</button>
+  </div>
         </div>
       </section>
       

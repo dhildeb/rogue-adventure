@@ -27,11 +27,11 @@ input{
   width: 100%;
   padding: .375rem .75rem;
   font-size: 1rem;
-  color: var(--light);
+  color: black;
   background-color: transparent;
   background-clip: padding-box;
-  border: none;
-  border-bottom: 1px solid var(--primary);
+  border: 5em;
+  border-bottom: 1px solid black;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 input:focus{
@@ -96,7 +96,7 @@ button.btn-special:hover{
   padding: 1em;
   box-shadow: var(--shadow);
   border-radius: var(--corners);
-  width: 10%;
+  width: 15%;
 }
 
 .shadow{
