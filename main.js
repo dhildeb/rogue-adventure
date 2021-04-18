@@ -53,9 +53,9 @@ let enemy = {hpMax
   let coinPouch = [copper, silver, gold, platinum]
 
   //game data
-  function setCharacter(event){
+  function setCharacter(character){
     event.preventDefault()
-    player = event
+    player = character
     savePlayer()
     drawPlayer()
     hideStart()
