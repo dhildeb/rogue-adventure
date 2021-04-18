@@ -61,6 +61,24 @@ let enemy = {hpMax
     hideStart()
     location.reload()
   }
+
+  function resetCharacter(){
+
+    if(confirm("are you sure you want to commit suicide?")){
+      if(confirm("are you really ready to just give up?")){
+        window.alert("you impaled youself. as you stare up at the sky as you quickly bleed out your last thought is: why?")
+    localStorage.removeItem("player")
+    localStorage.removeItem("items")
+    localStorage.removeItem("coinPouch")
+    hideGame()
+    location.reload()
+      }else {
+        window.alert("woah what were you even thinking! of course you want to live!")
+      }
+  }else{
+window.alert("yeah that would be pretty stupid.")
+  }
+  }
   
   function savePlayer(){
     window.localStorage.setItem("player", JSON.stringify(player))
@@ -301,6 +319,15 @@ function drawPlayer(){
     </p>
     </div>`
   }
+
+  template += `
+  <div class="d-flex space-between">
+  <p>
+  <button type="button" onclick="resetCharacter()">reset
+  </button>
+  </p>
+  </div>
+  `
   document.getElementById("player").innerHTML = template
 }
 
