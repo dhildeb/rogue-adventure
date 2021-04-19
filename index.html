@@ -23,6 +23,13 @@
     
     <main id="game" class="d-flex justify-content-center">
 
+<div id="img" class="">
+  <img src="rogue.png" alt="rogue" id="rogue" class="hidden">
+  <img src="barbarian.png" alt="barbarian" id="barbarian" class="hidden">
+  <img src="paladin.jpg" alt="paladin" id="paladin" class="hidden">
+  <img src="wizard.png" alt="wizard" id="wizard" class="hidden">
+</div>
+
       <div id="player" class="card left">
       </div>
 
@@ -43,7 +50,7 @@
             <button type="button" onclick="attack()">Attack</button>
           </div>
           <div class="m-1 d-flex justify-content-center">
-            <button type="button" onclick="block()">Block</button>
+            <button type="button" onclick="blocking()">Block</button>
           </div>
           <div class="m-1 d-flex justify-content-center">
             <button type="button" onclick="drawItems()">use item</button>

@@ -8,7 +8,7 @@ let magicMax = 0
 let speedMax = 2
 // adjustable stats
 let hp = 0
-let defense = 0
+let block = 0
 let power = 0
 let magic = 0
 let speed = 0
@@ -26,10 +26,10 @@ let expMax = 5
 
 
 // characters
-let rogue = {name: "rogue", hpMax: hpMax + 5, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax + 1,hp: hpMax + 5, defense: defenseMax, power: powerMax, magic: magicMax, speed: speedMax + 1, lvl: lvl, exp: exp, expMax: expMax, evade: evade}
-let barbarian = {name: "barbarian", hpMax: hpMax + 15, defenseMax: defenseMax, powerMax: powerMax + 2, magicMax: magicMax, speedMax: speedMax,hp: hpMax + 15, defense: defenseMax, power: powerMax + 2, magic: magicMax, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax}
-let paladin = {name: "paladin", hpMax: hpMax + 10, defenseMax: defenseMax + 1, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, hp: hpMax + 10, defense: defenseMax + 1, power: powerMax, magic: magicMax, speed: speedMax,  lvl: lvl, exp: exp, expMax: expMax}
-let wizard = {name: "wizard", hpMax: hpMax, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax + 3, speedMax: speedMax, hp: hpMax, defense: defenseMax, power: powerMax, magic: magicMax + 3, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax}
+let rogue = {name: "rogue", hpMax: hpMax + 5, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax + 1,hp: hpMax + 5, block: block, power: powerMax, magic: magicMax, speed: speedMax + 1, lvl: lvl, exp: exp, expMax: expMax, evade: evade}
+let barbarian = {name: "barbarian", hpMax: hpMax + 15, defenseMax: defenseMax, powerMax: powerMax + 2, magicMax: magicMax, speedMax: speedMax,hp: hpMax + 15, block: block, power: powerMax + 2, magic: magicMax, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax}
+let paladin = {name: "paladin", hpMax: hpMax + 10, defenseMax: defenseMax + 1, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, hp: hpMax + 10, block: block, power: powerMax, magic: magicMax, speed: speedMax,  lvl: lvl, exp: exp, expMax: expMax}
+let wizard = {name: "wizard", hpMax: hpMax, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax + 3, speedMax: speedMax, hp: hpMax, block: block, power: powerMax, magic: magicMax + 3, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax}
 
 let player = []
 
@@ -55,11 +55,12 @@ let enemy = {hpMax
 
   //game data
   function setCharacter(character){
+    
     player = character
+
     savePlayer()
     drawPlayer()
     hideStart()
-    location.reload()
   }
 
   function resetCharacter(){
@@ -79,7 +80,22 @@ let enemy = {hpMax
 window.alert("yeah that would be pretty stupid.")
   }
   }
-  
+
+  function drawPlayerImage(){
+    if(player.name == "rogue"){
+      document.getElementById("rogue").classList.remove("hidden")
+    }
+    else if(player.name == "barbarian"){
+      document.getElementById("barbarian").classList.remove("hidden")
+    }
+    else if(player.name == "paladin"){
+      document.getElementById("paladin").classList.remove("hidden")
+    }
+    else if(player.name == "wizard"){
+      document.getElementById("wizard").classList.remove("hidden")
+    }
+  }
+
   function savePlayer(){
     window.localStorage.setItem("player", JSON.stringify(player))
     window.localStorage.setItem("items", JSON.stringify(equipment))
@@ -151,6 +167,16 @@ window.alert("yeah that would be pretty stupid.")
     document.getElementById("enemy").classList.remove("hidden")
     document.getElementById("pouch").classList.add("hidden")
   }
+  function tempAlert(msg,duration,area){
+
+ let el = document.createElement("div");
+ el.setAttribute("style","position:absolute;top:"+area+"%;left:20%;background-color:white;");
+ el.innerHTML = msg;
+ setTimeout(function(){
+  el.parentNode.removeChild(el);
+ },duration);
+ document.body.appendChild(el);
+}
   
   //events
   function rest(){
@@ -185,7 +211,7 @@ function sell(event){
     deleteItem(index)
  
     coinPouch[2] += 50
-    window.alert("you sold "+item+" for 50 gp")
+    tempAlert("you sold "+item+" for 50 gp",1000)
     savePlayer()
     loadPlayer()
     drawItems()
@@ -200,19 +226,19 @@ function buy(){
   if(coinPouch[2] > 49){
     coinPouch[2] -= 50
     equipment.push("healing potion")
-    window.alert("heres yer potion")
+    tempAlert("heres yer potion",1500,50)
   }else if(coinPouch[1] > 499){
     coinPouch[1] -= 500
     equipment.push("healing potion")
-    window.alert("heres yer potion, don't ya go'a dyin")
+    tempAlert("heres yer potion",1500,50)
   }else if(coinPouch[3] > 4){
     coinPouch[3] -= 5
     equipment.push("healing potion")
-    window.alert("heres yer potion, don't ya go'a dyin")
+    tempAlert("heres yer potion",1500,50)
   }else if(coinPouch[0] > 4999){
     coinPouch[0] -= 5000
     equipment.push("healing potion")
-    window.alert("heres yer potion, don't ya go'a dyin")
+    tempAlert("heres yer potion",1500,50)
   }
   else{
     window.alert("this aint no charity!")
@@ -241,8 +267,8 @@ function buy(){
     turnTracker()
   }
   
-  function block(){
-    player.defense += player.power
+  function blocking(){
+    player.block += player.power
     player.speed--
     turnTracker()
     drawPlayer()
@@ -260,17 +286,23 @@ function drawPlayer(){
   <div class="d-flex space-between">
   <p>
   <span>
-  hp: ${player.hp}/${player.hpMax}
+  HP: ${player.hp}/${player.hpMax}
   </span>
   </p>
   </div>
   <div class="d-flex space-between">
   <p>
   <span>
-  defense: ${player.defense}
+  Defense: ${player.defenseMax}
   </span>
   </p>
   </div>
+  <div class="d-flex space-between">
+  <p>
+  <span>
+  Block: ${player.block}
+  </span>
+  </p>
   </div>
   <div class="d-flex space-between">
   <p>
@@ -329,6 +361,8 @@ function drawPlayer(){
   </div>
   `
   document.getElementById("player").innerHTML = template
+
+  drawPlayerImage()
 }
 
 function drawItems(){
@@ -358,6 +392,7 @@ function drawItems(){
     `
   });
   document.getElementById("pouch").innerHTML = template
+
 }
 
 function enemyGenerator(){
@@ -401,6 +436,13 @@ function drawEnemy(){
   <div class="d-flex space-between">
   <p>
   <span>
+  Level: ${enemy.lvl}
+  </span>
+  </p>
+  </div>
+  <div class="d-flex space-between">
+  <p>
+  <span>
   hp: ${enemy.hpMax}
   </span>
   </p>
@@ -422,7 +464,6 @@ function turnTracker(){
   if(player.speed == 0){
     enemyTurn()
     turn++
-    player.defense = player.defenseMax
     player.power = player.powerMax
     drawPlayer()
   }
@@ -430,43 +471,56 @@ function turnTracker(){
 
 function enemyAttack(){
   let attack = enemy.powerMax
-  
+  let dmgReducer = player.block
+
+ //dodge chance
   if(player.evade){
     let hit = Math.floor(Math.random()*100)
     let dodge = Math.floor(player.evade*100)
-    console.log(dodge+"/"+hit)
     if(dodge > hit){
       attack = 0
-      window.alert("Dodged!")
+      tempAlert("Dodged!",1000,15)
     }
   }
+
+// defense vs attack
+player.block -= attack
+attack -= dmgReducer
+attack -= player.defenseMax
   
-  attack -= player.defenseMax
-  attack -= player.defense
-  player.defense -= (enemy.powerMax - player.defenseMax)
-  console.log(Math.floor(player.evade*100))
-  
-  
-  if(player.defense < 0){
-    player.defense = 0
-  }
-  if(attack < 1){
+  //no negatives
+  if(attack < 0){
     attack = 0
   }
-  
+
+  //actual attack
   player.hp -= attack
+  
+  // reset defense to max if lower
+    if(player.block < 0){
+      player.block = 0
+    }
   
   drawEnemy()
   drawPlayer()
-  window.alert("you take "+attack+" damage")
+
 }
 
 function enemyTurn(){
+let preHp = player.hp
+let postHp = 0
+let totalDmg = 0
+
   enemy.speed = enemy.speedMax
+
   while(enemy.speed > 0){
     enemyAttack()
     enemy.speed--
   }
+  postHp = player.hp
+  totalDmg = preHp - postHp
+  tempAlert("you were attacked! you take "+totalDmg+" damage",1500,20)
+
   if(player.hp <= 0){
     window.alert("you died! that sucks.... try again?")
     localStorage.removeItem("player")
@@ -503,12 +557,14 @@ function lvlUp(){
     player.hpMax += 3
     player.hp += 3
     player.expMax *= 2
+    window.alert("you leveled up!")
   }else if((player.name == "rogue" && player.exp == player.expMax && player.lvl > 0)){
     player.lvl++
     player.evade *= 1.3
     player.hpMax += (3 * player.lvl)
     player.hp += (3 * player.lvl)
     player.expMax *= 2
+    window.alert("you leveled up!")
   }
   if((player.name == "barbarian" && player.exp == player.expMax && player.lvl == 0)){
     player.lvl++
@@ -516,12 +572,14 @@ function lvlUp(){
     player.hpMax += 5
     player.hp += 5
     player.expMax *= 2
+    window.alert("you leveled up!")
   }else if((player.name == "barbarian" && player.exp == player.expMax && player.lvl > 0)){
     player.lvl++
     player.powerMax++
     player.hpMax += (5 * player.lvl)
     player.hp += (5 * player.lvl)
     player.expMax *= 2
+    window.alert("you leveled up!")
   }
   if((player.name == "paladin" && player.exp == player.expMax && player.lvl == 0)){
     player.lvl++
@@ -529,12 +587,14 @@ function lvlUp(){
     player.hpMax += 4
     player.hp += 4
     player.expMax *= 2
+    window.alert("you leveled up!")
   }else if((player.name == "paladin" && player.exp == player.expMax && player.lvl > 0)){
     player.lvl++
     player.defenseMax++
     player.hpMax += (4 * player.lvl)
     player.hp += (4 * player.lvl)
     player.expMax *= 2
+    window.alert("you leveled up!")
   }  
   if((player.name == "wizard" && player.exp == player.expMax && player.lvl == 0)){
     player.lvl++
@@ -542,12 +602,14 @@ function lvlUp(){
     player.hpMax += 2
     player.hp += 2
     player.expMax *= 2
+    window.alert("you leveled up!")
   }else if((player.name == "wizard" && player.exp == player.expMax && player.lvl > 0)){
     player.lvl++
     player.magicMax += 1
     player.hpMax += (2 * player.lvl)
     player.hp += (2 * player.lvl)
     player.expMax *= 2
+    window.alert("you leveled up!")
   }
   
   

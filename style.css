@@ -11,7 +11,8 @@ p{
 }
 
 img{
-  max-width: 100%;
+  max-width: 15%;
+  position:absolute;top:5%;left:20%
 }
 
 form{
