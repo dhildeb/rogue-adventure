@@ -641,6 +641,7 @@ function looting(){
     }
   }
 
+  document.getElementById("theme-music").volume = 0.5;
 
 loadPlayer()
 drawPlayer()
