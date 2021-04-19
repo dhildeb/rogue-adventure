@@ -551,14 +551,14 @@ function victory(){
 
 function lvlUp(){
   
-  if((player.name == "rogue" && player.exp == player.expMax && player.lvl == 0)){
+  if((player.name == "rogue" && player.exp >= player.expMax && player.lvl == 0)){
     player.lvl++
     player.evade = .1
     player.hpMax += 3
     player.hp += 3
     player.expMax *= 2
     window.alert("you leveled up!")
-  }else if((player.name == "rogue" && player.exp == player.expMax && player.lvl > 0)){
+  }else if((player.name == "rogue" && player.exp >= player.expMax && player.lvl > 0)){
     player.lvl++
     player.evade *= 1.3
     player.hpMax += (3 * player.lvl)
@@ -566,14 +566,14 @@ function lvlUp(){
     player.expMax *= 2
     window.alert("you leveled up!")
   }
-  if((player.name == "barbarian" && player.exp == player.expMax && player.lvl == 0)){
+  if((player.name == "barbarian" && player.exp >= player.expMax && player.lvl == 0)){
     player.lvl++
     player.powerMax++
     player.hpMax += 5
     player.hp += 5
     player.expMax *= 2
     window.alert("you leveled up!")
-  }else if((player.name == "barbarian" && player.exp == player.expMax && player.lvl > 0)){
+  }else if((player.name == "barbarian" && player.exp >= player.expMax && player.lvl > 0)){
     player.lvl++
     player.powerMax++
     player.hpMax += (5 * player.lvl)
@@ -581,14 +581,14 @@ function lvlUp(){
     player.expMax *= 2
     window.alert("you leveled up!")
   }
-  if((player.name == "paladin" && player.exp == player.expMax && player.lvl == 0)){
+  if((player.name == "paladin" && player.exp >= player.expMax && player.lvl == 0)){
     player.lvl++
     player.defenseMax++
     player.hpMax += 4
     player.hp += 4
     player.expMax *= 2
     window.alert("you leveled up!")
-  }else if((player.name == "paladin" && player.exp == player.expMax && player.lvl > 0)){
+  }else if((player.name == "paladin" && player.exp >= player.expMax && player.lvl > 0)){
     player.lvl++
     player.defenseMax++
     player.hpMax += (4 * player.lvl)
@@ -596,14 +596,14 @@ function lvlUp(){
     player.expMax *= 2
     window.alert("you leveled up!")
   }  
-  if((player.name == "wizard" && player.exp == player.expMax && player.lvl == 0)){
+  if((player.name == "wizard" && player.exp >= player.expMax && player.lvl == 0)){
     player.lvl++
     player.magicMax += 1
     player.hpMax += 2
     player.hp += 2
     player.expMax *= 2
     window.alert("you leveled up!")
-  }else if((player.name == "wizard" && player.exp == player.expMax && player.lvl > 0)){
+  }else if((player.name == "wizard" && player.exp >= player.expMax && player.lvl > 0)){
     player.lvl++
     player.magicMax += 1
     player.hpMax += (2 * player.lvl)
@@ -621,11 +621,11 @@ function looting(){
   let chance = Math.floor(Math.random()*100)
   let chance2 = Math.floor(Math.random()*100)
   
-  if(chance > 90){
+  if(chance > 80){
     equipment.push(item)
     window.alert("you got a "+item)
     
-  }else if(chance > 50){
+  }else if(chance > 25){
     
     if(chance2 > 50){ coinPouch[0] += copper
       window.alert("you got copper: "+copper)
