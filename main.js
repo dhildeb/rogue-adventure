@@ -47,7 +47,7 @@ let enemy = {hpMax
   let gem = "gem"
   let copper = Math.floor(Math.random()*99)+1
   let silver = Math.floor(Math.random()*24)+1
-  let gold = Math.floor(Math.random()*5)+50
+  let gold = Math.floor(Math.random()*9)+1
   let platinum = 1
   
   let loot = [dagger, buckler, magicBoots, paddedArmor, healingPot, gem]
@@ -139,18 +139,19 @@ window.alert("yeah that would be pretty stupid.")
     drawPlayer()
   }
   function healingPotion(item){
-    let cancelBtn = document.getElementById("events").classList.contains("hidden")
+    let cancelBtn = document.getElementById("shop").classList.contains("hidden")
   let index = equipment.indexOf(item)
   if(item == "healing potion"){
 
     player.hp = player.hpMax
+    player.speed--
 
     deleteItem(index)
     savePlayer()
     loadPlayer()
     document.getElementById("events").classList.add("hidden")
     drawItems()
-    if(cancelBtn == true){
+    if(cancelBtn == false){
       document.getElementById("cancel").classList.add("hidden")
     }
     
