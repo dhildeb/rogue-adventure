@@ -12,7 +12,10 @@ p{
 
 img{
   max-width: 15%;
-  position:absolute;top:5%;left:20%
+  position:absolute;
+  top:15%;
+  left:20%;
+  z-index: 5;
 }
 
 form{
@@ -68,12 +71,7 @@ button.btn-special{
   flex-direction: column;
   justify-content: center;
 }
-button.btn-special:after{
-  content: "ADD";
-  margin-top: 5px;
-  font-size: 8pt;
-  color: var(--primary);
-}
+
 button.btn-special:focus{
   outline: none;
 }
@@ -93,7 +91,6 @@ button.btn-special:hover{
 }
 
 .sm-card{
-  background-color: var(--light);
   padding: 1em;
   box-shadow: var(--shadow);
   border-radius: var(--corners);
@@ -151,10 +148,21 @@ button.btn-special:hover{
 }
 .left{
   align-items: left;
-  justify-content: left;
+  position: absolute;
+  left: 5%;
+  top: 5%
 }
+.center{
+  align-items: center;
+  position: absolute;
+  left: 40%;
+  top: 30%
+}
+
 .right{
-  justify-content: right;
+  position: absolute;
+  left: 60%;
+  top: 25%
 }
 
 .mt-1{
@@ -218,7 +226,7 @@ button.btn-special:hover{
 }
 
 .w-50{
-  width: 50%;
+  width: 100%;
 }
 
 .text-center{

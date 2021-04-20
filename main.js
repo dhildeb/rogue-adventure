@@ -45,9 +45,9 @@ let enemy = {hpMax
   let paddedArmor = "padded armor"
   let healingPot = "healing potion"
   let gem = "gem"
-  let copper = Math.floor(Math.random()*25)
-  let silver = Math.floor(Math.random()*10)
-  let gold = Math.floor(Math.random()*5)
+  let copper = Math.floor(Math.random()*99)+1
+  let silver = Math.floor(Math.random()*24)+1
+  let gold = Math.floor(Math.random()*5)+50
   let platinum = 1
   
   let loot = [dagger, buckler, magicBoots, paddedArmor, healingPot, gem]
@@ -138,6 +138,26 @@ window.alert("yeah that would be pretty stupid.")
     player.hp += 5
     drawPlayer()
   }
+  function healingPotion(item){
+    let cancelBtn = document.getElementById("events").classList.contains("hidden")
+  let index = equipment.indexOf(item)
+  if(item == "healing potion"){
+
+    player.hp = player.hpMax
+
+    deleteItem(index)
+    savePlayer()
+    loadPlayer()
+    document.getElementById("events").classList.add("hidden")
+    drawItems()
+    if(cancelBtn == true){
+      document.getElementById("cancel").classList.add("hidden")
+    }
+    
+    
+    tempAlert("Healed",1000,15,10)
+  }
+  }
   
   //visibility
   function hideStart(){
@@ -167,10 +187,10 @@ window.alert("yeah that would be pretty stupid.")
     document.getElementById("enemy").classList.remove("hidden")
     document.getElementById("pouch").classList.add("hidden")
   }
-  function tempAlert(msg,duration,area){
+  function tempAlert(msg,duration,top,left){
 
  let el = document.createElement("div");
- el.setAttribute("style","position:absolute;top:"+area+"%;left:20%;background-color:white;");
+ el.setAttribute("style","position:absolute;top:"+top+"%;left:"+left+"%;color:rgb(177, 0, 0);");
  el.innerHTML = msg;
  setTimeout(function(){
   el.parentNode.removeChild(el);
@@ -211,7 +231,7 @@ function sell(event){
     deleteItem(index)
  
     coinPouch[2] += 50
-    tempAlert("you sold "+item+" for 50 gp",1000)
+    tempAlert("you sold "+item+" for 50 gp",1000,5,65)
     savePlayer()
     loadPlayer()
     drawItems()
@@ -226,19 +246,19 @@ function buy(){
   if(coinPouch[2] > 49){
     coinPouch[2] -= 50
     equipment.push("healing potion")
-    tempAlert("heres yer potion",1500,50)
+    tempAlert("heres yer potion",1500,5,70)
   }else if(coinPouch[1] > 499){
     coinPouch[1] -= 500
     equipment.push("healing potion")
-    tempAlert("heres yer potion",1500,50)
+    tempAlert("heres yer potion",1500,5,70)
   }else if(coinPouch[3] > 4){
     coinPouch[3] -= 5
     equipment.push("healing potion")
-    tempAlert("heres yer potion",1500,50)
+    tempAlert("heres yer potion",1500,5,70)
   }else if(coinPouch[0] > 4999){
     coinPouch[0] -= 5000
     equipment.push("healing potion")
-    tempAlert("heres yer potion",1500,50)
+    tempAlert("heres yer potion",1500,5,70)
   }
   else{
     window.alert("this aint no charity!")
@@ -258,6 +278,7 @@ function buy(){
     if(attack < 1){
       attack = 0
     }
+    tempAlert("hit! "+attack+" DMG",1000,68,68)
     enemy.hpMax -= attack
     player.speed--
     
@@ -387,7 +408,7 @@ function drawItems(){
     template +=
     `
     <div class="m-1">
-    ${item}
+    <button onclick="healingPotion('${item}')">${item}</button>
     </div>
     `
   });
@@ -479,7 +500,7 @@ function enemyAttack(){
     let dodge = Math.floor(player.evade*100)
     if(dodge > hit){
       attack = 0
-      tempAlert("Dodged!",1000,15)
+      tempAlert("Dodged!",1000,15,20)
     }
   }
 
@@ -519,7 +540,7 @@ let totalDmg = 0
   }
   postHp = player.hp
   totalDmg = preHp - postHp
-  tempAlert("you were attacked! you take "+totalDmg+" damage",1500,20)
+  tempAlert("you were attacked! you take "+totalDmg+" damage",1500,10,15)
 
 player.block = 0
 
