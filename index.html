@@ -25,17 +25,16 @@
     </section>
     
     <main id="game" class="d-flex justify-content-center">
-
-<div id="img" class="">
-  <img src="rogue.png" alt="rogue" id="rogue" class="hidden">
-  <img src="barbarian.png" alt="barbarian" id="barbarian" class="hidden">
-  <img src="paladin.png" alt="paladin" id="paladin" class="hidden">
-  <img src="wizrd.png" alt="wizard" id="wizard" class="hidden">
-</div>
-
+      <div id="img" class="">
+        <img src="rogue.png" alt="rogue" id="rogue" class="hidden">
+        <img src="barbarian.png" alt="barbarian" id="barbarian" class="hidden">
+        <img src="paladin.png" alt="paladin" id="paladin" class="hidden">
+        <img src="wizrd.png" alt="wizard" id="wizard" class="hidden">
+      </div>
+      
       <div id="player" class="card left">
       </div>
-
+      
       <section id="events" class="sm-card center hidden">
          <div class="m-1 d-flex justify-content-center">
            <button type="button" onclick="spawnEnemy()">Battle!</button>
@@ -49,7 +48,7 @@
         </section>
        
         <section id="actions" class="sm-card center hidden">
-          <div class="m-1 d-flex justify-content-center">
+          <div class="m-1 d-flex justify-content-center hurt">
             <button type="button" onclick="attack()">Attack</button>
           </div>
           <div class="m-1 d-flex justify-content-center">
@@ -75,9 +74,15 @@
             </form>
           </div>
           
-          <div class="m-1 d-flex justify-content-center">
-            <button type="button" onclick="buy()">buy</button>
-            <p class="m-1">healing potion 50gp</p>
+          <div class="m-1">
+            <span class="d-flex">
+              <button type="button" onclick="buyHp()">buy</button>
+              <p class="m-1">healing potion 50gp</p>
+            </span>
+            <span class="d-flex">
+              <button type="button" onclick="buyMana()">buy</button>
+              <p class="m-1">mana potion 50gp</p>
+            </span>
           </div>
             <div>
               <button type="button" onclick="leave()">leave</button>

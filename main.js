@@ -14,7 +14,7 @@ let magic = 0
 let speed = 0
 let exp = 0
 let lvl = 0
-let equipment = []
+let equipment = ["buckler","dagger","boots of speed"]
 let attuned = []
 let tempStats = {defense: 0, power: 0, magic: 0, speed: 0, hp: 0}
 
@@ -28,13 +28,7 @@ let expMax = 5
 let equip = false
 
 // loot
-let dagger = "dagger"
-let buckler = "buckler"
-let magicBoots = "boots of speed"
-let paddedArmor = "padded armor"
-let healingPot = "healing potion"
-let gem = "gem"
-let loot = [dagger, buckler, magicBoots, paddedArmor, healingPot, gem]
+let loot = ["dagger", "buckler", "boots of speed", "padded armor", "healing potion", "gem", "mana potion"]
 let gold = Math.floor(Math.random()*24)+1
 
 /* additional money values
@@ -45,10 +39,10 @@ let coinPouch = [copper, silver, gold, platinum]
 */
 
 // characters
-let rogue = {name: "rogue", hpMax: hpMax + 5, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax + 1,hp: hpMax + 5, block: block, power: powerMax, magic: magicMax, speed: speedMax + 1, lvl: lvl, exp: exp, expMax: expMax, evade: evade, gold: gold}
-let barbarian = {name: "barbarian", hpMax: hpMax + 15, defenseMax: defenseMax, powerMax: powerMax + 2, magicMax: magicMax, speedMax: speedMax,hp: hpMax + 15, block: block, power: powerMax + 2, magic: magicMax, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax, gold: gold}
-let paladin = {name: "paladin", hpMax: hpMax + 10, defenseMax: defenseMax + 1, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, hp: hpMax + 10, block: block, power: powerMax, magic: magicMax, speed: speedMax,  lvl: lvl, exp: exp, expMax: expMax, gold: gold}
-let wizard = {name: "wizard", hpMax: hpMax, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax + 3, speedMax: speedMax, hp: hpMax, block: block, power: powerMax, magic: magicMax + 3, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax, gold: gold}
+let rogue = {name: "rogue", hpMax: hpMax + 5, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax + 1,hp: hpMax + 5, block: block, power: 0, magic: magicMax,defense: 0, speed: speedMax + 1, lvl: lvl, exp: exp, expMax: expMax, evade: evade, gold: gold}
+let barbarian = {name: "barbarian", hpMax: hpMax + 15, defenseMax: defenseMax, powerMax: powerMax + 2, magicMax: magicMax, speedMax: speedMax,hp: hpMax + 15, block: block, power: 0, magic: magicMax,defense: 0, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax, gold: gold}
+let paladin = {name: "paladin", hpMax: hpMax + 10, defenseMax: defenseMax + 1, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, hp: hpMax + 10, block: block, power: 0, magic: magicMax,defense: 0, speed: speedMax,  lvl: lvl, exp: exp, expMax: expMax, gold: gold}
+let wizard = {name: "wizard", hpMax: hpMax, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax + 3, speedMax: speedMax, hp: hpMax, block: block, power: 0, magic: magicMax + 3,defense: 0, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax, gold: gold}
 
 let player = []
 
@@ -126,27 +120,61 @@ window.alert("yeah that would be pretty stupid.")
   //fix... add to local storage, if its there add buff.. figure out color effect
   function toggle(item){
     equip = !equip
+    let index = attuned.indexOf(item)
     
     if(item == "buckler" && equip == true){
+      if(index < 0){
       attuned.push("buckler")
-      //document.getElementById("shield").classList.add("equiped")
+      player.defense = 1
+      //window.localStorage.setItem("attuned", JSON.stringify(attuned))
+      document.getElementById("shield").classList.add("equipped")
+      window.localStorage.setItem("attuned", JSON.stringify(attuned))
       drawPlayer()
-}
-else if(item == "buckler" && equip == false){
-unAttune("buckler")
-  drawPlayer()
-}
-
-if(item == "dagger" && equip == true){
-  tempStats.power++
-  document.getElementById("weapon").classList.add("equipped")
-  drawPlayer()
+    }
   }
-  else if(item == "dagger" && equip == false){
-   tempStats.power--
+    if(index >= 0){
+  if(item == "buckler" && equip == false){
+    player.defense = 0
+    document.getElementById("shield").classList.remove("equipped")
+    unAttune("buckler")
+     drawPlayer()
+}
+    }
+    if(item == "dagger" && equip == true){
+      if(index < 0){
+      attuned.push("dagger")
+      player.power = 1
+      //window.localStorage.setItem("attuned", JSON.stringify(attuned))
+      document.getElementById("weapon").classList.add("equipped")
+      window.localStorage.setItem("attuned", JSON.stringify(attuned))
+      drawPlayer()
+    }
+  }
+    if(index >= 0){
+  if(item == "dagger" && equip == false){
+    player.power = 0
     document.getElementById("weapon").classList.remove("equipped")
-    drawPlayer()
+    unAttune("dagger")
+     drawPlayer()
+}
+    } if(item == "boots of speed" && equip == true){
+      if(index < 0){
+      attuned.push("boots of speed")
+      player.speedMax++
+      //window.localStorage.setItem("attuned", JSON.stringify(attuned))
+      document.getElementById("boots").classList.add("equipped")
+      window.localStorage.setItem("attuned", JSON.stringify(attuned))
+      drawPlayer()
+    }
   }
+    if(index >= 0){
+  if(item == "boots of speed" && equip == false){
+    player.speedMax--
+    document.getElementById("boots").classList.remove("equipped")
+    unAttune("boots of speed")
+     drawPlayer()
+}
+    }
 
 }
 
@@ -171,7 +199,27 @@ if(item == "dagger" && equip == true){
     tempAlert("Healed",1000,15,10)
   }
   }
-  
+  function manaPotion(item){
+    let cancelBtn = document.getElementById("shop").classList.contains("hidden")
+  let index = equipment.indexOf(item)
+  if(item == "mana potion"){
+
+    player.magic = player.magicMax
+    player.speed--
+
+    deleteItem(index)
+    savePlayer()
+    loadPlayer()
+    document.getElementById("events").classList.add("hidden")
+    drawItems()
+    if(cancelBtn == false){
+      document.getElementById("cancel").classList.add("hidden")
+    }
+    
+    
+    tempAlert("you feel a magical surge",1000,15,10)
+  }
+  }
   //visibility
   function hideStart(){
     document.getElementById("start").classList.add("hidden")
@@ -234,16 +282,15 @@ if(item == "dagger" && equip == true){
 
   function deleteItem(index){
     let getItemName = JSON.parse(window.localStorage.getItem('items'));
-    
+
     equipment.splice(index,1)
     getItemName.splice(index,1);
 }
 
 function unAttune(index){
-  let getAttunedName = JSON.parse(winow.localStorage.getItem("attune"));
 
   attuned.splice(index,1)
-getAttunedName.splice(index,1);
+  window.localStorage.setItem("attuned", JSON.stringify(attuned))
 }
 
 function sell(event){
@@ -251,7 +298,11 @@ function sell(event){
   let form = event.target
   let item = form.name.value
   let index = equipment.indexOf(item)
+  let equipped = attuned.indexOf(item)
 
+  if(equipped >= 0){
+    window.alert("you cannot sell an equipped item")
+  }else{
   if(index >= 0){
 
     deleteItem(index)
@@ -266,9 +317,10 @@ function sell(event){
   }else{
     window.alert("i dont want yer '"+item+"'. take it and scram!")
   }
+}
   form.reset()
 }
-function buy(){
+function buyHp(){
 
   if(player.gold > 49){
     player.gold -= 50
@@ -284,10 +336,26 @@ function buy(){
   document.getElementById("events").classList.add("hidden") 
   document.getElementById("cancel").classList.add("hidden") 
 }
+function buyMana(){
+
+  if(player.gold > 49){
+    player.gold -= 50
+    equipment.push("mana potion")
+    tempAlert("heres yer potion",1500,5,70)
+  }
+  else{
+    window.alert("this aint no charity!")
+  }
+  savePlayer()
+  loadPlayer()
+  drawItems()
+  document.getElementById("events").classList.add("hidden") 
+  document.getElementById("cancel").classList.add("hidden") 
+}
 
   // actions
   function attack(){
-    let attack = player.powerMax
+    let attack = player.powerMax+player.power
     attack -= enemy.defenseMax
 
     if(attack < 1){
@@ -306,7 +374,7 @@ function buy(){
  
   function blocking(){
 
-    player.block += player.power
+    player.block += player.power+player.powerMax
     player.speed--
     turnTracker()
     drawPlayer()
@@ -322,11 +390,22 @@ function buy(){
     <button onclick="iceBlast()">iceblast</button>
     </div>
     `
+    if(player.lvl > 2){
+      template += 
+      `
+      <div class="m-1">
+      <button onclick="shield()">shield</button>
+      </div>
+      <div class="m-1">
+      <button onclick="trueSight()">true sight</button>
+      </div>
+      `
+    }
     document.getElementById("spells").innerHTML = template
   }
 
   function fireBolt(){
-    let attack = Math.floor(Math.random()*14)+1+(5*player.lvl)
+    let attack = Math.floor(Math.random()*9)+1+(5*player.lvl)
     if(player.magic > 0){
     attack -= enemy.resistance
     
@@ -357,7 +436,8 @@ function buy(){
     if(attack < 1){
       attack = 0
     }
-
+    console.log(enemy)
+    tempAlert("enemy is slowed",1000,72,68)
     tempAlert("hit! "+attack+" DMG",1000,68,68)
     enemy.hpMax -= attack
     player.speed--
@@ -372,10 +452,35 @@ function buy(){
     turnTracker()
     console.log("enemy speed:"+enemy.speed)
   }
+  function shield(){
+    if(player.magic > 0){
+    player.defense += 5
+    player.speed--
+    player.magic--
+  }
+  else{
+    tempAlert("not enough magic",1000,70,12)
+  }
+    drawPlayer()
+    turnTracker()
+  }
+function trueSight(){
+  if(player.magic > 0){
+window.alert("defense: "+enemy.defenseMax+" magic res.: "+enemy.resistance+" speed: "+enemy.speedMax)
+player.magic--
+}
+else{
+  tempAlert("not enough magic",1000,70,12)
+}
+drawPlayer()
+}
 
 // games
 
 function drawPlayer(){
+  let shield = player.defenseMax+player.defense
+  let attack = player.power+player.powerMax
+
   let template = `
   <div class="mt-1 mb-1 p-2">
   <h3 class="mt-1 mb-1">
@@ -392,7 +497,7 @@ function drawPlayer(){
   <div class="d-flex space-between">
   <p>
   <span>
-  Defense: ${player.defenseMax}
+  Defense: ${shield}
   </span>
   </p>
   </div>
@@ -406,7 +511,7 @@ function drawPlayer(){
   <div class="d-flex space-between">
   <p>
   <span>
-  Power: ${player.powerMax}
+  Power: ${attack}
   </span>
   </p>
   </div>
@@ -454,7 +559,7 @@ function drawPlayer(){
   template += `
   <div class="d-flex space-between">
   <p>
-  <button type="button" onclick="resetCharacter()">reset
+  <button class="btn-cancel" type="button" onclick="resetCharacter()">reset
   </button>
   </p>
   </div>
@@ -484,13 +589,30 @@ function drawItems(){
   `
   
   equipment.forEach(item => {
+    let index = attuned.indexOf(item)
+    console.log(item+index)
+
     if(item == "healing potion"){
-    template +=
-    `
-    <div class="m-1">
-    <button onclick="healingPotion('${item}')">${item}</button>
-    </div>
-    `
+      template +=
+      `
+      <div class="m-1">
+      <button onclick="healingPotion('${item}')">${item}</button>
+      </div>
+      `
+    }else if(item == "mana potion"){
+      template +=
+      `
+      <div class="m-1">
+      <button onclick="manaPotion('${item}')">${item}</button>
+      </div>
+      `
+    }  else if(item == "buckler" && index >= 0){
+      template +=
+      `
+      <div class="m-1">
+      <button id="shield" class="equipped" onclick="toggle('${item}')">${item}</button>
+      </div>
+      `
     }
     else if(item == "buckler"){
       template +=
@@ -500,11 +622,33 @@ function drawItems(){
       </div>
       `
     }
-    else if(item == "dagger"){
+    else if(item == "dagger" && index >= 0){
+      template +=
+      `
+      <div class="m-1">
+      <button id="weapon" class="equipped" onclick="toggle('${item}')">${item}</button>
+      </div>
+      `
+    }else if(item == "dagger" ){
       template +=
       `
       <div class="m-1">
       <button id="weapon" class="" onclick="toggle('${item}')">${item}</button>
+      </div>
+      `
+    }
+    else if(item == "boots of speed" && index >= 0){
+      template +=
+      `
+      <div class="m-1">
+      <button id="boots" class="equipped" onclick="toggle('${item}')">${item}</button>
+      </div>
+      `
+    }else if(item == "boots of speed" ){
+      template +=
+      `
+      <div class="m-1">
+      <button id="boots" class="" onclick="toggle('${item}')">${item}</button>
       </div>
       `
     }
@@ -527,6 +671,7 @@ function drawItems(){
 function enemyGenerator(){
   let monsters = ["giant rat", "giant bat", "giant spider", "grey ooze", "goblin", "thug", "orc", "shadow", "kobold", "skeleton", "wolf", "zombie", "bandit", "cultist"]
   let monsters2 = ["animated armor", "bandit captian", "berserker", "dragon wyrmling", "death dog", "dire wolf", "dread warrior", "fire snake", "ghast", "ghoul", "giant boar", "giant toad", "drake", "grick", "maw demon", "mimic", "minotaur skeleton", "nothic", "ochre jelly", "ogre", "pegasus", "sea hag", "will-o'-wisp"]
+  let monsters3 = ["banshee","basilisk","bearded devil","black pudding","displacer beast","doppleganger","flameskull","hell hound","knight","manticore","minotaur","mummy","phase spider","shadow demon","succubus","wight","yeti"]
   let chance = Math.floor(Math.random()*player.lvl)
   
   if(chance == 0){
@@ -537,7 +682,7 @@ function enemyGenerator(){
     enemy.resistance = Math.floor(Math.random()*2)
     enemy.lvl = 1
     console.log(enemy+" lvl 1")
-  } else if(chance >= 1){
+  } else if(chance > 0 && chance < 3){
     enemy.name = monsters2[Math.floor(Math.random()*monsters2.length)]
     enemy.hpMax = Math.floor(Math.random()*20)+20
     enemy.powerMax = Math.floor(Math.random()*4)+2
@@ -545,10 +690,20 @@ function enemyGenerator(){
     enemy.resistance = Math.floor(Math.random()*2)+1
     enemy.lvl = 2
     console.log(enemy+" lvl 2")
+  }else if(chance >= 4){
+    enemy.name = monsters3[Math.floor(Math.random()*monsters3.length)]
+    enemy.hpMax = Math.floor(Math.random()*30)+30
+    enemy.powerMax = Math.floor(Math.random()*6)+4
+    enemy.defenseMax = Math.floor(Math.random()*4)+2
+    enemy.resistance = Math.floor(Math.random()*4)+2
+    enemy.lvl = 3
+    console.log(enemy+" lvl 3")
   }
 }
 
 function spawnEnemy(){
+  player.speed = player.speedMax
+  drawPlayer()
   document.getElementById("enemy").classList.remove("hidden")
   enemyGenerator()
   drawEnemy()
@@ -594,7 +749,6 @@ function turnTracker(){
   if(player.speed < 1){
     enemyTurn()
     turn++
-    player.power = player.powerMax
     drawPlayer()
   }
 }
@@ -616,7 +770,7 @@ function enemyAttack(){
 // defense vs attack
 player.block -= attack
 attack -= dmgReducer
-attack -= player.defenseMax
+attack -= (player.defenseMax+player.defense)
   
   //no negatives
   if(attack < 0){
@@ -656,6 +810,7 @@ if(player.hp <= 0){
   window.alert("you died! that sucks.... try again?")
   localStorage.removeItem("player")
   localStorage.removeItem("items")
+  localStorage.removeItem("attuned")
   hideGame()
   location.reload()
 }
@@ -748,6 +903,7 @@ function lvlUp(){
     player.hp += 2
     player.expMax *= 2
     window.alert("you leveled up!")
+    drawSpells()
   }else if((player.name == "wizard" && player.exp >= player.expMax && player.lvl > 0)){
     player.lvl++
     player.magicMax += 1
@@ -755,10 +911,12 @@ function lvlUp(){
     player.hp += (2 * player.lvl)
     player.expMax *= 2
     window.alert("you leveled up!")
+    drawSpells()
     if((player.lvl % 5) == 0){
       player.defenseMax += 1
       player.powerMax += 1
       player.speed += 1
+      drawSpells()
     }
   }
   

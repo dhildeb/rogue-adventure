@@ -52,24 +52,17 @@ button{
   cursor: pointer;
   padding: .5em;
 }
-#shield{
-  background-color: var(--primary);
-  color: black;
-  border-radius: var(--corners);
-  box-shadow: var(--shadow);
-  text-transform: uppercase;
-  transition: all .2s ease;
-  cursor: pointer;
-  padding: .5em;
-}
-.with_toggle{
+
+.equipped{
   background-color: rgb(77, 153, 0) !important;
 }
 
 button:focus{
   outline: none;
 }
-
+button:active{
+  background-color: var(--dark-lighten);
+}
 
 button.btn-special{
   background: transparent;
@@ -130,13 +123,9 @@ button.btn-special:hover{
   border-color: var(--dark-lighten);
 }
 
-.btn-cancel{
-  background-color: red;
-  border-color: lightcoral;
-}
 .btn-cancel:hover{
-  background-color: #fa4141;
-  border-color: #ff3737;
+  background-color: red;
+  text-emphasis: bold;
 }
 
 .text-danger{
@@ -274,7 +263,7 @@ display: table-cell;
 .hurt{
   transition: background-color 1s ease-out;
 }
-hurt:focus{
+.enemy:active{
   background-color: red;
 }
 
