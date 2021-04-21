@@ -177,7 +177,9 @@ button.btn-special:hover{
   left: 60%;
   top: 25%
 }
-
+.spells{
+display: table-cell;
+}
 .mt-1{
   margin-top: .5em;
 }

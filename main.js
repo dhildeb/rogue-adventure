@@ -315,13 +315,11 @@ function buy(){
   function drawSpells(){
     let template =
     `
-    <div class="m-1">
+    <div class="m-1 spells">
     <button onclick="fireBolt()">firebolt</button>
     </div>
     <div class="m-1">
-    <p>
     <button onclick="iceBlast()">iceblast</button>
-    </p>
     </div>
     `
     document.getElementById("spells").innerHTML = template
