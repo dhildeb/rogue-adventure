@@ -319,7 +319,9 @@ function buy(){
     <button onclick="fireBolt()">firebolt</button>
     </div>
     <div class="m-1">
+    <p>
     <button onclick="iceBlast()">iceblast</button>
+    </p>
     </div>
     `
     document.getElementById("spells").innerHTML = template
