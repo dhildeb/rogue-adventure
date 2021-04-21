@@ -15,6 +15,8 @@ let speed = 0
 let exp = 0
 let lvl = 0
 let equipment = []
+let attuned = []
+let tempStats = {defense: 0, power: 0, magic: 0, speed: 0, hp: 0}
 
 //abilities
 let evade = 0
@@ -23,13 +25,30 @@ let evade = 0
 let turn = 0 
 let days = 0
 let expMax = 5
+let equip = false
 
+// loot
+let dagger = "dagger"
+let buckler = "buckler"
+let magicBoots = "boots of speed"
+let paddedArmor = "padded armor"
+let healingPot = "healing potion"
+let gem = "gem"
+let loot = [dagger, buckler, magicBoots, paddedArmor, healingPot, gem]
+let gold = Math.floor(Math.random()*24)+1
+
+/* additional money values
+let copper = Math.floor(Math.random()*99)+1
+let silver = Math.floor(Math.random()*24)+1
+let platinum = 1
+let coinPouch = [copper, silver, gold, platinum]
+*/
 
 // characters
-let rogue = {name: "rogue", hpMax: hpMax + 5, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax + 1,hp: hpMax + 5, block: block, power: powerMax, magic: magicMax, speed: speedMax + 1, lvl: lvl, exp: exp, expMax: expMax, evade: evade}
-let barbarian = {name: "barbarian", hpMax: hpMax + 15, defenseMax: defenseMax, powerMax: powerMax + 2, magicMax: magicMax, speedMax: speedMax,hp: hpMax + 15, block: block, power: powerMax + 2, magic: magicMax, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax}
-let paladin = {name: "paladin", hpMax: hpMax + 10, defenseMax: defenseMax + 1, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, hp: hpMax + 10, block: block, power: powerMax, magic: magicMax, speed: speedMax,  lvl: lvl, exp: exp, expMax: expMax}
-let wizard = {name: "wizard", hpMax: hpMax, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax + 3, speedMax: speedMax, hp: hpMax, block: block, power: powerMax, magic: magicMax + 3, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax}
+let rogue = {name: "rogue", hpMax: hpMax + 5, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax + 1,hp: hpMax + 5, block: block, power: powerMax, magic: magicMax, speed: speedMax + 1, lvl: lvl, exp: exp, expMax: expMax, evade: evade, gold: gold}
+let barbarian = {name: "barbarian", hpMax: hpMax + 15, defenseMax: defenseMax, powerMax: powerMax + 2, magicMax: magicMax, speedMax: speedMax,hp: hpMax + 15, block: block, power: powerMax + 2, magic: magicMax, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax, gold: gold}
+let paladin = {name: "paladin", hpMax: hpMax + 10, defenseMax: defenseMax + 1, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, hp: hpMax + 10, block: block, power: powerMax, magic: magicMax, speed: speedMax,  lvl: lvl, exp: exp, expMax: expMax, gold: gold}
+let wizard = {name: "wizard", hpMax: hpMax, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax + 3, speedMax: speedMax, hp: hpMax, block: block, power: powerMax, magic: magicMax + 3, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax, gold: gold}
 
 let player = []
 
@@ -38,20 +57,7 @@ let enemy = {hpMax
   : hpMax
   , defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, speed: speedMax, lvl: lvl}
   
-  // loot
-  let dagger = "dagger"
-  let buckler = "buckler"
-  let magicBoots = "magic boots"
-  let paddedArmor = "padded armor"
-  let healingPot = "healing potion"
-  let gem = "gem"
-  let copper = Math.floor(Math.random()*99)+1
-  let silver = Math.floor(Math.random()*24)+1
-  let gold = Math.floor(Math.random()*9)+1
-  let platinum = 1
-  
-  let loot = [dagger, buckler, magicBoots, paddedArmor, healingPot, gem]
-  let coinPouch = [copper, silver, gold, platinum]
+
 
   //game data
   function setCharacter(character){
@@ -70,7 +76,6 @@ let enemy = {hpMax
         window.alert("you impaled youself. as you stare up at the sky as you quickly bleed out your last thought is: why?")
     localStorage.removeItem("player")
     localStorage.removeItem("items")
-    localStorage.removeItem("coinPouch")
     hideGame()
     location.reload()
       }else {
@@ -99,7 +104,6 @@ window.alert("yeah that would be pretty stupid.")
   function savePlayer(){
     window.localStorage.setItem("player", JSON.stringify(player))
     window.localStorage.setItem("items", JSON.stringify(equipment))
-    window.localStorage.setItem("coinPouch", JSON.stringify(coinPouch))
     drawPlayer()
   }
   
@@ -110,7 +114,6 @@ window.alert("yeah that would be pretty stupid.")
       console.log("loaded")
       player = load
       equipment = JSON.parse(window.localStorage.getItem("items"))
-     coinPouch = JSON.parse(window.localStorage.getItem("coinPouch"))
         drawPlayer()
       hideStart()
     }else{
@@ -122,22 +125,33 @@ window.alert("yeah that would be pretty stupid.")
   
   
   //buffs
-  function buffPower(){
-    player.powerMax++
+  //fix... add to local storage, if its there add buff.. figure out color effect
+  function toggle(item){
+    equip = !equip
+    
+    if(item == "buckler" && equip == true){
+      attuned.push("buckler")
+      //document.getElementById("shield").classList.add("equiped")
+      drawPlayer()
+}
+else if(item == "buckler" && equip == false){
+unAttune("buckler")
+  drawPlayer()
+}
+
+if(item == "dagger" && equip == true){
+  tempStats.power++
+  document.getElementById("weapon").classList.add("equipped")
+  drawPlayer()
+  }
+  else if(item == "dagger" && equip == false){
+   tempStats.power--
+    document.getElementById("weapon").classList.remove("equipped")
     drawPlayer()
   }
-  function buffDefense(){
-    player.defenseMax++
-    drawPlayer()
-  }
-  function buffSpeed(){
-    player.speedMax++
-    drawPlayer()
-  }
-  function buffHp(){
-    player.hp += 5
-    drawPlayer()
-  }
+
+}
+
   function healingPotion(item){
     let cancelBtn = document.getElementById("shop").classList.contains("hidden")
   let index = equipment.indexOf(item)
@@ -182,6 +196,12 @@ window.alert("yeah that would be pretty stupid.")
     document.getElementById("actions").classList.add("hidden")
     document.getElementById("enemy").classList.add("hidden")
     document.getElementById("pouch").classList.remove("hidden")
+    
+    if(equip = true && document.getElementById("shield")){
+      document.getElementById("shield").classList.add("equipped")
+    } else if(equip = false && document.getElementById("shield")){
+      document.getElementById("shield").classList.remove("equipped")
+    }
   }
   function exitPouch(){
     document.getElementById("actions").classList.remove("hidden")
@@ -220,18 +240,24 @@ window.alert("yeah that would be pretty stupid.")
     getItemName.splice(index,1);
 }
 
+function unAttune(index){
+  let getAttunedName = JSON.parse(winow.localStorage.getItem("attune"));
+
+  attuned.splice(index,1)
+getAttunedName.splice(index,1);
+}
+
 function sell(event){
   event.preventDefault()
   let form = event.target
   let item = form.name.value
-  let found = equipment.find(item => item);
   let index = equipment.indexOf(item)
 
-  if(found == item){
+  if(index >= 0){
 
     deleteItem(index)
  
-    coinPouch[2] += 50
+    player.gold += 50
     tempAlert("you sold "+item+" for 50 gp",1000,5,65)
     savePlayer()
     loadPlayer()
@@ -244,20 +270,9 @@ function sell(event){
   form.reset()
 }
 function buy(){
-  if(coinPouch[2] > 49){
-    coinPouch[2] -= 50
-    equipment.push("healing potion")
-    tempAlert("heres yer potion",1500,5,70)
-  }else if(coinPouch[1] > 499){
-    coinPouch[1] -= 500
-    equipment.push("healing potion")
-    tempAlert("heres yer potion",1500,5,70)
-  }else if(coinPouch[3] > 4){
-    coinPouch[3] -= 5
-    equipment.push("healing potion")
-    tempAlert("heres yer potion",1500,5,70)
-  }else if(coinPouch[0] > 4999){
-    coinPouch[0] -= 5000
+
+  if(player.gold > 49){
+    player.gold -= 50
     equipment.push("healing potion")
     tempAlert("heres yer potion",1500,5,70)
   }
@@ -273,23 +288,25 @@ function buy(){
 
   // actions
   function attack(){
-    let attack = player.power
+    let attack = player.powerMax
     attack -= enemy.defenseMax
     
     if(attack < 1){
       attack = 0
     }
+
     tempAlert("hit! "+attack+" DMG",1000,68,68)
     enemy.hpMax -= attack
     player.speed--
-    
+
     drawPlayer()
     drawEnemy()
     victory()
     turnTracker()
   }
-  
+ 
   function blocking(){
+
     player.block += player.power
     player.speed--
     turnTracker()
@@ -329,7 +346,7 @@ function drawPlayer(){
   <div class="d-flex space-between">
   <p>
   <span>
-  Power: ${player.power}
+  Power: ${player.powerMax}
   </span>
   </p>
   </div>
@@ -385,6 +402,7 @@ function drawPlayer(){
   document.getElementById("player").innerHTML = template
 
   drawPlayerImage()
+  
 }
 
 function drawItems(){
@@ -397,7 +415,7 @@ function drawItems(){
   <p>
   coin pouch:
   <p>
-  cp : ${coinPouch[0]}, sp : ${coinPouch[1]}, gp : ${coinPouch[2]}, pp : ${coinPouch[3]}
+  gold : ${player.gold}
   </p>
   </p>
   <p>
@@ -406,12 +424,41 @@ function drawItems(){
   `
   
   equipment.forEach(item => {
+    if(item == "healing potion"){
     template +=
     `
     <div class="m-1">
     <button onclick="healingPotion('${item}')">${item}</button>
     </div>
     `
+    }
+    if(item == "buckler"){
+      template +=
+      `
+      <div class="m-1">
+      <button id="shield" class="" onclick="toggle('${item}')">${item}</button>
+      </div>
+      `
+    }
+    else if(item == "dagger"){
+      template +=
+      `
+      <div class="m-1">
+      <button id="weapon" class="" onclick="toggle('${item}')">${item}</button>
+      </div>
+      `
+    }
+    else{
+      template +=
+      `
+      <div class="m-1">
+      <button id="misc" class="" onclick="toggle('${item}')">${item}</button>
+      </div>
+      `
+    }
+
+
+
   });
   document.getElementById("pouch").innerHTML = template
 
@@ -450,11 +497,9 @@ function spawnEnemy(){
 function drawEnemy(){
   let template = `
   <section class="container p-2">    
-  <div class="card mt-1 mb-1">
   <h3 class="mt-1 mb-1">
   ${enemy.name}
   </h3>
-  </div>
   <div class="d-flex space-between">
   <p>
   <span>
@@ -483,7 +528,7 @@ function drawEnemy(){
 
 function turnTracker(){
   
-  if(player.speed == 0){
+  if(player.speed < 1){
     enemyTurn()
     turn++
     player.power = player.powerMax
@@ -549,7 +594,6 @@ player.block = 0
     window.alert("you died! that sucks.... try again?")
     localStorage.removeItem("player")
     localStorage.removeItem("items")
-    localStorage.removeItem("coinPouch")
     hideGame()
     location.reload()
   }
@@ -562,7 +606,7 @@ function victory(){
     player.exp += enemy.lvl
     lvlUp()
     player.speed = player.speedMax
-    window.alert("YOU WON!")
+    tempAlert("Victory!",2500,5,50)
     document.getElementById("enemy").classList.add("hidden")
     document.getElementById("events").classList.remove("hidden")
     document.getElementById("actions").classList.add("hidden")
@@ -582,13 +626,18 @@ function lvlUp(){
     player.hp += 3
     player.expMax *= 2
     window.alert("you leveled up!")
-  }else if((player.name == "rogue" && player.exp >= player.expMax && player.lvl > 0)){
+  }else if((player.name == "rogue" && player.exp >= player.expMax && player.lvl >= 0)){
     player.lvl++
     player.evade *= 1.3
     player.hpMax += (3 * player.lvl)
     player.hp += (3 * player.lvl)
     player.expMax *= 2
     window.alert("you leveled up!")
+    if(player.lvl % 5){
+      player.defenseMax += 1
+      player.powerMax += 1
+      player.speed += 1
+    }
   }
   if((player.name == "barbarian" && player.exp >= player.expMax && player.lvl == 0)){
     player.lvl++
@@ -597,6 +646,7 @@ function lvlUp(){
     player.hp += 5
     player.expMax *= 2
     window.alert("you leveled up!")
+    savePlayer()
   }else if((player.name == "barbarian" && player.exp >= player.expMax && player.lvl > 0)){
     player.lvl++
     player.powerMax++
@@ -604,6 +654,10 @@ function lvlUp(){
     player.hp += (5 * player.lvl)
     player.expMax *= 2
     window.alert("you leveled up!")
+    if(player.lvl % 5){
+      player.defenseMax += 1
+      player.speed += 1
+    }
   }
   if((player.name == "paladin" && player.exp >= player.expMax && player.lvl == 0)){
     player.lvl++
@@ -619,6 +673,10 @@ function lvlUp(){
     player.hp += (4 * player.lvl)
     player.expMax *= 2
     window.alert("you leveled up!")
+    if(player.lvl % 5){
+      player.speed += 1
+      player.powerMax += 1
+    }
   }  
   if((player.name == "wizard" && player.exp >= player.expMax && player.lvl == 0)){
     player.lvl++
@@ -634,6 +692,11 @@ function lvlUp(){
     player.hp += (2 * player.lvl)
     player.expMax *= 2
     window.alert("you leveled up!")
+    if(player.lvl % 5){
+      player.defenseMax += 1
+      player.powerMax += 1
+      player.speed += 1
+    }
   }
   
   
@@ -643,27 +706,21 @@ function lvlUp(){
 function looting(){
   let item = loot[Math.floor(Math.random()*loot.length)]
   let chance = Math.floor(Math.random()*100)
-  let chance2 = Math.floor(Math.random()*100)
-  
+
+  gold *= (1+player.lvl)
+
   if(chance > 80){
     equipment.push(item)
     window.alert("you got a "+item)
-    
   }else if(chance > 25){
-    
-    if(chance2 > 50){ coinPouch[0] += copper
-      window.alert("you got copper: "+copper)
-    }else if(chance2 > 75){ coinPouch[1] += silver
-      window.alert("you got silver: "+silver)
-    }else if(chance2 > 87){ coinPouch[2] += gold
-      window.alert("you got gold: "+gold)
-    }else{ coinPouch[3] += platinum
-      window.alert("you got platinum: "+platinum)}
-      
-    }
+      player.gold += gold
+      tempAlert("you got gold: "+gold)
   }
+  gold /= (1+player.lvl)
+}
 
   document.getElementById("theme-music").volume = 0.5;
 
+  
 loadPlayer()
 drawPlayer()

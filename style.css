@@ -52,12 +52,24 @@ button{
   cursor: pointer;
   padding: .5em;
 }
+#shield{
+  background-color: var(--primary);
+  color: black;
+  border-radius: var(--corners);
+  box-shadow: var(--shadow);
+  text-transform: uppercase;
+  transition: all .2s ease;
+  cursor: pointer;
+  padding: .5em;
+}
+.with_toggle{
+  background-color: rgb(77, 153, 0) !important;
+}
+
 button:focus{
   outline: none;
 }
-button:hover{
-  background-color: var(--primary-lighten);
-}
+
 
 button.btn-special{
   background: transparent;
@@ -78,6 +90,7 @@ button.btn-special:focus{
 button.btn-special:hover{
   color: var(--primary);
 }
+
 .container{
   margin: 0 .5em;
 }
@@ -244,4 +257,33 @@ button.btn-special:hover{
 
 .hidden{
   display: none !important;
+}
+
+@media screen and (max-width: 700px){
+  .img{
+    max-width: 18%;
+    top:15%;
+    left:5%;
+  }
+}
+.enemy{
+  animation: appear 2s;
+}
+.hurt{
+  transition: background-color 1s ease-out;
+}
+hurt:focus{
+  background-color: red;
+}
+
+@keyframes appear {
+  from{
+    background-color: white;
+    color: white;
+  }
+  to{
+    background-color: var(--light);
+    color:black;
+  }
+  
 }

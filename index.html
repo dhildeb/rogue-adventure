@@ -29,8 +29,8 @@
 <div id="img" class="">
   <img src="rogue.png" alt="rogue" id="rogue" class="hidden">
   <img src="barbarian.png" alt="barbarian" id="barbarian" class="hidden">
-  <img src="paladin.jpg" alt="paladin" id="paladin" class="hidden">
-  <img src="wizard.png" alt="wizard" id="wizard" class="hidden">
+  <img src="paladin.png" alt="paladin" id="paladin" class="hidden">
+  <img src="wizrd.png" alt="wizard" id="wizard" class="hidden">
 </div>
 
       <div id="player" class="card left">
@@ -61,26 +61,26 @@
         </section>
       
       <section class="right">
-        <div id="pouch" class="card w-50 hidden">
-        </div>
-        <div id="enemy" class="card w-50 hidden">
+        <div id="enemy" class="enemy card w-50 hidden">
         </div>
         <div id="shop" class="card w-50 hidden">
-
-    <div class="m-1 d-flex justify-content-center">
-    <form class="" onsubmit="sell(event)">
-    <input id="default" placeholder="item" type="text" name="name" required>
-    <button class="" type="submit">sell</button>
-    </form>
-    </div>
-
-   <div class="m-1 d-flex justify-content-center">
-   <button type="button" onclick="buy()">buy</button>
-   <p class="m-1">healing potion 50gp</p>
-  </div>
-  <div>
-    <button type="button" onclick="leave()">leave</button>
-  </div>
+          
+          <div class="m-1 d-flex justify-content-center">
+            <form class="" onsubmit="sell(event)">
+              <input id="default" placeholder="item" type="text" name="name" required>
+              <button class="" type="submit">sell</button>
+            </form>
+          </div>
+          
+          <div class="m-1 d-flex justify-content-center">
+            <button type="button" onclick="buy()">buy</button>
+            <p class="m-1">healing potion 50gp</p>
+            <div>
+              <button type="button" onclick="leave()">leave</button>
+            </div>
+          </div>
+        </div>
+        <div id="pouch" class="m-1 card w-50 hidden">
         </div>
       </section>
       
