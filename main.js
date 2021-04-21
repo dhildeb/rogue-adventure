@@ -53,11 +53,8 @@ let wizard = {name: "wizard", hpMax: hpMax, defenseMax: defenseMax, powerMax: po
 let player = []
 
 // enemies
-let enemy = {hpMax
-  : hpMax
-  , defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, speed: speedMax, lvl: lvl}
+let enemy = {hpMax: hpMax, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, speed: speedMax, lvl: lvl, resistance: 0}
   
-
 
   //game data
   function setCharacter(character){
@@ -98,6 +95,7 @@ window.alert("yeah that would be pretty stupid.")
     }
     else if(player.name == "wizard"){
       document.getElementById("wizard").classList.remove("hidden")
+      document.getElementById("spells").classList.remove("hidden")
     }
   }
 
@@ -222,6 +220,7 @@ if(item == "dagger" && equip == true){
   //events
   function rest(){
     player.hp = player.hpMax
+    player.magic = player.magicMax
     savePlayer()
   }
   
@@ -290,7 +289,7 @@ function buy(){
   function attack(){
     let attack = player.powerMax
     attack -= enemy.defenseMax
-    
+
     if(attack < 1){
       attack = 0
     }
@@ -311,6 +310,67 @@ function buy(){
     player.speed--
     turnTracker()
     drawPlayer()
+  }
+
+  function drawSpells(){
+    let template =
+    `
+    <div class="m-1">
+    <button onclick="fireBolt()">firebolt</button>
+    </div>
+    <div class="m-1">
+    <button onclick="iceBlast()">iceblast</button>
+    </div>
+    `
+    document.getElementById("spells").innerHTML = template
+  }
+
+  function fireBolt(){
+    let attack = Math.floor(Math.random()*14)+1+(5*player.lvl)
+    if(player.magic > 0){
+    attack -= enemy.resistance
+    
+    if(attack < 1){
+      attack = 0
+    }
+
+    tempAlert("hit! "+attack+" DMG",1000,68,68)
+    enemy.hpMax -= attack
+    player.speed--
+    player.magic--
+  }
+  else{
+    tempAlert("not enough magic",1000,70,12)
+  }
+    drawPlayer()
+    drawEnemy()
+    victory()
+    turnTracker()
+  }
+  function iceBlast(){
+    let attack = Math.floor(Math.random()*4)+1+(3*player.lvl)
+    console.log("enemy speed:"+enemy.speed)
+    if(player.magic > 0){
+    attack -= enemy.resistance
+    enemy.speed--
+    
+    if(attack < 1){
+      attack = 0
+    }
+
+    tempAlert("hit! "+attack+" DMG",1000,68,68)
+    enemy.hpMax -= attack
+    player.speed--
+    player.magic--
+  }
+  else{
+    tempAlert("not enough magic",1000,70,12)
+  }
+    drawPlayer()
+    drawEnemy()
+    victory()
+    turnTracker()
+    console.log("enemy speed:"+enemy.speed)
   }
 
 // games
@@ -432,7 +492,7 @@ function drawItems(){
     </div>
     `
     }
-    if(item == "buckler"){
+    else if(item == "buckler"){
       template +=
       `
       <div class="m-1">
@@ -474,6 +534,7 @@ function enemyGenerator(){
     enemy.hpMax = Math.floor(Math.random()*10)+10
     enemy.powerMax = Math.floor(Math.random()*3)+1
     enemy.defenseMax = Math.floor(Math.random()*2)
+    enemy.resistance = Math.floor(Math.random()*2)
     enemy.lvl = 1
     console.log(enemy+" lvl 1")
   } else if(chance >= 1){
@@ -481,6 +542,7 @@ function enemyGenerator(){
     enemy.hpMax = Math.floor(Math.random()*20)+20
     enemy.powerMax = Math.floor(Math.random()*4)+2
     enemy.defenseMax = Math.floor(Math.random()*2)+1
+    enemy.resistance = Math.floor(Math.random()*2)+1
     enemy.lvl = 2
     console.log(enemy+" lvl 2")
   }
@@ -492,6 +554,7 @@ function spawnEnemy(){
   drawEnemy()
   document.getElementById("actions").classList.remove("hidden")
   document.getElementById("events").classList.add("hidden")
+  enemy.speed = enemy.speedMax
 }
 
 function drawEnemy(){
@@ -578,27 +641,27 @@ let preHp = player.hp
 let postHp = 0
 let totalDmg = 0
 
-  enemy.speed = enemy.speedMax
 
-  while(enemy.speed > 0){
-    enemyAttack()
-    enemy.speed--
-  }
-  postHp = player.hp
-  totalDmg = preHp - postHp
-  tempAlert("you were attacked! you take "+totalDmg+" damage",1500,10,15)
+while(enemy.speed > 0){
+  enemyAttack()
+  enemy.speed--
+}
+postHp = player.hp
+totalDmg = preHp - postHp
+tempAlert("you were attacked! you take "+totalDmg+" damage",1500,10,15)
 
 player.block = 0
 
-  if(player.hp <= 0){
-    window.alert("you died! that sucks.... try again?")
-    localStorage.removeItem("player")
-    localStorage.removeItem("items")
-    hideGame()
-    location.reload()
-  }
-  player.speed = player.speedMax
-  drawPlayer()
+if(player.hp <= 0){
+  window.alert("you died! that sucks.... try again?")
+  localStorage.removeItem("player")
+  localStorage.removeItem("items")
+  hideGame()
+  location.reload()
+}
+enemy.speed = enemy.speedMax
+player.speed = player.speedMax
+drawPlayer()
 }
 
 function victory(){
@@ -633,7 +696,7 @@ function lvlUp(){
     player.hp += (3 * player.lvl)
     player.expMax *= 2
     window.alert("you leveled up!")
-    if(player.lvl % 5){
+    if((player.lvl % 5) == 0){
       player.defenseMax += 1
       player.powerMax += 1
       player.speed += 1
@@ -654,7 +717,7 @@ function lvlUp(){
     player.hp += (5 * player.lvl)
     player.expMax *= 2
     window.alert("you leveled up!")
-    if(player.lvl % 5){
+    if((player.lvl % 5) == 0){
       player.defenseMax += 1
       player.speed += 1
     }
@@ -673,7 +736,7 @@ function lvlUp(){
     player.hp += (4 * player.lvl)
     player.expMax *= 2
     window.alert("you leveled up!")
-    if(player.lvl % 5){
+    if((player.lvl % 5) == 0){
       player.speed += 1
       player.powerMax += 1
     }
@@ -692,7 +755,7 @@ function lvlUp(){
     player.hp += (2 * player.lvl)
     player.expMax *= 2
     window.alert("you leveled up!")
-    if(player.lvl % 5){
+    if((player.lvl % 5) == 0){
       player.defenseMax += 1
       player.powerMax += 1
       player.speed += 1
