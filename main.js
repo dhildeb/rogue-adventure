@@ -547,13 +547,20 @@ function buyExplosion(){
   }
 
   function rage(){
-    player.power += Math.floor(player.powerMax*1.5)
-    player.defense--
-    player.speed--
-    document.getElementById("block").classList.add("hidden")
+    if(player.power == 0){
+      player.power += (Math.round(player.powerMax*.5))
+      player.defense--
+      player.speed--
+      document.getElementById("block").classList.add("hidden")
+      dialogBox("you go into frenzy rage, you will stop at nothing to sate your blood lust")
+    }else{
+      player.power += (Math.round(player.powerMax*.4))
+      player.defense -= 2
+      player.speed--
+      dialogBox("your fiery rage grows as you become more reckless")
+    }
     drawPlayer()
     turnTracker()
-    dialogBox("your anger grows and you desire only blood whatever the cost")
   }
 
   function drawSpells(){
@@ -1115,7 +1122,9 @@ function victory(){
     }else{
       player.expBoost++
     }
+    //rage reset
     player.power = 0
+    document.getElementById("block").classList.remove("hidden")
     player.defense = 0
     turn = 0
     dialogBox("Victory!")
