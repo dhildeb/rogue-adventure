@@ -58,8 +58,11 @@
           <div class="m-1 d-flex justify-content-center hurt">
             <button type="button" onclick="attack()">Attack</button>
           </div>
-          <div class="m-1 d-flex justify-content-center">
+          <div id="block" class="m-1 d-flex justify-content-center">
             <button type="button" onclick="blocking()">Block</button>
+          </div>
+          <div id="skills" class="m-1 skills hidden">
+            <button type="button" onclick="drawSkills()">Abilities</button>
           </div>
           <div id="spells" class="m-1 spells hidden">
             <button type="button" onclick="drawSpells()">Spells</button>
@@ -88,19 +91,19 @@
           <div class="m-1">
             <span class="d-flex">
               <button type="button" onclick="buyHp()">buy</button>
-              <p class="m-1">healing potion 150gp</p>
+              <p class="m-1">healing potion 50gp</p>
             </span>
             <span class="d-flex">
               <button type="button" onclick="buyMana()">buy</button>
-              <p class="m-1">mana potion 150gp</p>
+              <p class="m-1">mana potion 50gp</p>
             </span>
             <span class="d-flex">
               <button type="button" onclick="buyScroll()">buy</button>
-              <p class="m-1">scroll of fireball 250gp</p>
+              <p class="m-1">scroll of fireball 150gp</p>
             </span>
             <span class="d-flex">
               <button type="button" onclick="buyExplosion()">buy</button>
-              <p class="m-1">Exploding potion 250gp</p>
+              <p class="m-1">Exploding potion 150gp</p>
             </span>
           </div>
             <div>

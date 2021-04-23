@@ -1,4 +1,4 @@
-//variables
+// #region variables
 
 // base stats
 let hpMax = 10
@@ -6,6 +6,7 @@ let defenseMax = 0
 let powerMax = 3
 let magicMax = 0
 let speedMax = 2
+
 // adjustable stats
 let hp = 0
 let block = 0
@@ -15,7 +16,6 @@ let speed = 0
 let exp = 0
 let lvl = 0
 let equipment = []
-//let attuned = []
 
 //abilities
 let evade = 0
@@ -47,11 +47,11 @@ let wizard = {name: "wizard", hpMax: hpMax, defenseMax: defenseMax, powerMax: po
 
 let player = []
 
-// enemies
 let enemy = {hpMax: hpMax, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, speed: speedMax, lvl: lvl, resistance: 0}
   
+//#endregion
 
-  //game data
+//#region game data
   function setCharacter(character){
     
     player = character
@@ -114,69 +114,9 @@ window.alert("yeah that would be pretty stupid.")
       hideGame()
     }
   }
-  
-  //buffs
-  /* equipment
-  function toggle(item){
-    equip = !equip
-    let index = attuned.indexOf(item)
-    
-    if(item == "buckler" && equip == true){
-      if(index < 0){
-      attuned.push("buckler")
-      player.defense = 1
-      //window.localStorage.setItem("attuned", JSON.stringify(attuned))
-      document.getElementById("shield").classList.add("equipped")
-      window.localStorage.setItem("attuned", JSON.stringify(attuned))
-      drawPlayer()
-    }
-  }
-    if(index >= 0){
-  if(item == "buckler" && equip == false){
-    player.defense = 0
-    document.getElementById("shield").classList.remove("equipped")
-    unAttune("buckler")
-     drawPlayer()
-}
-    }
-    if(item == "dagger" && equip == true){
-      if(index < 0){
-      attuned.push("dagger")
-      player.power = 1
-      //window.localStorage.setItem("attuned", JSON.stringify(attuned))
-      document.getElementById("weapon").classList.add("equipped")
-      window.localStorage.setItem("attuned", JSON.stringify(attuned))
-      drawPlayer()
-    }
-  }
-    if(index >= 0){
-  if(item == "dagger" && equip == false){
-    player.power = 0
-    document.getElementById("weapon").classList.remove("equipped")
-    unAttune("dagger")
-     drawPlayer()
-}
-    } if(item == "boots of speed" && equip == true){
-      if(index < 0){
-      attuned.push("boots of speed")
-      player.speedMax++
-      //window.localStorage.setItem("attuned", JSON.stringify(attuned))
-      document.getElementById("boots").classList.add("equipped")
-      window.localStorage.setItem("attuned", JSON.stringify(attuned))
-      drawPlayer()
-    }
-  }
-    if(index >= 0){
-  if(item == "boots of speed" && equip == false){
-    player.speedMax--
-    document.getElementById("boots").classList.remove("equipped")
-    unAttune("boots of speed")
-     drawPlayer()
-}
-    }
+  //#endregion
 
-}
-*/
+//#region items
   function healingPotion(item){
     let cancelBtn = document.getElementById("shop").classList.contains("hidden")
   let index = equipment.indexOf(item)
@@ -371,7 +311,9 @@ let attack = Math.floor(Math.random()*15)+5
   }
   }
   
-  //visibility
+//#endregion
+
+//#region visibility
   function hideStart(){
     document.getElementById("start").classList.add("hidden")
     document.getElementById("game").classList.remove("hidden")
@@ -421,8 +363,9 @@ let scroll = document.getElementById('dialog');
    scroll.animate({scrollTop: scroll.scrollHeight});
 }
 
-  
-  //events
+//#endregion  
+
+//#region   events
   function rest(){
     player.expBoost = 0
     player.days++
@@ -446,13 +389,6 @@ let scroll = document.getElementById('dialog');
     equipment.splice(index,1)
     getItemName.splice(index,1);
 }
-
-/*function unAttune(index){
-
-  attuned.splice(index,1)
-  window.localStorage.setItem("attuned", JSON.stringify(attuned))
-}
-*/
 
 function sell(event){
   event.preventDefault()
@@ -479,8 +415,8 @@ function sell(event){
 
 function buyHp(){
 
-  if(player.gold > 149){
-    player.gold -= 150
+  if(player.gold > 49){
+    player.gold -= 50
     equipment.push("healing potion")
     dialogBox("heres yer potion, don't go'a dyin' ok")
   }
@@ -495,8 +431,8 @@ function buyHp(){
 }
 function buyMana(){
 
-  if(player.gold > 149){
-    player.gold -= 150
+  if(player.gold > 49){
+    player.gold -= 50
     equipment.push("mana potion")
     dialogBox("heres yer magic potion")
   }
@@ -511,8 +447,8 @@ function buyMana(){
 }
 function buyScroll(){
 
-  if(player.gold > 249){
-    player.gold -= 250
+  if(player.gold > 149){
+    player.gold -= 150
     equipment.push("scroll of fireball")
     dialogBox("heres yer magic scroll")
   }
@@ -527,8 +463,8 @@ function buyScroll(){
 }
 function buyExplosion(){
 
-  if(player.gold > 249){
-    player.gold -= 250
+  if(player.gold > 149){
+    player.gold -= 150
     equipment.push("exploding potion")
     dialogBox("heres yer exploding potion")
   }
@@ -541,7 +477,11 @@ function buyExplosion(){
   document.getElementById("events").classList.add("hidden") 
   document.getElementById("cancel").classList.add("hidden") 
 }
-  // actions
+
+//#endregion
+
+
+//#region  actions
   function attack(){
     let attack = player.powerMax+player.power
     attack -= enemy.defenseMax
@@ -591,6 +531,29 @@ function buyExplosion(){
     }
 
   }
+  function drawSkills(){
+    let template = ""
+
+    if(player.name == "barbarian" && player.lvl >= 5){
+     template +=
+      `
+      <div class="m-1 skills">
+      <button onclick="rage()">Rage</button>
+      </div>
+    `
+    }
+    document.getElementById("skills").innerHTML = template
+  }
+
+  function rage(){
+    player.power += Math.floor(player.powerMax*1.5)
+    player.defense--
+    player.speed--
+    document.getElementById("block").classList.add("hidden")
+    drawPlayer()
+    turnTracker()
+    dialogBox("your anger grows and you desire only blood whatever the cost")
+  }
 
   function drawSpells(){
     let template = ""
@@ -624,6 +587,7 @@ function buyExplosion(){
       <button onclick="divineSmite()">divine smite</button>
       </div>
       `
+      document.getElementById("spells").classList.remove("hidden")
     }
     document.getElementById("spells").innerHTML = template
   }
@@ -701,6 +665,7 @@ else{
 }
 drawPlayer()
 }
+
 function divineSmite(){
   let attack = Math.floor(Math.random()*(10*player.lvl))+10
   if(player.magic > 0){
@@ -726,7 +691,12 @@ else{
   victory()
   turnTracker()
 }
+
+//#endregion
+
 // games
+
+//#region display
 
 function displayDay(){
   let display = player.days
@@ -937,13 +907,17 @@ function drawItems(){
   document.getElementById("pouch").innerHTML = template
 
 }
+
+//#endregion
+
+//#region enemies
+
 function boss(){
   let color = ["black","blue","green","red","white","bronze","brass","copper","gold","silver"]
   let dColor = color[Math.floor(Math.random()*color.length)]
   let name = dColor+" dragon"
-  let dragon = {name: name, hpMax: hpMax, powerMax: 8, defenseMax: 2, speedMax: 3, speed: 3, resistance: 2, lvl: 5, bite: 0, breath: 0, title: "boss"}
+  let dragon = {name: name, hpMax: 150, powerMax: 8, defenseMax: 2, speedMax: 3, speed: 3, resistance: 2, lvl: 5, bite: 0, breath: 0, title: "boss"}
 enemy = dragon
-dragon.hpMax = 250
   //dragon.bite = Math.floor(Math.random()*10)
   //dragon.breath = [player.speed--,player.defense--,player.power--,player.magic--,player.hpMax-=5] 
   document.getElementById("dragon").classList.remove("hidden")
@@ -988,14 +962,22 @@ function enemyGenerator(){
 
 
 function spawnEnemy(){
+  //draw skills/spells button
+  if(player.name == "barbarian" && player.lvl >= 5){
+    document.getElementById("skills").classList.remove("hidden")
+  }
+  if(player.name == "paladin" && player.lvl >= 5){
+    document.getElementById("spells").classList.remove("hidden")
+  }
   console.log(player.doomsDay)
+  //reset player speed, show enemy
   player.speed = player.speedMax
   drawPlayer()
   document.getElementById("enemy").classList.remove("hidden")
   if(player.days == (player.doomsDay-1)){
     dialogBox("the sky darkens... a shiver crawls up your spine.")
   }
-
+// boss appearance
 if(player.days >= player.doomsDay){
   boss()
 document.getElementById("flee").classList.add("hidden")
@@ -1042,15 +1024,6 @@ function drawEnemy(){
   `
   
   document.getElementById("enemy").innerHTML = template
-}
-
-function turnTracker(){
-  
-  if(player.speed < 1){
-    enemyTurn()
-    turn++
-    drawPlayer()
-  }
 }
 
 function enemyAttack(){
@@ -1131,6 +1104,18 @@ player.speed = player.speedMax
 drawPlayer()
 }
 
+//#endregion
+
+function turnTracker(){
+  
+  if(player.speed < 1){
+    enemyTurn()
+    turn++
+    drawPlayer()
+    dialogBox("turn: "+turn)
+  }
+}
+
 function victory(){
   if (enemy.hpMax <= 0){
     player.exp += (enemy.lvl+player.expBoost)
@@ -1138,7 +1123,9 @@ function victory(){
     }else{
       player.expBoost++
     }
-    
+    player.power = 0
+    player.defense = 0
+    turn = 0
     dialogBox("Victory!")
     lvlUp()
     player.speed = player.speedMax
@@ -1216,7 +1203,6 @@ function lvlUp(){
       player.powerMax += 1
       player.magicMax++
       player.magic++
-      document.getElementById("spells").classList.remove("hidden")
       drawSpells()
     }
   }  
