@@ -31,7 +31,14 @@
         <img src="paladin.png" alt="paladin" id="paladin" class="hidden">
         <img src="wizrd.png" alt="wizard" id="wizard" class="hidden">
       </div>
-      
+
+      <div id="days" class="days">
+        <b>Day: 1</b>
+      </div>
+      <div id="dialog" class="box">
+        let the adventure begin
+      </div>
+
       <div id="player" class="card left">
       </div>
       
@@ -57,6 +64,9 @@
           <div id="spells" class="m-1 spells hidden">
             <button type="button" onclick="drawSpells()">Spells</button>
           </div>
+          <div id="flee" class="m-1 d-flex justify-content-center">
+            <button type="button" onclick="flee()">flee</button>
+          </div>
           <div class="m-1 d-flex justify-content-center">
             <button type="button" onclick="drawItems()">use item</button>
           </div>
@@ -65,6 +75,7 @@
       <section class="right">
         <div id="enemy" class="enemy card w-50 hidden">
         </div>
+        <img src="dragon.png" alt="dragon" id="dragon" class="hidden">
         <div id="shop" class="card w-50 hidden">
           
           <div class="m-1 d-flex justify-content-center">
@@ -77,11 +88,19 @@
           <div class="m-1">
             <span class="d-flex">
               <button type="button" onclick="buyHp()">buy</button>
-              <p class="m-1">healing potion 50gp</p>
+              <p class="m-1">healing potion 150gp</p>
             </span>
             <span class="d-flex">
               <button type="button" onclick="buyMana()">buy</button>
-              <p class="m-1">mana potion 50gp</p>
+              <p class="m-1">mana potion 150gp</p>
+            </span>
+            <span class="d-flex">
+              <button type="button" onclick="buyScroll()">buy</button>
+              <p class="m-1">scroll of fireball 250gp</p>
+            </span>
+            <span class="d-flex">
+              <button type="button" onclick="buyExplosion()">buy</button>
+              <p class="m-1">Exploding potion 250gp</p>
             </span>
           </div>
             <div>
