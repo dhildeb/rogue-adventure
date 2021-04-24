@@ -382,10 +382,11 @@ let scroll = document.getElementById('dialog');
     let rareItem = rare[Math.floor(Math.random()*rare.length)]
     let item = loot[Math.floor(Math.random()*loot.length)]
     let chance = Math.floor(Math.random()*100)
+    player.expBoost--
     gold = time
 
     if(time > 66){
-      player.days++
+      rest()
     }else if(time < 20){
       spawnEnemy()
     }
