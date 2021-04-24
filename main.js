@@ -387,7 +387,8 @@ let scroll = document.getElementById('dialog');
 
     if(time > 66){
       rest()
-    }else if(time < 20){
+    }
+    if(time < 20){
       spawnEnemy()
     }
   
