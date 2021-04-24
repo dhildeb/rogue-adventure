@@ -381,33 +381,60 @@ let scroll = document.getElementById('dialog');
     let time = Math.floor(Math.random()*100)+1
     let rareItem = rare[Math.floor(Math.random()*rare.length)]
     let item = loot[Math.floor(Math.random()*loot.length)]
-    let chance = Math.floor(Math.random()*100)
-    player.expBoost--
-    gold = time
-
-    if(time > 66){
-      rest()
+    let chance = Math.floor(Math.random()*100)+1
+    let location = ["forest", "old ruins", "hidden dungeon", "cave", "swamp", "great city", "small town", "wizards tower", "magical gate", "temple", "sanctuary", "tombs", "graveyard", "goblin valley", "sand dunes", "mountains", "dragon lair", "island on a lake"]
+    let destination = location[Math.floor(Math.random()*location.length)]
+    if(player.expBoost > 0){
+      player.expBoost--
     }
+    gold = time
+console.log(chance)
+console.log(time)
     if(time < 20){
+      dialogBox("you encounter an enemy on your adventure")
       spawnEnemy()
     }
-  
-  if(chance == 100){
-    equipment.push(rareItem)
-    dialogBox("you got a RARE "+rareItem)
-  }else if(chance > 80){
-      equipment.push(item)
-      dialogBox("you got a "+item)
-    }else if(chance > 25){
-        player.gold += gold
-        dialogBox("you got gold: "+gold)
+    
+    if(chance == 100){
+      if(confirm("a nobel sends for you by name, do you answer the summons?")){
+        equipment.push(rareItem)
+        dialogBox("you go on a quest for the nobel and in return they reward you generously. you got a RARE "+rareItem)}else{
+          dialogBox("nobels are always a pain to work with, instead you go for a more mundane job and recieve a welcomed suprise you got a"+item)
+          equipment.push(item)
+        }
+      }else if(chance > 50){
+        if(confirm("your adventures take you to a "+destination+". do you choose to continue?")){
+          equipment.push(item)
+          dialogBox("you got lucky the place was deserted but you were still able to find a "+item)
+        }else{
+          dialogBox("you decide to play it save and earn a decent reward")
+          player.gold += gold
+          dialogBox("you got gold: "+gold)      
+        }
+      }else if(chance > 25){
+        if(confirm("your adventures take you to a "+destination+". do you choose to continue?")){
+          dialogBox("you continue and seem to have some unlucky encounters with traps and monsters. after all that you come away with nothing but some wounds and knowledge to stay away from that "+destination)
+          player.hp -= ((player.lvl+1)*(Math.floor(Math.random()*2)+1))
+          player.exp += ((player.lvl+1)*(Math.floor(Math.random()*2)+1))
+          lvlUp()
+        }else{
+          dialogBox("you decide to play it save and earn a decent reward")
+          player.gold += gold
+          dialogBox("you got gold: "+gold)
+        }
+      }else if(chance > 19 && chance < 26){
+        dialogBox("your adventures leave you without reward")
+      }
+      if(time > 66){
+        rest()
+        dialogBox("thats enough adventure for one day time for some rest")
+      }
     }
-  }
-
-  function shop(){
-    let chance = Math.floor(Math.random()*10)
-    drawItems()
-  document.getElementById("shop").classList.remove("hidden")
+    
+    function shop(){
+      let chance = Math.floor(Math.random()*10)
+      drawItems()
+      document.getElementById("shop").classList.remove("hidden")
   document.getElementById("pouch").classList.remove("hidden")
   document.getElementById("cancel").classList.add("hidden")    
   document.getElementById("events").classList.add("hidden")
@@ -1351,7 +1378,7 @@ function lvlUp(){
 function looting(){
   let rareItem = rare[Math.floor(Math.random()*rare.length)]
   let item = loot[Math.floor(Math.random()*loot.length)]
-  let chance = Math.floor(Math.random()*100)
+  let chance = Math.floor(Math.random()*100)+1
   gold *= enemy.lvl
 
   if(enemy.title == "boss"){
