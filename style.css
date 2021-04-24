@@ -42,6 +42,26 @@ img{
   color:red;
   overflow-y: auto;
 }
+#hp{
+  background-color: red;
+  width: 50%;
+  border:red;
+
+}
+
+#hp {
+  background-color: black;
+  border-radius: 8px;
+  /* (height of inner div) / 2 + padding */
+  padding: 3px;
+  width: 50%;
+}
+#hp>div {
+  background-color: maroon;
+  /* Adjust with JavaScript */
+  height: 20px;
+  border-radius: 5px;
+}
 form{
   margin: 0;
 }

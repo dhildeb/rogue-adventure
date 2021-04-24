@@ -557,6 +557,7 @@ function buyExplosion(){
       player.power += (Math.round(player.powerMax*.4))
       player.defense -= 2
       player.speed--
+      document.getElementById("flee").classList.add("hidden")
       dialogBox("your fiery rage grows as you become more reckless")
     }
     drawPlayer()
@@ -722,19 +723,23 @@ function displayDay(){
 function drawPlayer(){
   let shield = player.defenseMax+player.defense
   let attack = player.power+player.powerMax
+  let hpBar = Math.floor((player.hp / player.hpMax)*100)
+
 drawSpells()
-  let template = `
+  let template =
+  `
   <div class="mt-1 mb-1 p-2">
   <h3 class="mt-1 mb-1">
   ${player.name}
   </h3>
   </div>
-  <div class="d-flex space-between">
-  <p>
-  <span>
+  <div id="hp" class="d-flex space-between">
+  <div style="width:${hpBar}%;">
+  <p style="color: red; width: 100px; position: relative;
+  top: -25%;">
   HP: ${player.hp}/${player.hpMax}
-  </span>
   </p>
+  </div>
   </div>
   <div class="d-flex space-between">
   <p>
@@ -758,13 +763,21 @@ drawSpells()
   </p>
   </div>
   </div>
-  <div class="d-flex space-between">
-  <p>
-  <span>
-  Magic: ${player.magic}/${player.magicMax}
-  </span>
-  </p>
-  </div>
+  `
+  if(player.name == "wizard" || "paladin"){
+    template +=
+    `
+    <div class="d-flex space-between">
+    <p>
+    <span>
+    Magic: ${player.magic}/${player.magicMax}
+    </span>
+    </p>
+    </div>
+    `
+  }
+  template +=
+  `
   <div class="d-flex space-between">
   <p>
   <span>
@@ -1056,11 +1069,11 @@ attack -= (player.defenseMax+player.defense)
     if(player.block < 0){
       player.block = 0
     }
-  
   drawEnemy()
   drawPlayer()
 
 }
+
 
 function enemyTurn(){
 let preHp = player.hp
@@ -1125,6 +1138,7 @@ function victory(){
     //rage reset
     player.power = 0
     document.getElementById("block").classList.remove("hidden")
+    document.getElementById("flee").classList.remove("hidden")
     player.defense = 0
     turn = 0
     dialogBox("Victory!")
