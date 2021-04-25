@@ -1374,6 +1374,7 @@ function enemyAttack(){
     let hit = Math.floor(Math.random()*100)
     let dodge = Math.floor(player.evade*100)
     let miss = false
+
     if(dodge > hit){
       attack = 0
       dialogBox("Dodged!")
@@ -1426,6 +1427,7 @@ let totalDmg = 0
 while(enemy.speed > 0){
   enemyAttack()
   enemy.speed--
+  victory()
 }
 postHp = player.hp
 totalDmg = preHp - postHp
