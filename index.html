@@ -85,13 +85,6 @@
         <img src="demon.png" alt="demon" id="demon" class="hidden">
         <div id="shop" class="card w-50 hidden">
           
-          <div class="m-1 d-flex justify-content-center">
-            <form class="" onsubmit="sell(event)">
-              <input id="default" placeholder="item" type="text" name="name" required>
-              <button class="" type="submit">sell</button>
-            </form>
-          </div>
-          
           <div class="m-1">
             <span class="d-flex">
               <button type="button" onclick="buyHp()">buy</button>
@@ -109,13 +102,17 @@
               <button type="button" onclick="buyExplosion()">buy</button>
               <p class="m-1">Exploding potion 150gp</p>
             </span>
-            <span class="d-flex">
+            <span id="bracers" class="d-flex">
               <button  type="button" onclick="vampiricBracers()">buy</button>
-              <p class="m-1">Bracers of vampiric touch 1000gp</p>
+              <p class="m-1">Bracers of vampiric touch 5000gp</p>
             </span>
+            <span id="spikes" class="d-flex">
+            <button  type="button" onclick="spikedArmor()">buy</button>
+            <p class="m-1">Spiked armor 4000gp</p>
+          </span>
             <span id="rare" class="d-flex">
               <button  type="button" onclick="mysteriousRune()">buy</button>
-              <p class="m-1">mysterious rune 1000gp</p>
+              <p class="m-1">mysterious rune 2000gp</p>
             </span>
             <div class="m-1 d-flex justify-content-center">
               <button type="button" onclick="demonBoss()">spawn a demon 500gp</button>
