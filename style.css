@@ -24,6 +24,13 @@ img{
   z-index: -1;
   position: fixed;
 }
+#demon{
+  max-width: 500%;
+  top: -25%;
+  left: 35%;
+  z-index: -1;
+  position: fixed;
+}
 .boss{
   opacity: .6;
 }
@@ -35,11 +42,11 @@ img{
   width: 20%;
   height: 40%;
   border: 3px solid var(--primary);
-  background-color: var(--light);
+  background-color: rgba(206, 202, 151, 0.623);
   border-radius:var(--corners) ;
   opacity: .6;
   text-align: left;
-  color:red;
+  color: rgb(51, 29, 0);
   overflow-y: auto;
 }
 #hp{

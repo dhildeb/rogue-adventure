@@ -82,6 +82,7 @@
         <div id="enemy" class="enemy card w-50 hidden">
         </div>
         <img src="dragon.png" alt="dragon" id="dragon" class="hidden">
+        <img src="demon.png" alt="demon" id="demon" class="hidden">
         <div id="shop" class="card w-50 hidden">
           
           <div class="m-1 d-flex justify-content-center">
@@ -108,10 +109,17 @@
               <button type="button" onclick="buyExplosion()">buy</button>
               <p class="m-1">Exploding potion 150gp</p>
             </span>
+            <span class="d-flex">
+              <button  type="button" onclick="vampiricBracers()">buy</button>
+              <p class="m-1">Bracers of vampiric touch 1000gp</p>
+            </span>
             <span id="rare" class="d-flex">
               <button  type="button" onclick="mysteriousRune()">buy</button>
               <p class="m-1">mysterious rune 1000gp</p>
             </span>
+            <div class="m-1 d-flex justify-content-center">
+              <button type="button" onclick="demonBoss()">spawn a demon 500gp</button>
+             </div>
           </div>
             <div>
               <button type="button" onclick="leave()">leave</button>
