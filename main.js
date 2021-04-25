@@ -1370,10 +1370,10 @@ function enemyAttack(){
   let dmgReducer = player.block
 
  //dodge chance
+ let miss = false
   if(player.evade){
     let hit = Math.floor(Math.random()*100)
     let dodge = Math.floor(player.evade*100)
-    let miss = false
 
     if(dodge > hit){
       attack = 0
