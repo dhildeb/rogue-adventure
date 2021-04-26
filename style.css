@@ -379,3 +379,17 @@ display: table-cell;
 .tip:hover .tiptext {
   visibility: visible;
 }
+.player img{
+  filter: drop-shadow(2px 4px 6px #1b1b1b);
+  transition: all .35s ease;
+}
+.player.m1 img{
+  filter: drop-shadow(2px 4px 6px #0dd417);
+}
+.player.m2 img{
+  filter: drop-shadow(2px 4px 6px #110ebe);
+}
+.player.m3 img{
+  filter: drop-shadow(2px 4px 6px #ffe600) contrast(1);
+}
+

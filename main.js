@@ -15,7 +15,7 @@ let magic = 0
 let speed = 0
 let exp = 0
 let lvl = 0
-let equipment = ["healing potion"]
+let equipment = ["healing potion","mana potion"]
 let killCount = 0
 
 //abilities
@@ -29,8 +29,7 @@ let expMax = 5
 let doomsDay = Math.floor(Math.random()*4)+6
 
 // bosses
-let b1KillCount = 0
-
+let dragon = {name: "dragon",hp: 100, hpMax: 100, powerMax: 0, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 4, bite: 0, breath: 0, title: "boss"}
 // loot
 let loot = ["healing potion", "gem", "mana potion","exploding potion", "scroll of fireball"]
 let rare = ["potion of strength","potion of speed", "potion of defense", "potion of health","potion of magic"]
@@ -44,10 +43,10 @@ let coinPouch = [copper, silver, gold, platinum]
 */
 
 // characters
-let rogue = {name: "rogue", hpMax: hpMax + 5, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax + 1,hp: hpMax + 5, block: block, power: 0, magic: magicMax,defense: 0, speed: speedMax + 1, lvl: lvl, exp: exp, expMax: expMax, evade: .1, gold: gold, days: days, doomsDay: doomsDay, expBoost: 0,hpDrain: 0,thorns: 0}
-let barbarian = {name: "barbarian", hpMax: hpMax + 15, defenseMax: defenseMax, powerMax: powerMax + 1, magicMax: magicMax, speedMax: speedMax,hp: hpMax + 15, block: block, power: 0, magic: magicMax,defense: 0, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax, gold: gold, days: days, doomsDay: doomsDay, expBoost: 0,hpDrain: 0,thorns: 0}
-let paladin = {name: "paladin", hpMax: hpMax + 10, defenseMax: defenseMax + 1, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, hp: hpMax + 10, block: block, power: 0, magic: magicMax,defense: 0, speed: speedMax,  lvl: lvl, exp: exp, expMax: expMax, gold: gold, days: days, doomsDay: doomsDay, expBoost: 0,hpDrain: 0, thorns: 0}
-let wizard = {name: "wizard", hpMax: hpMax, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax + 3, speedMax: speedMax, hp: hpMax, block: block, power: 0, magic: magicMax + 3,defense: 0, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax, gold: gold, days: days, doomsDay: doomsDay, expBoost: 0,hpDrain: 0,thorns: 0}
+let rogue = {name: "rogue", hpMax: hpMax + 5, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax + 1,hp: hpMax + 5, block: block, power: 0, magic: magicMax,defense: 0, speed: speedMax + 1, lvl: lvl, exp: exp, expMax: expMax, evade: .1, gold: gold, days: days, doomsDay: doomsDay, expBoost: 0,hpDrain: 0,thorns: 0, bkc: 1, m1: false, m2: false, m3: false}
+let barbarian = {name: "barbarian", hpMax: hpMax + 15, defenseMax: defenseMax, powerMax: powerMax + 1, magicMax: magicMax, speedMax: speedMax,hp: hpMax + 15, block: block, power: 0, magic: magicMax,defense: 0, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax, gold: gold, days: days, doomsDay: doomsDay, expBoost: 0,hpDrain: 0,thorns: 0, bkc: 1}
+let paladin = {name: "paladin", hpMax: hpMax + 10, defenseMax: defenseMax + 1, powerMax: powerMax, magicMax: magicMax, speedMax: speedMax, hp: hpMax + 10, block: block, power: 0, magic: magicMax,defense: 0, speed: speedMax,  lvl: lvl, exp: exp, expMax: expMax, gold: gold, days: days, doomsDay: doomsDay, expBoost: 0,hpDrain: 0, thorns: 0, bkc: 1}
+let wizard = {name: "wizard", hpMax: hpMax, defenseMax: defenseMax, powerMax: powerMax, magicMax: magicMax + 3, speedMax: speedMax, hp: hpMax, block: block, power: 0, magic: magicMax + 3,defense: 0, speed: speedMax, lvl: lvl, exp: exp, expMax: expMax, gold: gold, days: days, doomsDay: doomsDay, expBoost: 0,hpDrain: 0,thorns: 0, bkc: 1}
 
 let player = []
 
@@ -97,7 +96,6 @@ window.alert("yeah that would be pretty stupid.")
     else if(player.name == "wizard"){
       document.getElementById("wizard").classList.remove("hidden")
       document.getElementById("spells").classList.remove("hidden")
-      equipment.push("mana potion")
     }
   }
 
@@ -450,8 +448,7 @@ let scroll = document.getElementById('dialog');
       player.expBoost--
     }
     gold = time
-console.log(chance)
-console.log(time)
+
     if(time < 20){
       dialogBox("you encounter an enemy on your adventure")
       spawnEnemy()
@@ -464,6 +461,30 @@ console.log(time)
           dialogBox("nobels are always a pain to work with, instead you go for a more mundane job and recieve a welcomed suprise you got a"+item)
           equipment.push(item)
         }
+      }else if(chance == 99){
+if(confirm("you encounter a strange figure completely clothed in rags, his face is covered but he holds out a hand asking for alms. do you give the begger 50 gp?")){player.gold -= 50
+  if(confirm("the begger wants to repay you by reading you palm, do you allow it?")){
+    dialogBox("the begger begins to sweat and shake saying doom is soon to come in "+(player.doomsDay-player.days)+" days!")
+  }else{
+    if(confirm("the begger looks eager to repay you, he tells you of a secret place you can go to find hidden treasure. do you trust him and go to the place?")){
+      dialogBox("you venture into the secret place and discover many traps and monsters, you fight tooth and nail and barely get out alive")
+      player.hp = 1
+      drawPlayer()
+      if(confirm("do you give up?")){
+        dialogBox("you give up but not without analyzing your defeat and learning from this failure")
+        player.exp += (player.lvl+1)*10
+      }else{
+dialogBox("you decide to take a different approach and stubble upon a secret passage to a treasure hoard! you get 1000gp "+item+" "+rareItem)
+        player.gold += 1000
+        equipment.push(item)
+        equipment.push(rareItem)
+
+      }
+    }else{dialogBox("you ignore the tales of the poor crazy man and venture onto other encounters")}
+  }
+
+}else{dialogBox("you keep you money, best not waste it on low lifes")}
+
       }else if(chance > 50){
         if(confirm("your adventures take you to a "+destination+". do you choose to continue?")){
           equipment.push(item)
@@ -476,11 +497,11 @@ console.log(time)
       }else if(chance > 25){
         if(confirm("your adventures take you to a "+destination+". do you choose to continue?")){
           dialogBox("you continue and seem to have some unlucky encounters with traps and monsters. after all that you come away with nothing but some wounds and knowledge to stay away from that "+destination)
-          player.hp -= ((player.lvl+1)*(Math.floor(Math.random()*2)+1))
+          player.hp -= ((player.lvl+1)*(Math.floor(Math.random()*10)+1))
           player.exp += ((player.lvl+1)*(Math.floor(Math.random()*2)+1))
           lvlUp()
         }else{
-          dialogBox("you decide to play it save and earn a decent reward")
+          dialogBox("you decide to play it safe and earn some money through manual labor")
           player.gold += gold
           dialogBox("you got gold: "+gold)
         }
@@ -1180,6 +1201,7 @@ function drawItems(){
       </div>
       `
     }
+ 
     else{
       template +=
       `
@@ -1206,16 +1228,16 @@ function drawItems(){
 function boss(){
   let color = ["black","blue","green","red","white","bronze","brass","copper","gold","silver"]
 let dColor = color[Math.floor(Math.random()*color.length)]
-let name = dColor+" dragon"
-let dragon = {name: name, hpMax: 200, powerMax: 8, defenseMax: 2, speedMax: 3, speed: 2, resistance: 2, lvl: 5, bite: 0, breath: 0, title: "boss"}
+dragon.name = dColor+" dragon"
 
-if(b1KillCount > 0){
-  dragon.hpMax *= 2
-  dragon.powerMax += 2
-  dragon.defenseMax += 2
-  dragon.resistance += 2
+dragon.hpMax = dragon.hp
+  dragon.hpMax *= player.bkc
+  dragon.hp *= player.bkc
+  dragon.powerMax += player.bkc*4
+  dragon.defenseMax += player.bkc
+  dragon.resistance += player.bkc*2
+  dragon.lvl++
   //dragon.breath = [player.speed--,player.defense--,player.power--,player.magic--,player.hpMax-=5] 
-}
 enemy = dragon
   //dragon.bite = Math.floor(Math.random()*10)
 bossControls()
@@ -1244,11 +1266,34 @@ player.gold -= 500
     
     enemy.speed = enemy.speedMax
     demonBossControls()
+    document.getElementById("diablo").classList.remove("hidden")
     savePlayer()
   }
   else{
     dialogBox("whoa thats a bad idea... unless you can pay that is")
   }
+  }
+  function hellPortal(){
+    if(player.gold > 999){
+      player.gold -= 1000
+          //let curse = [player.speed--,player.defense--,player.power--,player.magic--,player.hpMax-=20] 
+          let diablo = {name: "diablo", hpMax: 8000, powerMax: 50, defenseMax: 50, speedMax: 8, speed: 8, resistance: 50, lvl: 60, title: "demon boss", thorns: 20, hpDrain: 10}
+          
+          
+          enemy = diablo
+          
+          drawPlayer()
+          drawEnemy()
+          
+          enemy.speed = enemy.speedMax
+          demonBossControls()
+          document.getElementById("demon").classList.add("hidden")
+          document.getElementById("enemy").classList.add("hell")
+          savePlayer()
+        }else{
+          dialogBox("come on didnt you see that demon! you really want me to spawn a portal to hell! no, no, no, no, well... maybe for the right price...")
+        }
+
   }
   function demonBossControls(){
     document.getElementById("actions").classList.remove("hidden")
@@ -1312,12 +1357,11 @@ function spawnEnemy(){
     dialogBox("the sky darkens... a shiver crawls up your spine.")
   }
 // boss appearance
-console.log(b1KillCount)
 if(player.days >= player.doomsDay){
   boss()
 document.getElementById("flee").classList.add("hidden")
   player.doomsDay += (Math.floor(Math.random()*4)+4)
-  b1KillCount++
+  player.bkc++
 }else{
   document.getElementById("flee").classList.remove("hidden")
   while(enemy.hpMax <= 0){
@@ -1553,9 +1597,11 @@ function lvlUp(){
     player.hpMax += (4 * player.lvl)
     player.hp += (4 * player.lvl)
     player.expMax *= 2
-    player.thorns++
     dialogBox("you leveled up!")
-    if((player.lvl % 5) == 0){
+    if((player.lvl % 3) == 0){
+      thorns++
+    }
+      if((player.lvl % 5) == 0){
       player.speedMax += 1
       player.powerMax += 1
       player.magicMax++
@@ -1597,6 +1643,25 @@ function looting(){
   let chance = Math.floor(Math.random()*100)+1
   gold *= enemy.lvl
 
+  if(enemy.name == "mephisto"){
+    document.getElementById("img").classList.add("m1")
+    player.gold += 2000
+    equipment.push("green soul stone")
+    player.m1 = true
+  }
+  if(enemy.name == "diablo"){
+    document.getElementById("img").classList.add("m2")
+    player.gold += 5000
+    equipment.push("blue soul stone")
+    player.m2 = true
+  }
+  if(enemy.name == "baal"){
+    document.getElementById("img").classList.add("m3")
+    player.gold += 10000
+    equipment.push("yellow soul stone")
+    player.m3 = true
+  }
+
   if(enemy.title == "boss"){
     equipment.push(rareItem)
     equipment.push(item)
@@ -1621,5 +1686,13 @@ if(chance == 100){
 //#endregion
   document.getElementById("theme-music").volume = 0.5;
 
-loadPlayer()
-drawPlayer()
+  loadPlayer()
+  drawPlayer()
+  
+  if(player.m3 == true){
+    document.getElementById("img").classList.add("m3")
+  }  else if(player.m2 == true){
+    document.getElementById("img").classList.add("m2")
+  } else if(player.m1 == true){
+    document.getElementById("img").classList.add("m1")
+  }
