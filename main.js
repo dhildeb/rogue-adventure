@@ -482,8 +482,8 @@ let scroll = document.getElementById('dialog');
     //noble
     if(chance == 100){
       if(confirm("a nobel sends for you by name, do you answer the summons?")){
-        equipment.push(rareItem)
-        dialogBox("you go on a quest for the nobel and in return they reward you generously. you got a RARE "+rareItem)}else{
+        equipment.push(relic)
+        dialogBox("you go on a quest for the nobel and in return they reward you generously. you got a "+relic)}else{
           dialogBox("nobels are always a pain to work with, instead you go for a more mundane job and recieve a welcomed suprise you got a"+item)
           equipment.push(item)
         }
@@ -514,11 +514,11 @@ dialogBox("you decide to take a different approach and stubble upon a secret pas
 }else{dialogBox("you keep you money, best not waste it on low lifes")}
 
       }
-      //relic vs mugged
+      //rare vs mugged
       else if(chance > 75){
         if(confirm("your adventures take you to a "+destination+". do you choose to continue?")){
-          equipment.push(relic)
-          dialogBox("you notice a secret passage  "+relic)
+          equipment.push(rare)
+          dialogBox("you notice a secret passage  "+rare)
         }else{
           dialogBox("you turn back but get ambushed, of course you made it through just fine... after they beat you up and took your gold that is.")
           let mug = player.gold -= player.gold*.5
@@ -723,8 +723,7 @@ function buyExplosion(){
 }
 
 function mysteriousRune(){
-  let chance = 10
-  Math.floor(Math.random()*10)+1
+  let chance = Math.floor(Math.random()*10)+1
   if(player.gold > 1999){
   player.gold -= 2000
   if(chance == 1){
@@ -859,15 +858,22 @@ if(miss == true){
   function drawSkills(){
     let template = ""
 
-    if( player.rune == "rage" || (player.name == "barbarian" && player.lvl == 5)){
+    if( player.rune == "rage" || (player.name == "barbarian" && player.lvl >= 5)){
      template +=
       `
       <div class="m-1 skills">
       <button onclick="rage()">Rage</button>
       </div>
     `
-    console.log("rage")
     }
+    if( player.rune == "assassinate" || (player.name == "rogue" && player.lvl >= 5)){
+      template +=
+       `
+       <div class="m-1 skills">
+       <button onclick="assassinate()">Assassinate</button>
+       </div>
+     `
+     }
  
     document.getElementById("skills").innerHTML = template
   }
@@ -888,6 +894,34 @@ if(miss == true){
     }
     drawPlayer()
     turnTracker()
+  }
+
+  function assassinate(){
+    let chance = Math.floor(Math.random()*20)+1
+    let attack = Math.floor(Math.random()*40)+10
+    if(player.speed > 1){
+      if(enemy.title != "boss" || enemy.title != "demon boss"){
+        if(chance == 20){
+          enemy.hpMax = 0
+          dialogBox("you find the enemies weakness and kill them in one stroke")
+        }else{
+          player.speed -= 2
+          enemy.hpMax -= attack
+          dialogBox("you attack the enemy at a weaker spot and do "+attack+" dmg")
+        }
+      }else{
+        player.speed -= 2
+        enemy.hp -= attack
+        dialogBox("you attack the enemy at a weaker spot and do "+attack+" dmg")
+      }
+      }else{
+        dialogBox("you cant act fast enough, need more speed")
+      }
+
+      drawPlayer()
+      drawEnemy()
+      victory()
+      turnTracker()
   }
 
   function drawSpells(){
@@ -912,6 +946,17 @@ if(miss == true){
       </div>
       <div class="m-1">
       <button onclick="trueSight()">true sight</button>
+      </div>
+      `
+    } 
+    if(player.lvl > 5 && player.name == "wizard" ){
+      template += 
+      `
+      <div class="m-1">
+      <button onclick="foresight()">foresight</button>
+      </div>
+      <div class="m-1">
+      <button onclick="circleOfDeath()">circle of death</button>
       </div>
       `
     } 
@@ -1067,8 +1112,6 @@ function circleOfDeath(){
 }
 
 //#endregion
-
-// game
 
 //#region display: player, items, general
 
@@ -1384,17 +1427,17 @@ function demonBoss(){
   if(player.gold > 499){
 player.gold -= 500
     //let curse = [player.speed--,player.defense--,player.power--,player.magic--,player.hpMax-=20] 
-    let mephisto = {name: "mephisto", hpMax: 2000, powerMax: 20, defenseMax: 20, speedMax: 5, speed: 5, resistance: 20, lvl: 30, title: "demon boss"}
+    let demon = {name: "demon", hpMax: 2000, powerMax: 20, defenseMax: 20, speedMax: 5, speed: 5, resistance: 20, lvl: 30, title: "demon boss"}
     
     
-    enemy = mephisto
+    enemy = demon
     
     drawPlayer()
     drawEnemy()
     
     enemy.speed = enemy.speedMax
     demonBossControls()
-    document.getElementById("diablo").classList.remove("hidden")
+    document.getElementById("demon king").classList.remove("hidden")
     savePlayer()
   }
   else{
@@ -1405,10 +1448,10 @@ player.gold -= 500
     if(player.gold > 999){
       player.gold -= 1000
           //let curse = [player.speed--,player.defense--,player.power--,player.magic--,player.hpMax-=20] 
-          let diablo = {name: "diablo", hpMax: 8000, powerMax: 50, defenseMax: 50, speedMax: 8, speed: 8, resistance: 50, lvl: 60, title: "demon boss", thorns: 20, hpDrain: 10}
+          let demonKing = {name: "demon king", hpMax: 8000, powerMax: 50, defenseMax: 50, speedMax: 8, speed: 8, resistance: 50, lvl: 60, title: "demon boss", thorns: 20, hpDrain: 10}
           
           
-          enemy = diablo
+          enemy = demonKing
           
           drawPlayer()
           drawEnemy()
@@ -1470,7 +1513,7 @@ enemy = monsters[spawn1]
 
 function spawnEnemy(){
   //draw skills/spells button
-  if(player.lvl >= 5 && (player.name == "barbarian" || player.rune == "rage")){
+  if(player.lvl >= 5 && (player.name == "barbarian" || player.rune == "rage" || player.name == "rogue")){
     document.getElementById("skills").classList.remove("hidden")
   }
   if((player.name == "paladin" && player.lvl >= 5) || player.rune == "spells1" || player.rune == "spells2"){
@@ -1634,7 +1677,7 @@ drawPlayer()
 
 function turnTracker(){
   let regen = equipment.indexOf("amulet of regen")
-  console.log(regen)
+
   if(player.speed < 1){
     if(regen >= 0){
       player.hp += 5
@@ -1688,17 +1731,18 @@ function lvlUp(){
     dialogBox("you leveled up!")
   }else if((player.name == "rogue" && player.exp >= player.expMax && player.lvl >= 0)){
     player.lvl++
-    player.evade *= 1.3
     player.hpMax += (3 * player.lvl)
     player.hp += (3 * player.lvl)
     player.expMax *= 2
     dialogBox("you leveled up!")
+    if((player.lvl % 2)){
+      player.evade *= 1.3
+    }
     if((player.lvl % 5) == 0){
       player.defenseMax += 1
       player.powerMax += 1
       player.speed += 1
       player.hpDrain++
-      dialogBox("you leveled up!")
     }
   }
   if((player.name == "barbarian" && player.exp >= player.expMax && player.lvl == 0)){
@@ -1781,23 +1825,26 @@ function looting(){
   let chance = Math.floor(Math.random()*100)+1
   gold *= enemy.lvl
 
-  if(enemy.name == "mephisto"){
+  if(enemy.name == "demon"){
     document.getElementById("img").classList.add("m1")
     player.gold += 2000
-    equipment.push("green soul stone")
+    equipment.push("green stone")
     player.m1 = true
+    dialogBox("the demon lets out the most heinous scream and bursts into flames as a portal opens up and engoulfs it, all that is left behind is a mysterious green stone")
   }
-  if(enemy.name == "diablo"){
+  if(enemy.name == "demon king"){
     document.getElementById("img").classList.add("m2")
     player.gold += 5000
-    equipment.push("blue soul stone")
+    equipment.push("blue stone")
     player.m2 = true
+    dialogBox("the demon lets out the most heinous scream and bursts into flames as a portal opens up and engoulfs it, all that is left behind is a mysterious blue stone")
   }
-  if(enemy.name == "baal"){
+  if(enemy.name == "demon god"){
     document.getElementById("img").classList.add("m3")
     player.gold += 10000
-    equipment.push("yellow soul stone")
+    equipment.push("yellow stone")
     player.m3 = true
+    dialogBox("the demon lets out the most heinous scream and bursts into flames as a portal opens up and engoulfs it, all that is left behind is a mysterious yellow stone")
   }
 
   if(enemy.title == "boss"){
