@@ -29,10 +29,11 @@ let expMax = 5
 let doomsDay = Math.floor(Math.random()*4)+6
 
 // bosses
-let dragon = {name: "dragon",hp: 100, hpMax: 100, powerMax: 0, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 4, bite: 0, breath: 0, title: "boss"}
+let dragon = {name: "dragon",hp: 125, hpMax: 125, powerMax: 0, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 4, bite: 0, breath: 0, title: "boss"}
 // loot
 let loot = ["healing potion", "gem", "mana potion","exploding potion", "scroll of fireball"]
 let rare = ["potion of strength","potion of speed", "potion of defense", "potion of health","potion of magic"]
+let discover = ["amulet of regen"]
 let gold = Math.floor(Math.random()*12)+1
 
 /* additional money values
@@ -85,17 +86,38 @@ window.alert("yeah that would be pretty stupid.")
 
   function drawPlayerImage(){
     if(player.name == "rogue"){
-      document.getElementById("rogue").classList.remove("hidden")
+      if(player.bkc > 1 && player.lvl > 9){
+        document.getElementById("rogue").classList.add("hidden")
+        document.getElementById("rogue2").classList.remove("hidden")
+      }else{
+        document.getElementById("rogue").classList.remove("hidden")
+      }
     }
     else if(player.name == "barbarian"){
-      document.getElementById("barbarian").classList.remove("hidden")
+      if(player.bkc > 1 && player.lvl > 9){
+        document.getElementById("barbarian").classList.add("hidden")
+        document.getElementById("barbarian2").classList.remove("hidden")
+      }else{
+        document.getElementById("barbarian").classList.remove("hidden")
+      }
     }
     else if(player.name == "paladin"){
-      document.getElementById("paladin").classList.remove("hidden")
+      if(player.bkc > 1 && player.lvl > 9){
+        document.getElementById("paladin").classList.add("hidden")
+        document.getElementById("paladin2").classList.remove("hidden")
+      }else{
+        document.getElementById("paladin").classList.remove("hidden")
+      }
     }
     else if(player.name == "wizard"){
-      document.getElementById("wizard").classList.remove("hidden")
-      document.getElementById("spells").classList.remove("hidden")
+      if(player.bkc > 1 && player.lvl > 9){
+        document.getElementById("wizard").classList.add("hidden")
+        document.getElementById("wizard2").classList.remove("hidden")
+        document.getElementById("spells").classList.remove("hidden")
+      }else{
+        document.getElementById("wizard").classList.remove("hidden")
+        document.getElementById("spells").classList.remove("hidden")
+      }
     }
   }
 
@@ -366,8 +388,16 @@ let attack = Math.floor(Math.random()*50)+5+(player.lvl*2)
     }else{
       dialogBox("you've got a good eye, but yer poor come back when you got them money")
     }
-
   }
+
+  function amuletOfRegen(item){
+    if(item == "amulet of regen"){
+  
+        leave()
+      dialogBox("you put on the amulet and sense a gentle warmth from it that soothes your pain")
+    }
+  }
+
   
 //#endregion
 
@@ -442,18 +472,14 @@ let scroll = document.getElementById('dialog');
     let rareItem = rare[Math.floor(Math.random()*rare.length)]
     let item = loot[Math.floor(Math.random()*loot.length)]
     let chance = Math.floor(Math.random()*100)+1
+    let relic = discover[Math.floor(Math.random()*discover.length)]
     let location = ["forest", "old ruins", "hidden dungeon", "cave", "swamp", "great city", "small town", "wizards tower", "magical gate", "temple", "sanctuary", "tombs", "graveyard", "goblin valley", "sand dunes", "mountains", "dragon lair", "island on a lake"]
     let destination = location[Math.floor(Math.random()*location.length)]
     if(player.expBoost > 0){
       player.expBoost--
     }
     gold = time
-
-    if(time < 20){
-      dialogBox("you encounter an enemy on your adventure")
-      spawnEnemy()
-    }
-    
+    //noble
     if(chance == 100){
       if(confirm("a nobel sends for you by name, do you answer the summons?")){
         equipment.push(rareItem)
@@ -461,7 +487,9 @@ let scroll = document.getElementById('dialog');
           dialogBox("nobels are always a pain to work with, instead you go for a more mundane job and recieve a welcomed suprise you got a"+item)
           equipment.push(item)
         }
-      }else if(chance == 99){
+      }
+      //begger
+      else if(chance == 99){
 if(confirm("you encounter a strange figure completely clothed in rags, his face is covered but he holds out a hand asking for alms. do you give the begger 50 gp?")){player.gold -= 50
   if(confirm("the begger wants to repay you by reading you palm, do you allow it?")){
     dialogBox("the begger begins to sweat and shake saying doom is soon to come in "+(player.doomsDay-player.days)+" days!")
@@ -485,7 +513,22 @@ dialogBox("you decide to take a different approach and stubble upon a secret pas
 
 }else{dialogBox("you keep you money, best not waste it on low lifes")}
 
-      }else if(chance > 50){
+      }
+      //relic vs mugged
+      else if(chance > 75){
+        if(confirm("your adventures take you to a "+destination+". do you choose to continue?")){
+          equipment.push(relic)
+          dialogBox("you notice a secret passage  "+relic)
+        }else{
+          dialogBox("you turn back but get ambushed, of course you made it through just fine... after they beat you up and took your gold that is.")
+          let mug = player.gold -= player.gold*.5
+          let hurt = player.hp*.5
+          dialogBox("you took "+hurt+" dmg")
+          dialogBox("lost : "+mug+" gold")      
+        }
+      }
+      //item vs gold
+      else if(chance > 50){
         if(confirm("your adventures take you to a "+destination+". do you choose to continue?")){
           equipment.push(item)
           dialogBox("you got lucky the place was deserted but you were still able to find a "+item)
@@ -494,10 +537,18 @@ dialogBox("you decide to take a different approach and stubble upon a secret pas
           player.gold += gold
           dialogBox("you got gold: "+gold)      
         }
-      }else if(chance > 25){
+      }
+      //dmg vs gold
+      else if(chance > 20){
         if(confirm("your adventures take you to a "+destination+". do you choose to continue?")){
           dialogBox("you continue and seem to have some unlucky encounters with traps and monsters. after all that you come away with nothing but some wounds and knowledge to stay away from that "+destination)
-          player.hp -= ((player.lvl+1)*(Math.floor(Math.random()*10)+1))
+          let trap =((player.lvl+1)*(Math.floor(Math.random()*10)+1))
+          player.hp -= trap
+          dialogBox("you take "+trap+" dmg")
+          if(player.hp <= 0){
+            death()
+            window.alert("you fall in battle fighting off monsters")
+          }
           player.exp += ((player.lvl+1)*(Math.floor(Math.random()*2)+1))
           lvlUp()
         }else{
@@ -505,8 +556,18 @@ dialogBox("you decide to take a different approach and stubble upon a secret pas
           player.gold += gold
           dialogBox("you got gold: "+gold)
         }
-      }else if(chance > 19 && chance < 26){
-        dialogBox("your adventures leave you without reward")
+      }
+      else if(chance == 1) {
+        if(confirm("your adventures take you to a "+destination+", its too quiet. do you dare to continue?")){
+          window.alert("you encounter a god level monster and before you can even react he disintigrates you into ash.")
+          death()
+        }else{
+          dialogBox("you turn back unsure if you made the right choice")
+        }
+      }
+      else if(chance < 21){
+        dialogBox("you encounter an enemy on your adventure")
+        spawnEnemy()
       }
       if(time > 66){
         rest()
@@ -560,11 +621,30 @@ function sell(item){
 */
 let index = equipment.indexOf(item)
 let price = Math.floor(Math.random()*25)+25
+  let c = loot.indexOf(item)
+  let uc = rare.indexOf(item)
+let r = discover.indexOf(item)
 
     deleteItem(index)
- 
-    player.gold += price
-    dialogBox("you sold "+item+" for "+price+" gp")
+ if(c >= 0){
+   if(item == "gem"){
+    player.gold += price*10
+    dialogBox("you sold "+item+" for "+price*10+" gp")
+   }else{
+     player.gold += price
+     dialogBox("you sold "+item+" for "+price+" gp")
+   }
+ }else if(uc >= 0){
+  player.gold += price*20
+  dialogBox("you sold "+item+" for "+price*20+" gp")
+ }else if(r >= 0){
+  player.gold += price*40
+  dialogBox("you sold "+item+" for "+price*40+" gp")
+ }else{
+    player.gold += price*80
+    dialogBox("you sold "+item+" for "+price*80+" gp")
+   }
+
     savePlayer()
     loadPlayer()
     drawItems()
@@ -694,8 +774,9 @@ drawPlayer()
 //#endregion
 
 //#region actions
-  function attack(){
-    let attack = player.powerMax+player.power
+function attack(){
+  document.getElementById("enemy").classList.remove("hurt")
+  let attack = player.powerMax+player.power
     let drain = player.hpDrain
     let miss = false
     attack -= enemy.defenseMax
@@ -734,13 +815,13 @@ if(miss == true){
 
     if(attack > 0){
     dialogBox("hit! "+attack+" DMG")
+    document.getElementById("enemy").classList.add("hurt")
   }else{
     dialogBox("that seemed to only make it angrier...")
   }
 
     enemy.hpMax -= attack
     player.speed--
-
     drawPlayer()
     drawEnemy()
     victory()
@@ -778,7 +859,7 @@ if(miss == true){
   function drawSkills(){
     let template = ""
 
-    if( player.rune == "rage"){
+    if( player.rune == "rage" || (player.name == "barbarian" && player.lvl == 5)){
      template +=
       `
       <div class="m-1 skills">
@@ -944,6 +1025,45 @@ else{
   drawEnemy()
   victory()
   turnTracker()
+}
+function foresight(){
+  let danger = player.doomsDay-player.days
+  if(player.magic > 0){
+  player.magic--
+  window.alert("danger in "+danger+" days")
+  }
+  else{
+    dialogBox("your head aches looks like you need more magic")
+  }
+  drawPlayer()
+}
+function circleOfDeath(){
+  let chance = Math.floor(Math.random()*10)+1
+  let attack = Math.floor(Math.random()*100)+1
+  if(player.magic > 1){
+    if(enemy.title != "boss" || enemy.title != "demon boss"){
+      if(chance == 10){
+        enemy.hp = 0
+        dialogBox("the fog completely consumes the enemy")
+      }else{
+        player.magic -= 2
+        enemy.speed--
+        enemy.hp -= attack
+        dialogBox("you summon a dark fog that surrounds the enemy, unfortunately they were quick and it only did "+attack+" dmg")
+      }
+    }else
+    player.magic -= 2
+    enemy.speed--
+    enemy.hp -= attack
+    dialogBox("you summon a dark fog that surrounds the enemy, unfortunately they were quick and it only did "+attack+" dmg")
+    }
+    else{
+      dialogBox("your body aches looks like you need more magic")
+    }
+    drawPlayer()
+    drawEnemy()
+    victory()
+    turnTracker()
 }
 
 //#endregion
@@ -1201,7 +1321,15 @@ function drawItems(){
       </div>
       `
     }
- 
+    else if(item == "amulet of regen" ){
+      template +=
+      `
+      <div class="m-1">
+      <button onclick="amuletOfRegen('${item}')">${item}</button>
+      <button class="sell hidden" onclick="sell('${item}')">sell</button>
+      </div>
+      `
+    }
     else{
       template +=
       `
@@ -1429,14 +1557,16 @@ function enemyAttack(){
   if(enemy.hpDrain > 0){
     enemy.hpMax += enemy.hpDrain
   }
+
   //thorns
   if(miss == true){
-
+    
   }else if(enemy.magicMax > 0){
     dialogBox("the enemy uses magic")
   }
   else if(player.thorns > 0){
     enemy.hpMax -= player.thorns
+    //document.getElementById("enemy").classList.add("hurt")
   }
 
 // defense vs attack
@@ -1503,8 +1633,16 @@ drawPlayer()
 //#region battle
 
 function turnTracker(){
-  
+  let regen = equipment.indexOf("amulet of regen")
+  console.log(regen)
   if(player.speed < 1){
+    if(regen >= 0){
+      player.hp += 5
+      if(player.hp > player.hpMax){
+        player.hp = player.hpMax
+      }
+      dialogBox("your amulet heals you")
+    }
     enemyTurn()
     turn++
     drawPlayer()

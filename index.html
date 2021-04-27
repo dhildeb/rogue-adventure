@@ -27,9 +27,13 @@
     <main id="game" class="d-flex justify-content-center">
       <div id="img" class="player">
         <img src="rogue.png" alt="rogue" id="rogue" class="hidden">
+        <img src="rogue2.png" alt="rogue2" id="rogue2" class="hidden">
         <img src="barbarian.png" alt="barbarian" id="barbarian" class="hidden">
+        <img src="barbarain2.png" alt="barbarian2" id="barbarian2" class="hidden">
         <img src="paladin.png" alt="paladin" id="paladin" class="hidden">
+        <img src="paladin2.png" alt="paladin2" id="paladin2" class="hidden">
         <img src="wizrd.png" alt="wizard" id="wizard" class="hidden">
+        <img src="wizard2.png" alt="wizard2" id="wizard2" class="hidden">
       </div>
 
       <div id="days" class="days">
@@ -58,8 +62,8 @@
         </section>
        
         <section id="actions" class="sm-card center hidden">
-          <div class="m-1 d-flex justify-content-center hurt">
-            <button type="button" onclick="attack()">Attack</button>
+          <div class="m-1 d-flex justify-content-center">
+            <button type="button" class="attack" onclick="attack()">Attack</button>
           </div>
           <div id="block" class="m-1 d-flex justify-content-center">
             <button type="button" onclick="blocking()">Block</button>
@@ -77,10 +81,10 @@
             <button type="button" onclick="drawItems()">use item</button>
           </div>
         </section>
-      
-      <section class="right">
-        <div id="enemy" class="enemy card w-50 hidden">
-        </div>
+         
+        <section class="right">
+            <div id="enemy" class="enemy card w-50 hidden">
+            </div>
         <img src="dragon.png" alt="dragon" id="dragon" class="hidden">
         <img src="demon.png" alt="demon" id="demon" class="hidden">
         <div id="shop" class="card w-50 hidden">

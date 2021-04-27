@@ -336,13 +336,19 @@ display: table-cell;
 .enemy{
   animation: appear 2s;
 }
-.hurt{
-  transition: background-color 1s ease-out;
-}
-.enemy:active{
-  background-color: red;
-}
 
+.hurt{
+animation: hurt 1s;
+}
+@keyframes hurt {
+  from{
+    background-color: red;
+  }
+  to{
+    background-color: var(--light);
+    color:black;
+  }
+}
 @keyframes appear {
   from{
     background-color: white;
