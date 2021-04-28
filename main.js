@@ -27,13 +27,13 @@ let turn = 0
 let days = 1
 let expMax = 5
 let doomsDay = Math.floor(Math.random()*4)+6
-
+let map = ["forest", "sanctuary", "small town", "goblin valley", "old ruins", "graveyard", "hidden dungeon", "cave", "swamp",  "mountains", "sand dunes","wizards tower", "island on a lake", "temple",  "great city", "dragon lair", "magical gate"]
 // bosses
 let dragon = {name: "dragon",hp: 125, hpMax: 125, powerMax: 0, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 4, bite: 0, breath: 0, title: "boss"}
 // loot
 let loot = ["healing potion", "gem", "mana potion","exploding potion", "scroll of fireball"]
 let rare = ["potion of strength","potion of speed", "potion of defense", "potion of health","potion of magic"]
-let discover = ["amulet of regen"]
+let discover = ["amulet of regen","potion of experience","magic staff"]
 let gold = Math.floor(Math.random()*12)+1
 
 /* additional money values
@@ -68,7 +68,7 @@ function death(){
   localStorage.removeItem("items")
   localStorage.removeItem("enemy")
   hideGame()
-  location.reload()
+  map.reload()
 }
   function resetCharacter(){
 
@@ -295,6 +295,7 @@ window.alert("yeah that would be pretty stupid.")
     dialogBox("your pulse quickens and you feel lighter and more agile")
   }
   }
+
   function strengthPot(item){
     let cancelBtn = document.getElementById("shop").classList.contains("hidden")
   let index = equipment.indexOf(item)
@@ -397,7 +398,170 @@ let attack = Math.floor(Math.random()*50)+5+(player.lvl*2)
       dialogBox("you put on the amulet and sense a gentle warmth from it that soothes your pain")
     }
   }
+  function magicStaff(item){
+    if(item == "magic staff"){
+  
+        leave()
+      dialogBox("holding this ancient carved piece of wood slowly regenerates your magic")
+    }
+  }
 
+  function expPotion(item){
+    let cancelBtn = document.getElementById("shop").classList.contains("hidden")
+  let index = equipment.indexOf(item)
+  if(item == "experience potion"){
+
+  player.exp += Math.floor(player.expMax*.3)
+    player.expBoost = player.lvl*2
+
+    deleteItem(index)
+    turnTracker()
+    savePlayer()
+    loadPlayer()
+    document.getElementById("events").classList.add("hidden")
+    drawItems()
+    if(cancelBtn == false){
+      document.getElementById("cancel").classList.add("hidden")
+    }
+    dialogBox("you feel enlightened")
+  }
+  }
+
+  function drawItems(){
+    openPouch()
+    
+    let template = `
+    <div id="cancel" class="m-1 d-flex justify-content-center">
+    <button type="button" onclick="exitPouch()">cancel</button>
+    </div>
+    <p>
+    coin pouch:
+    <p>
+    gold : ${player.gold}
+    </p>
+    </p>
+    <p>
+    Equipment:
+    </p>
+    `
+    
+    equipment.forEach(item => {
+  
+      if(item == "healing potion"){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="healingPotion('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }else if(item == "mana potion"){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="manaPotion('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }  else if(item == "exploding potion"){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="explodingPot('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }
+      else if(item == "scroll of fireball"){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="fireBall('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }
+      else if(item == "potion of strength"){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="strengthPot('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }else if(item == "potion of speed"){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="speedPot('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }
+      else if(item == "potion of defense" ){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="defensePot('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }else if(item == "potion of health" ){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="healthPot('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }else if(item == "potion of magic" ){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="magicPot('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }
+      else if(item == "amulet of regen" ){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="amuletOfRegen('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }      else if(item == "experience potion" ){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="expPotion('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }      else if(item == "magic staff" ){
+        template +=
+        `
+        <div class="m-1">
+        <button onclick="magicStaff('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }
+      else{
+        template +=
+        `
+        <div class="m-1">
+        <button  onclick="toggle('${item}')">${item}</button>
+        <button class="sell hidden" onclick="sell('${item}')">sell</button>
+        </div>
+        `
+      }
+  
+    });
+    document.getElementById("pouch").innerHTML = template
+  
+  }
   
 //#endregion
 
@@ -473,8 +637,7 @@ let scroll = document.getElementById('dialog');
     let item = loot[Math.floor(Math.random()*loot.length)]
     let chance = Math.floor(Math.random()*100)+1
     let relic = discover[Math.floor(Math.random()*discover.length)]
-    let location = ["forest", "old ruins", "hidden dungeon", "cave", "swamp", "great city", "small town", "wizards tower", "magical gate", "temple", "sanctuary", "tombs", "graveyard", "goblin valley", "sand dunes", "mountains", "dragon lair", "island on a lake"]
-    let destination = location[Math.floor(Math.random()*location.length)]
+    let destination = map[Math.floor(Math.random()*map.length)]
     if(player.expBoost > 0){
       player.expBoost--
     }
@@ -1268,128 +1431,6 @@ console.log(hidden.length)
         }
     }
 
-function drawItems(){
-  openPouch()
-  
-  let template = `
-  <div id="cancel" class="m-1 d-flex justify-content-center">
-  <button type="button" onclick="exitPouch()">cancel</button>
-  </div>
-  <p>
-  coin pouch:
-  <p>
-  gold : ${player.gold}
-  </p>
-  </p>
-  <p>
-  Equipment:
-  </p>
-  `
-  
-  equipment.forEach(item => {
-
-    if(item == "healing potion"){
-      template +=
-      `
-      <div class="m-1">
-      <button onclick="healingPotion('${item}')">${item}</button>
-      <button class="sell hidden" onclick="sell('${item}')">sell</button>
-      </div>
-      `
-    }else if(item == "mana potion"){
-      template +=
-      `
-      <div class="m-1">
-      <button onclick="manaPotion('${item}')">${item}</button>
-      <button class="sell hidden" onclick="sell('${item}')">sell</button>
-      </div>
-      `
-    }  else if(item == "exploding potion"){
-      template +=
-      `
-      <div class="m-1">
-      <button onclick="explodingPot('${item}')">${item}</button>
-      <button class="sell hidden" onclick="sell('${item}')">sell</button>
-      </div>
-      `
-    }
-    else if(item == "scroll of fireball"){
-      template +=
-      `
-      <div class="m-1">
-      <button onclick="fireBall('${item}')">${item}</button>
-      <button class="sell hidden" onclick="sell('${item}')">sell</button>
-      </div>
-      `
-    }
-    else if(item == "potion of strength"){
-      template +=
-      `
-      <div class="m-1">
-      <button onclick="strengthPot('${item}')">${item}</button>
-      <button class="sell hidden" onclick="sell('${item}')">sell</button>
-      </div>
-      `
-    }else if(item == "potion of speed"){
-      template +=
-      `
-      <div class="m-1">
-      <button onclick="speedPot('${item}')">${item}</button>
-      <button class="sell hidden" onclick="sell('${item}')">sell</button>
-      </div>
-      `
-    }
-    else if(item == "potion of defense" ){
-      template +=
-      `
-      <div class="m-1">
-      <button onclick="defensePot('${item}')">${item}</button>
-      <button class="sell hidden" onclick="sell('${item}')">sell</button>
-      </div>
-      `
-    }else if(item == "potion of health" ){
-      template +=
-      `
-      <div class="m-1">
-      <button onclick="healthPot('${item}')">${item}</button>
-      <button class="sell hidden" onclick="sell('${item}')">sell</button>
-      </div>
-      `
-    }else if(item == "potion of magic" ){
-      template +=
-      `
-      <div class="m-1">
-      <button onclick="magicPot('${item}')">${item}</button>
-      <button class="sell hidden" onclick="sell('${item}')">sell</button>
-      </div>
-      `
-    }
-    else if(item == "amulet of regen" ){
-      template +=
-      `
-      <div class="m-1">
-      <button onclick="amuletOfRegen('${item}')">${item}</button>
-      <button class="sell hidden" onclick="sell('${item}')">sell</button>
-      </div>
-      `
-    }
-    else{
-      template +=
-      `
-      <div class="m-1">
-      <button  onclick="toggle('${item}')">${item}</button>
-      <button class="sell hidden" onclick="sell('${item}')">sell</button>
-      </div>
-      `
-    }
-
-
-
-  });
-  document.getElementById("pouch").innerHTML = template
-
-}
-
 //#endregion
 
 //#region enemies
@@ -1694,12 +1735,19 @@ function turnTracker(){
 }
 
 function victory(){
+  let magicRegen = equipment.indexOf("magic staff")
   if (enemy.hpMax <= 0){
     player.exp += (enemy.lvl+player.expBoost)
     if(player.expBoost >= Math.floor(player.lvl*2)){
     }else{
       player.expBoost++
     }
+
+      if(magicRegen >= 0 && player.magic < player.magicMax){
+        player.magic++
+        dialogBox("your staff restores some of your magic")
+      }
+      
     //rage reset
     player.power = 0
     document.getElementById("block").classList.remove("hidden")
