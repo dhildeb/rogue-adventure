@@ -17,6 +17,15 @@ img{
   left:20%;
   z-index: 5;
 }
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid rgb(95, 3, 3);
+  box-shadow: 3px 3px 3px rgb(236, 128, 128);
+}
 #dragon{
   max-width: 500%;
   top: -25%;

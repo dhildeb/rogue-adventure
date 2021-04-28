@@ -1295,6 +1295,7 @@ function drawPlayer(){
   let shield = player.defenseMax+player.defense
   let attack = player.power+player.powerMax
   let hpBar = Math.floor((player.hp / player.hpMax)*100)
+  let movement = player.speed
 
   drawSkills()
 drawSpells()
@@ -1372,12 +1373,23 @@ drawSpells()
     </div>
     `
   }
-  template +=
+    template +=
   `
   <div class="d-flex space-between">
   <p>
   <span>
-  Speed: ${player.speed}/${player.speedMax}
+  Speed: 
+  `
+  
+  for(let i = player.speed; i > 0; i--){
+    template +=
+    `
+    <span class="dot"></span>
+    `
+  }
+  
+  template +=
+  `
   </span>
   </p>
   </div>
@@ -1527,7 +1539,7 @@ player.gold -= 500
   let monsters = [ {name:"giant rat", hpMax: 12, powerMax: 1, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 1, killCount: 0}, {name: "giant bat", hpMax: 10, powerMax: 2, defenseMax: 1, speedMax: 2, speed: 2, resistance: 0, lvl: 1, killCount: 0, hpDrain: 1}, {name: "giant spider", hpMax: 15, powerMax: 2, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 1, killCount: 0}, {name:"grey ooze", hpMax: 10, powerMax: 5, defenseMax: 2, speedMax: 1, speed: 1, resistance: 2, lvl: 1, killCount: 0, thorns: 1}, {name:"goblin", hpMax: 16, powerMax: 2, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 1, killCount: 0}, {name:"thug", hpMax: 20, powerMax: 2, defenseMax: 1, speedMax: 2, speed: 2, resistance: -1, lvl: 1, killCount: 0}, {name:"orc", hpMax: 18, powerMax: 2, defenseMax: 0, speedMax: 2, speed: 2, resistance: 0, lvl: 1, killCount: 0}, {name:"shadow", hpMax: 20, powerMax: 1, defenseMax: 2, speedMax: 2, speed: 2, resistance: 0, lvl: 1, killCount: 0, evade: .1}, {name:"kobold", hpMax: 15, powerMax: 2, defenseMax: 0, speedMax: 2, speed: 2, resistance: 1, lvl: 1, killCount: 0}, {name:"skeleton",hpMax: 25, powerMax: 2, defenseMax: 1, speedMax: 2, speed: 2, resistance: 1, lvl: 1, killCount: 0}, {name:"wolf", hpMax: 22, powerMax: 2, defenseMax: 0, speedMax: 2, speed: 2, resistance: 0, lvl: 1, killCount: 0}, {name:"zombie", hpMax: 35, powerMax: 4, defenseMax: -2, speedMax: 1, speed: 1, resistance: -2, lvl: 1, killCount: 0}, {name:"bandit", hpMax: 20, powerMax: 2, defenseMax: 1, speedMax: 2, speed: 2, resistance: 0, lvl: 1, killCount: 0}, {name:"cultist", hpMax: 12, powerMax: 3, defenseMax: 0, speedMax: 2, speed: 2, resistance: 2, lvl: 1,magicMax: 3, killCount: 0}]
   let monsters2 = [{name:"animated armor", hpMax: 40, powerMax: 4, defenseMax: 4, speedMax: 2, speed: 2, resistance: 1, lvl: 2, killCount: 0}, {name:"bandit captian", hpMax: 35, powerMax: 5, defenseMax: 1, speedMax: 2, speed: 2, resistance: 0, lvl: 2, killCount: 0}, {name:"berserker", hpMax: 32, powerMax: 6, defenseMax: 0, speedMax: 2, speed: 2, resistance: 0, lvl: 2, killCount: 0}, {name:"dragon wyrmling", hpMax: 30, powerMax: 4, defenseMax: 1, speedMax: 2, speed: 2, resistance: 3, lvl: 2, killCount: 0}, {name:"death dog", hpMax: 28, powerMax: 5, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 2, killCount: 0}, {name:"dire wolf", hpMax: 33, powerMax: 6, defenseMax: 0, speedMax: 2, speed: 2, resistance: 0, lvl: 2, killCount: 0}, {name:"dread warrior", hpMax: 30, powerMax: 4, defenseMax: 2, speedMax: 2, speed: 2, resistance: 2, lvl: 2, killCount: 0}, {name:"fire snake", hpMax: 27, powerMax: 3, defenseMax: 0, speedMax: 3, speed: 3, resistance: 1, lvl: 2, killCount: 0, thorns: 3}, {name:"ghoul", hpMax: 22, powerMax: 5, defenseMax: 1, speedMax: 2, speed: 2, resistance: 1, lvl: 2, killCount: 0}, {name:"giant boar", hpMax: 40, powerMax: 8, defenseMax: 1, speedMax: 2, speed: 2, resistance: 0, lvl: 2, killCount: 0}, {name:"giant toad", hpMax: 25, powerMax: 2, defenseMax: 0, speedMax: 2, speed: 2, resistance: 0, lvl: 2, killCount: 0}, {name:"drake", hpMax: 36, powerMax: 4, defenseMax: 0, speedMax: 2, speed: 2, resistance: 2, lvl: 2, killCount: 0}, {name:"grick", hpMax: 35, powerMax: 3, defenseMax: 0, speedMax: 5, speed: 5, resistance: 0, lvl: 2, killCount: 0}, {name:"maw demon", hpMax: 25, powerMax: 3, defenseMax: 0, speedMax: 5, speed: 5, resistance: 2, lvl: 2, killCount: 0, hpDrain: 2}, {name:"mimic", hpMax: 20, powerMax: 6, defenseMax: 0, speedMax: 2, speed: 2, resistance: 1, lvl: 2, killCount: 0}, {name:"minotaur skeleton", hpMax: 38, powerMax: 5, defenseMax: 2, speedMax: 2, speed: 2, resistance: 2, lvl: 2, killCount: 0}, {name:"nothic", hpMax: 20, powerMax: 4, defenseMax: 0, speedMax: 2, speed: 2, resistance: 4, lvl: 2,magicMax: 3, killCount: 0, hpDrain: 2}, {name:"ochre jelly", hpMax: 20, powerMax: 15, defenseMax: 3, speedMax: 1, speed: 1, resistance: 3, lvl: 2, killCount: 0, thorns: 1}, {name:"ogre", hpMax: 34, powerMax: 5, defenseMax: 0, speedMax: 2, speed: 2, resistance: 0, lvl: 2, killCount: 0}, {name:"pegasus", hpMax: 32, powerMax: 4, defenseMax: 1, speedMax: 2, speed: 2, resistance: 2, lvl: 2, killCount: 0}, {name:"sea hag", hpMax: 21, powerMax: 4, defenseMax: 0, speedMax: 2, speed: 2, resistance: 2, lvl: 2, killCount: 0, magicMax: 3}, {name:"will-o'-wisp", hpMax: 22, powerMax: 3, defenseMax: 1, speedMax: 3, speed: 3, resistance: 1, lvl: 2, killCount: 0, evade:.3, magicMax: 3}]
   let monsters3 = [{name:"banshee", hpMax: 33, powerMax: 8, defenseMax: 0, speedMax: 2, speed: 2, resistance: 0, lvl: 3, killCount: 0, magicMax: 3},{name:"basilisk", hpMax: 44, powerMax: 4, defenseMax: 2, speedMax: 2, speed: 2, resistance: 1, lvl: 3, killCount: 0},{name:"bearded devil", hpMax: 46, powerMax: 5, defenseMax: 1, speedMax: 2, speed: 2, resistance: 1, lvl: 3, killCount: 0},{name:"black pudding", hpMax: 30, powerMax: 5, defenseMax: 6, speedMax: 1, speed: 1, resistance: 1, lvl: 3, killCount: 0, thorns: 3},{name:"displacer beast", hpMax: 54, powerMax: 6, defenseMax: 1, speedMax: 2, speed: 2, resistance: 1, lvl: 3, killCount: 0, evade: .4},{name:"flameskull", hpMax: 38, powerMax: 7, defenseMax: 2, speedMax: 2, speed: 2, resistance: 2, lvl: 3, killCount: 0, magicMax: 3},{name:"hell hound", hpMax: 50, powerMax: 5, defenseMax: 0, speedMax: 2, speed: 2, resistance: 1, lvl: 3, killCount: 0},{name:"knight", hpMax: 60, powerMax: 4, defenseMax: 4, speedMax: 2, speed: 2, resistance: 0, lvl: 3, killCount: 0},{name:"manticore", hpMax: 46, powerMax: 4, defenseMax: 0, speedMax: 2, speed: 2, resistance: 0, lvl: 3, killCount: 0},{name:"minotaur", hpMax: 52, powerMax: 4, defenseMax: 1, speedMax: 2, speed: 2, resistance: 0, lvl: 3, killCount: 0},{name:"mummy", hpMax: 32, powerMax: 8, defenseMax: 1, speedMax: 2, speed: 2, resistance: 1, lvl: 3, killCount: 0},{name:"phase spider", hpMax: 34, powerMax: 4, defenseMax: 0, speedMax: 2, speed: 2, resistance: 3, lvl: 3, killCount: 0, evade: .3},{name:"shadow demon", hpMax: 55, powerMax: 4, defenseMax: 4, speedMax: 2, speed: 2, resistance: -1, lvl: 3, killCount: 0},{name:"succubus", hpMax: 37, powerMax: 3, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 3, killCount: 0},{name:"wight", hpMax: 47, powerMax: 6, defenseMax: 1, speedMax: 2, speed: 2, resistance: 1, lvl: 3, killCount: 0},{name:"yeti", hpMax: 40, powerMax: 7, defenseMax: 0, speedMax: 2, speed: 2, resistance: 0, lvl: 3, killCount: 0}]
-  let monsters4 = [{name:"air elemental", hpMax: 90, powerMax: 14, defenseMax: 99, speedMax: 2, speed: 2, resistance: 0, lvl: 4, killCount: 0},{name:"barbed devil", hpMax: 110, powerMax: 10, defenseMax: 0, speedMax: 2, speed: 2, resistance: 4, lvl: 4,thorns: 4, killCount: 0},{name:"earth elemental", hpMax: 126, powerMax: 28, defenseMax: 5, speedMax: 1, speed: 1, resistance: 0, lvl: 4, killCount: 0},{name:"fire elemental", hpMax: 102, powerMax: 12, defenseMax: 5, speedMax: 2, speed: 2, resistance: 1, lvl: 4, killCount: 0, thorns: 4},{name:"greater zombie", hpMax: 97, powerMax: 14, defenseMax: 0, speedMax: 2, speed: 2, resistance: 7, lvl: 4, killCount: 0},{name:"mage", hpMax: 40, powerMax: 20, defenseMax: -2, speedMax: 4, speed: 4, resistance: 5, lvl: 4, killCount: 0, magicMax: 10},{name:"mammoth", hpMax: 126, powerMax: 50, defenseMax: 0, speedMax: 1, speed: 1, resistance: -1, lvl: 4, killCount: 0},{name:"medusa", hpMax: 127, powerMax: 10, defenseMax: 0, speedMax: 5, speed: 5, resistance: 1, lvl: 4, killCount: 0},{name:"troll", hpMax: 84, powerMax: 10, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 4, killCount: 0, hpDrain: 5},{name:"unicorn", hpMax: 67, powerMax: 9, defenseMax: 0, speedMax: 2, speed: 2, resistance: 99, lvl: 4, killCount: 0},{name:"water elemental", hpMax: 114, powerMax: 12, defenseMax: 4, speedMax: 2, speed: 2, resistance: 4, lvl: 4, killCount: 0},{name:"wraith", hpMax: 67, powerMax: 14, defenseMax: 3, speedMax: 2, speed: 2, resistance: 2, lvl: 4, killCount: 0, hpDrain: 4, magicMax: 5}]
+  let monsters4 = [{name:"air elemental", hpMax: 90, powerMax: 14, defenseMax: 99, speedMax: 2, speed: 2, resistance: 0, lvl: 4, killCount: 0},{name:"barbed devil", hpMax: 110, powerMax: 10, defenseMax: 0, speedMax: 2, speed: 2, resistance: 4, lvl: 4,thorns: 4, killCount: 0},{name:"earth elemental", hpMax: 126, powerMax: 28, defenseMax: 5, speedMax: 1, speed: 1, resistance: 0, lvl: 4, killCount: 0},{name:"fire elemental", hpMax: 102, powerMax: 12, defenseMax: 5, speedMax: 2, speed: 2, resistance: 1, lvl: 4, killCount: 0, thorns: 25},{name:"greater zombie", hpMax: 97, powerMax: 14, defenseMax: 0, speedMax: 2, speed: 2, resistance: 7, lvl: 4, killCount: 0},{name:"mage", hpMax: 40, powerMax: 20, defenseMax: -2, speedMax: 4, speed: 4, resistance: 5, lvl: 4, killCount: 0, magicMax: 10},{name:"mammoth", hpMax: 126, powerMax: 50, defenseMax: 0, speedMax: 1, speed: 1, resistance: -1, lvl: 4, killCount: 0},{name:"medusa", hpMax: 127, powerMax: 10, defenseMax: 0, speedMax: 5, speed: 5, resistance: 1, lvl: 4, killCount: 0},{name:"troll", hpMax: 84, powerMax: 10, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 4, killCount: 0, hpDrain: 5},{name:"unicorn", hpMax: 67, powerMax: 9, defenseMax: 0, speedMax: 2, speed: 2, resistance: 99, lvl: 4, killCount: 0},{name:"water elemental", hpMax: 114, powerMax: 12, defenseMax: 4, speedMax: 2, speed: 2, resistance: 4, lvl: 4, killCount: 0},{name:"wraith", hpMax: 67, powerMax: 14, defenseMax: 3, speedMax: 2, speed: 2, resistance: 2, lvl: 4, killCount: 0, hpDrain: 4, magicMax: 5}]
   let chance = Math.floor(Math.random()*player.lvl)
   
   if(chance == 0){
@@ -1747,7 +1759,7 @@ function victory(){
         player.magic++
         dialogBox("your staff restores some of your magic")
       }
-      
+
     //rage reset
     player.power = 0
     document.getElementById("block").classList.remove("hidden")
@@ -1903,17 +1915,23 @@ function looting(){
     dialogBox("you got a "+item)
     dialogBox("you got gold: "+gold)
   }
-
-if(chance == 100){
-  equipment.push(rareItem)
-  dialogBox("you got a RARE "+rareItem)
-}else if(chance > 80){
+if(enemy.name == "unicorn"){
+  equipment = []
+  savePlayer()
+dialogBox("What have you done! you killed a unicorn! the magic of the unicorn curses you, just like you deserve you horrible person.")
+}else{
+  if(chance == 100){
+    equipment.push(rareItem)
+    dialogBox("you got a RARE "+rareItem)
+  }else if(chance > 80){
     equipment.push(item)
     dialogBox("you got a "+item)
   }else if(chance > 25){
-      player.gold += gold
-      dialogBox("you got gold: "+gold)
+    player.gold += gold
+    dialogBox("you got gold: "+gold)
   }
+}
+
   gold = Math.floor(Math.random()*12)+1
 }
 //#endregion
