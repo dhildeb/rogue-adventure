@@ -197,9 +197,8 @@ window.alert("yeah that would be pretty stupid.")
     drawItems()
     if(cancelBtn == false){
       document.getElementById("cancel").classList.add("hidden")
+      removeHidden()
     }
-    
-    
     dialogBox("your wounds magicaly knit together and you feel like kicking monster butt!")
   }
   }
@@ -219,6 +218,7 @@ window.alert("yeah that would be pretty stupid.")
     drawItems()
     if(cancelBtn == false){
       document.getElementById("cancel").classList.add("hidden")
+      removeHidden()
     }
     dialogBox("you feel a magical surge")
   }
@@ -239,6 +239,7 @@ window.alert("yeah that would be pretty stupid.")
     drawItems()
     if(cancelBtn == false){
       document.getElementById("cancel").classList.add("hidden")
+      removeHidden()
     }
     dialogBox("you feel a POWERFUL magical surge")
   }
@@ -259,6 +260,7 @@ window.alert("yeah that would be pretty stupid.")
     drawItems()
     if(cancelBtn == false){
       document.getElementById("cancel").classList.add("hidden")
+      removeHidden()
     }
     dialogBox("your pulse quickens, you feel more resilient")
   }
@@ -279,6 +281,7 @@ window.alert("yeah that would be pretty stupid.")
     drawItems()
     if(cancelBtn == false){
       document.getElementById("cancel").classList.add("hidden")
+      removeHidden()
     }
     dialogBox("your skin grows harder, you feel less vulnerable")
   }
@@ -299,6 +302,7 @@ window.alert("yeah that would be pretty stupid.")
     drawItems()
     if(cancelBtn == false){
       document.getElementById("cancel").classList.add("hidden")
+      removeHidden()
     }
     dialogBox("your pulse quickens and you feel lighter and more agile")
   }
@@ -320,6 +324,7 @@ window.alert("yeah that would be pretty stupid.")
     drawItems()
     if(cancelBtn == false){
       document.getElementById("cancel").classList.add("hidden")
+      removeHidden()
     }
     dialogBox("your muscles grow visible in size and you feel stronger")
   }
@@ -342,6 +347,7 @@ let attack = Math.floor(Math.random()*50)+5+(player.lvl*2)
     drawEnemy()
     if(cancelBtn == false){
       document.getElementById("cancel").classList.add("hidden")
+      removeHidden()
     }
     dialogBox("you read the scroll and it bursts into flames forming a huge ball of fire that streaks toward the enemy "+attack+" DMG")
   }
@@ -364,6 +370,7 @@ let attack = Math.floor(Math.random()*50)+5+(player.lvl*2)
     drawItems()
     if(cancelBtn == false){
       document.getElementById("cancel").classList.add("hidden")
+      removeHidden()
     }
     dialogBox("you throw the warm bootle at the monster, it shatters in a fiery explosion "+attack+" DMG")
   }
@@ -430,6 +437,7 @@ let attack = Math.floor(Math.random()*50)+5+(player.lvl*2)
     drawItems()
     if(cancelBtn == false){
       document.getElementById("cancel").classList.add("hidden")
+      removeHidden()
     }
     dialogBox("you feel enlightened")
   }
@@ -1679,6 +1687,12 @@ function enemyAttack(){
   }
   else if(player.thorns > 0){
     enemy.hpMax -= player.thorns
+    if(enemy.hpMax < 1){
+      drawPlayer()
+      drawEnemy()
+      victory()
+      turnTracker()
+    }
     //document.getElementById("enemy").classList.add("hurt")
   }
 
