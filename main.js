@@ -667,7 +667,7 @@ if(confirm("you encounter a strange figure completely clothed in rags, his face 
     dialogBox("the begger begins to sweat and shake saying doom is soon to come in "+(player.doomsDay-player.days)+" days!")
   }else{
     if(confirm("the begger looks eager to repay you, he tells you of a secret place you can go to find hidden treasure. do you trust him and go to the place?")){
-      dialogBox("you venture into the secret place and discover many traps and monsters, you fight tooth and nail and barely get out alive")
+      window.alert("you venture into the secret place and discover many traps and monsters, you fight tooth and nail and barely get out alive")
       player.hp = 1
       drawPlayer()
       if(confirm("do you give up?")){
@@ -719,9 +719,6 @@ dialogBox("you decide to take a different approach and stubble upon a secret pas
           dialogBox("you continue and seem to have some unlucky encounters with traps and monsters. after all that you come away with nothing but some wounds and knowledge to stay away from that "+destination)
           let trap =((player.lvl+1)*(Math.floor(Math.random()*10)+1))
           player.hp -= trap
-          if(player.hp < 1){
-            window.alert("you step on something that makes a clicking sound, before you can react you fall into a pit of spikes and die almost instantly.")
-          }
           dialogBox("you take "+trap+" dmg")
           if(player.hp <= 0){
             death()
