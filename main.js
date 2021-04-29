@@ -26,7 +26,7 @@ let thorns = 0
 let turn = 0 
 let days = 1
 let expMax = 5
-let doomsDay = Math.floor(Math.random()*4)+6
+let doomsDay = Math.floor(Math.random()*5)+10
 let map = ["forest", "sanctuary", "small town", "goblin valley", "old ruins", "graveyard", "hidden dungeon", "cave", "swamp",  "mountains", "sand dunes","wizards tower", "island on a lake", "temple",  "great city", "dragon lair", "magical gate"]
 // bosses
 let dragon = {name: "dragon",hp: 125, hpMax: 125, powerMax: 0, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 4, bite: 0, breath: 0, title: "boss"}
@@ -1475,7 +1475,6 @@ dragon.hpMax = dragon.hp
   dragon.hpMax += player.bkc*30
   dragon.hp += player.bkc*30
   dragon.powerMax += player.bkc
-  dragon.defenseMax += player.bkc
   dragon.resistance += player.bkc
   dragon.lvl++
   //dragon.breath = [player.speed--,player.defense--,player.power--,player.magic--,player.hpMax-=5] 
