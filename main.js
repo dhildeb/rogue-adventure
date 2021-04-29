@@ -56,6 +56,14 @@ let enemy = []
 //#endregion
 
 //#region game data
+function sleep(milliseconds) {
+  let start = new Date().getTime();
+  for (let i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
   function setCharacter(character){
     player = character
 
@@ -68,7 +76,7 @@ function death(){
   localStorage.removeItem("items")
   localStorage.removeItem("enemy")
   hideGame()
-  map.reload()
+  location.reload()
 }
   function resetCharacter(){
 
@@ -679,20 +687,23 @@ dialogBox("you decide to take a different approach and stubble upon a secret pas
       }
       //rare vs mugged
       else if(chance > 75){
-        if(confirm("your adventures take you to a "+destination+". do you choose to continue?")){
+        if(confirm("your adventures take you to a "+destination+". it looks difficult, do you choose to continue?")){
           equipment.push(rare)
           dialogBox("you notice a secret passage  "+rare)
         }else{
           dialogBox("you turn back but get ambushed, of course you made it through just fine... after they beat you up and took your gold that is.")
-          let mug = player.gold -= player.gold*.5
-          let hurt = player.hp*.5
+          let mug = player.gold -= Math.floor(player.gold*.25)
+          let hurt = Math.floor(player.hp*.25)
+          if(player.hp < 1){
+            window.alert("you turn back but get ambushed, before you could react you notice a blade portruding through your chest. you calapse as death overcomes you.")
+          }
           dialogBox("you took "+hurt+" dmg")
           dialogBox("lost : "+mug+" gold")      
         }
       }
       //item vs gold
       else if(chance > 50){
-        if(confirm("your adventures take you to a "+destination+". do you choose to continue?")){
+        if(confirm("your adventures take you to a "+destination+". it looks a little scary. do you choose to continue?")){
           equipment.push(item)
           dialogBox("you got lucky the place was deserted but you were still able to find a "+item)
         }else{
@@ -707,6 +718,9 @@ dialogBox("you decide to take a different approach and stubble upon a secret pas
           dialogBox("you continue and seem to have some unlucky encounters with traps and monsters. after all that you come away with nothing but some wounds and knowledge to stay away from that "+destination)
           let trap =((player.lvl+1)*(Math.floor(Math.random()*10)+1))
           player.hp -= trap
+          if(player.hp < 1){
+            window.alert("you step on something that makes a clicking sound, before you can react you fall into a pit of spikes and die almost instantly.")
+          }
           dialogBox("you take "+trap+" dmg")
           if(player.hp <= 0){
             death()
@@ -927,19 +941,23 @@ dialogBox("the rune holds magic, upon touching it you feel a surge of magic flow
       }else{
         dialogBox("this aint no charity!")
       }
+      
+      
+      console.log(chance)
+      drawPlayer()
+    }
+    
+    //#endregion
+    
+    //#region actions
+    let sound = document.getElementById("player-attack")
+    function attack(){
+      sound = document.getElementById("player-attack")
+      sound.play()
 
-
-console.log(chance)
-drawPlayer()
-}
-
-//#endregion
-
-//#region actions
-function attack(){
-  document.getElementById("enemy").classList.remove("hurt")
-  let attack = player.powerMax+player.power
-    let drain = player.hpDrain
+      document.getElementById("enemy").classList.remove("hurt")
+      let attack = player.powerMax+player.power
+      let drain = player.hpDrain
     let miss = false
     attack -= enemy.defenseMax
 
@@ -969,27 +987,28 @@ function attack(){
     }
 //thorns
 if(miss == true){
-
+  
 }else if(enemy.thorns > 0){
   player.hp -= enemy.thorns
   dialogBox("hitting the enemy hurts you "+enemy.thorns+" dmg")
+  
 }
 
-    if(attack > 0){
-    dialogBox("hit! "+attack+" DMG")
-    document.getElementById("enemy").classList.add("hurt")
-  }else{
-    dialogBox("that seemed to only make it angrier...")
-  }
+if(attack > 0){
+  dialogBox("hit! "+attack+" DMG")
+  document.getElementById("enemy").classList.add("hurt")
+}else{
+  dialogBox("that seemed to only make it angrier...")
+}
 
-    enemy.hpMax -= attack
-    player.speed--
-    drawPlayer()
-    drawEnemy()
-    victory()
-    turnTracker()
-  }
- 
+enemy.hpMax -= attack
+player.speed--
+drawPlayer()
+drawEnemy()
+victory()
+turnTracker()
+}
+
   function blocking(){
 
     player.block += player.power+player.powerMax
@@ -1636,6 +1655,7 @@ function drawEnemy(){
 function enemyAttack(){
   let attack = enemy.powerMax
   let dmgReducer = player.block
+  document.getElementById("img").classList.remove("hit")
 
  //dodge chance
  let miss = false
@@ -1676,6 +1696,9 @@ attack -= (player.defenseMax+player.defense)
   }
 
   //actual attack
+  //if(attack > 0){
+    document.getElementById("img").classList.add("hit")
+  //}
   player.hp -= attack
   
   // reset block to max if lower
@@ -1692,7 +1715,8 @@ function enemyTurn(){
 let preHp = player.hp
 let postHp = 0
 let totalDmg = 0
-
+let mSound = document.getElementById("monster-attack")
+mSound.play()
 
 while(enemy.speed > 0){
   enemyAttack()
@@ -1937,8 +1961,6 @@ dialogBox("What have you done! you killed a unicorn! the magic of the unicorn cu
 //#endregion
   document.getElementById("theme-music").volume = 0.5;
 
-  loadPlayer()
-  drawPlayer()
   
   if(player.m3 == true){
     document.getElementById("img").classList.add("m3")
@@ -1947,3 +1969,6 @@ dialogBox("What have you done! you killed a unicorn! the magic of the unicorn cu
   } else if(player.m1 == true){
     document.getElementById("img").classList.add("m1")
   }
+  
+  loadPlayer()
+  drawPlayer()

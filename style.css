@@ -368,7 +368,21 @@ animation: hurt 1s;
     color:black;
   }
 }
-
+.hit{
+  animation: hit 1s;
+}
+@keyframes hit {
+  from{
+    background-color: red;
+    left: 18%;
+  }
+  to{
+    background-color: var(--light);
+    color:black;
+    left: 20%
+  }
+  
+}
 /* tip container */
 .tip {
   position: relative;

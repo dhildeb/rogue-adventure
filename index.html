@@ -64,6 +64,7 @@
         <section id="actions" class="sm-card center hidden">
           <div class="m-1 d-flex justify-content-center">
             <button type="button" class="attack" onclick="attack()">Attack</button>
+            <audio id="player-attack" src="attack.mp3"></audio>
           </div>
           <div id="block" class="m-1 d-flex justify-content-center">
             <button type="button" onclick="blocking()">Block</button>
@@ -85,6 +86,7 @@
         <section class="right">
             <div id="enemy" class="enemy card w-50 hidden">
             </div>
+            <audio id="monster-attack" src="Monster Attack.mp3"></audio>
         <img src="dragon.png" alt="dragon" id="dragon" class="hidden">
         <img src="demon.png" alt="demon" id="demon" class="hidden">
         <div id="shop" class="card w-50 hidden">
