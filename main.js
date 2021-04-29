@@ -639,6 +639,7 @@ let scroll = document.getElementById('dialog');
     displayDay()
     savePlayer()
   }
+  
   function adventure(){
     let time = Math.floor(Math.random()*100)+1
     let rareItem = rare[Math.floor(Math.random()*rare.length)]
@@ -660,7 +661,7 @@ let scroll = document.getElementById('dialog');
         }
       }
       //begger
-      else if(chance == 99){
+      else if(chance > 95){
 if(confirm("you encounter a strange figure completely clothed in rags, his face is covered but he holds out a hand asking for alms. do you give the begger 50 gp?")){player.gold -= 50
   if(confirm("the begger wants to repay you by reading you palm, do you allow it?")){
     dialogBox("the begger begins to sweat and shake saying doom is soon to come in "+(player.doomsDay-player.days)+" days!")
@@ -688,8 +689,8 @@ dialogBox("you decide to take a different approach and stubble upon a secret pas
       //rare vs mugged
       else if(chance > 75){
         if(confirm("your adventures take you to a "+destination+". it looks difficult, do you choose to continue?")){
-          equipment.push(rare)
-          dialogBox("you notice a secret passage  "+rare)
+          equipment.push(rareItem)
+          dialogBox("you notice a secret passage  "+rareItem)
         }else{
           dialogBox("you turn back but get ambushed, of course you made it through just fine... after they beat you up and took your gold that is.")
           let mug = player.gold -= Math.floor(player.gold*.25)
