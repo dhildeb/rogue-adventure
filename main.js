@@ -639,7 +639,7 @@ let scroll = document.getElementById('dialog');
     displayDay()
     savePlayer()
   }
-  
+
   function adventure(){
     let time = Math.floor(Math.random()*100)+1
     let rareItem = rare[Math.floor(Math.random()*rare.length)]
@@ -949,8 +949,8 @@ dialogBox("the rune holds magic, upon touching it you feel a surge of magic flow
     }
     
     //#endregion
-    
-    //#region actions
+
+//#region actions
     let sound = document.getElementById("player-attack")
     function attack(){
       sound = document.getElementById("player-attack")
@@ -1475,11 +1475,11 @@ let dColor = color[Math.floor(Math.random()*color.length)]
 dragon.name = dColor+" dragon"
 
 dragon.hpMax = dragon.hp
-  dragon.hpMax *= player.bkc
-  dragon.hp *= player.bkc
-  dragon.powerMax += player.bkc*4
+  dragon.hpMax += player.bkc*30
+  dragon.hp += player.bkc*30
+  dragon.powerMax += player.bkc
   dragon.defenseMax += player.bkc
-  dragon.resistance += player.bkc*2
+  dragon.resistance += player.bkc
   dragon.lvl++
   //dragon.breath = [player.speed--,player.defense--,player.power--,player.magic--,player.hpMax-=5] 
 enemy = dragon
