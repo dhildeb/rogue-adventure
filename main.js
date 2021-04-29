@@ -744,7 +744,7 @@ dialogBox("you decide to take a different approach and stubble upon a secret pas
         dialogBox("you encounter an enemy on your adventure")
         spawnEnemy()
       }
-      if(time > 66){
+      if(time > 80){
         rest()
         dialogBox("thats enough adventure for one day time for some rest")
       }
