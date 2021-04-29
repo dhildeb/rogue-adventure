@@ -249,7 +249,7 @@ window.alert("yeah that would be pretty stupid.")
   let index = equipment.indexOf(item)
   if(item == "potion of health"){
 
-    player.hpMax += 5
+    player.hpMax += Math.floor(player.hpMax*.1)
     player.speed--
 
     deleteItem(index)
@@ -768,6 +768,9 @@ dialogBox("you decide to take a different approach and stumble upon a secret pas
   if(chance == 0){
     document.getElementById("rare").classList.remove("hidden")
   }
+  if(player.m1 == true){
+    document.getElementById("diablo").classList.remove("hidden")
+  }
   removeHidden()
 }
 
@@ -904,6 +907,17 @@ function buyExplosion(){
   removeHidden()
 }
 
+function chrisCheaterButt(){
+  player.hpMax += 10
+  player.hp += 10
+  player.powerMax += 1
+  player.defenseMax += 1
+  player.magicMax += 1
+  player.magic += 1
+
+  drawPlayer()
+}
+
 function mysteriousRune(){
   let chance = Math.floor(Math.random()*10)+1
   if(player.gold > 1999){
@@ -959,7 +973,6 @@ dialogBox("the rune holds magic, upon touching it you feel a surge of magic flow
     function attack(){
       sound = document.getElementById("player-attack")
       sound.play()
-
       document.getElementById("enemy").classList.remove("hurt")
       let attack = player.powerMax+player.power
       let drain = player.hpDrain
@@ -1453,6 +1466,14 @@ drawSpells()
   `
   document.getElementById("player").innerHTML = template
 
+  if(player.m3 == true){
+    document.getElementById("img").classList.add("m3")
+  }  else if(player.m2 == true){
+    document.getElementById("img").classList.add("m2")
+  } else if(player.m1 == true){
+    document.getElementById("img").classList.add("m1")
+  }
+
   drawPlayerImage()
   displayDay()
   
@@ -1483,6 +1504,7 @@ dragon.hpMax = dragon.hp
   dragon.hp += player.bkc*30
   dragon.powerMax += player.bkc
   dragon.resistance += player.bkc
+  dragon.title = "boss"
   dragon.lvl++
   //dragon.breath = [player.speed--,player.defense--,player.power--,player.magic--,player.hpMax-=5] 
 enemy = dragon
@@ -1659,10 +1681,9 @@ function drawEnemy(){
 function enemyAttack(){
   let attack = enemy.powerMax
   let dmgReducer = player.block
-  document.getElementById("img").classList.remove("hit")
 
- //dodge chance
- let miss = false
+  //dodge chance
+  let miss = false
   if(player.evade){
     let hit = Math.floor(Math.random()*100)
     let dodge = Math.floor(player.evade*100)
@@ -1692,7 +1713,6 @@ function enemyAttack(){
       victory()
       turnTracker()
     }
-    //document.getElementById("enemy").classList.add("hurt")
   }
 
 // defense vs attack
@@ -1706,9 +1726,7 @@ attack -= (player.defenseMax+player.defense)
   }
 
   //actual attack
-  //if(attack > 0){
-    document.getElementById("img").classList.add("hit")
-  //}
+
   player.hp -= attack
   
   // reset block to max if lower
@@ -1971,14 +1989,5 @@ dialogBox("What have you done! you killed a unicorn! the magic of the unicorn cu
 //#endregion
   document.getElementById("theme-music").volume = 0.5;
 
-  
-  if(player.m3 == true){
-    document.getElementById("img").classList.add("m3")
-  }  else if(player.m2 == true){
-    document.getElementById("img").classList.add("m2")
-  } else if(player.m1 == true){
-    document.getElementById("img").classList.add("m1")
-  }
-  
   loadPlayer()
   drawPlayer()

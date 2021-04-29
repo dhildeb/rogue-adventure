@@ -373,11 +373,11 @@ animation: hurt 1s;
 }
 @keyframes hit {
   from{
-    background-color: red;
-    left: 18%;
+    filter: drop-shadow( 4px 8px 16px red);
+    left: 19.5%;
   }
   to{
-    background-color: var(--light);
+    filter: drop-shadow(var(--light));
     color:black;
     left: 20%
   }
