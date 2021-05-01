@@ -29,7 +29,7 @@ let expMax = 5
 let doomsDay = Math.floor(Math.random()*5)+10
 let map = ["forest", "sanctuary", "small town", "goblin valley", "old ruins", "graveyard", "hidden dungeon", "cave", "swamp",  "mountains", "sand dunes","wizards tower", "island on a lake", "temple",  "great city", "dragon lair", "magical gate"]
 // bosses
-let dragon = {name: "dragon",hp: 125, hpMax: 125, powerMax: 0, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 4, bite: 0, breath: 0, title: "boss"}
+let dragon = {name: "dragon",hp: 125, hpMax: 125, powerMax: 7, defenseMax: 0, speedMax: 3, speed: 3, resistance: 0, lvl: 4, bite: 0, breath: 0, title: "boss"}
 // loot
 let loot = ["healing potion", "gem", "mana potion","exploding potion", "scroll of fireball"]
 let rare = ["potion of strength","potion of speed", "potion of defense", "potion of health","potion of magic"]
