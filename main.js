@@ -1324,7 +1324,7 @@ function foresight(){
 }
 function circleOfDeath(){
   let chance = Math.floor(Math.random()*10)+1
-  let attack = Math.floor(Math.random()*100)+1
+  let attack = Math.floor(Math.random()*80)+21
   if(player.magic > 1){
     if(enemy.title != "boss" || enemy.title != "demon boss"){
       if(chance == 10){
