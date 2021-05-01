@@ -1328,18 +1328,18 @@ function circleOfDeath(){
   if(player.magic > 1){
     if(enemy.title != "boss" || enemy.title != "demon boss"){
       if(chance == 10){
-        enemy.hp = 0
+        enemy.hpMax = 0
         dialogBox("the fog completely consumes the enemy")
       }else{
         player.magic -= 2
         enemy.speed--
-        enemy.hp -= attack
+        enemy.hpMax -= attack
         dialogBox("you summon a dark fog that surrounds the enemy, unfortunately they were quick and it only did "+attack+" dmg")
       }
     }else
     player.magic -= 2
     enemy.speed--
-    enemy.hp -= attack
+    enemy.hpMax -= attack
     dialogBox("you summon a dark fog that surrounds the enemy, unfortunately they were quick and it only did "+attack+" dmg")
     }
     else{
