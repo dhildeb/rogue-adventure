@@ -28,17 +28,33 @@ img{
 }
 #dragon{
   max-width: 500%;
-  top: -25%;
+  top: -10%;
   left: 35%;
   z-index: -1;
   position: fixed;
 }
-#demon{
-  max-width: 500%;
+#demon1{
+  max-width: 200%;
+  top: -10%;
+  left: 30%;
+  z-index: -1;
+  position: fixed;
+}
+#demon2{
+  max-width: 75%;
   top: -25%;
+  left: 15%;
+  z-index: -1;
+  position: fixed;
+}
+#demon3{
+  max-width: 200%;
+  top: 10%;
   left: 35%;
   z-index: -1;
   position: fixed;
+  filter: drop-shadow(20px 40px 60px #1b1b1b);
+
 }
 .boss{
   opacity: .6;

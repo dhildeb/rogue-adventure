@@ -34,6 +34,7 @@
         <img src="paladin2.png" alt="paladin2" id="paladin2" class="hidden">
         <img src="wizrd.png" alt="wizard" id="wizard" class="hidden">
         <img src="wizard2.png" alt="wizard2" id="wizard2" class="hidden">
+        <img src="death.png" alt="souless" id="souless" class="hidden">
       </div>
 
       <div id="days" class="days">
@@ -88,10 +89,19 @@
             </div>
             <audio id="monster-attack" src="Monster Attack.mp3"></audio>
         <img src="dragon.png" alt="dragon" id="dragon" class="hidden">
-        <img src="demon.png" alt="demon" id="demon" class="hidden">
+        <img src="demon.png" alt="demon1" id="demon1" class="hidden">
+        <img src="demon2.png" alt="demon2" id="demon2" class="hidden">
+        <img src="demon1.png" alt="demon3" id="demon3" class="hidden">
         <div id="shop" class="card w-50 hidden">
           
           <div class="m-1">
+            <span class="d-flex">
+              <form class="" onsubmit="cheatBox(event)">
+                <div class="d-flex">
+                  <input placeholder="Merchants guild" type="text" name="name" />
+                  <button class="btn-special" type="submit">
+                  </div>
+            </span>
             <span class="d-flex">
               <button type="button" onclick="buyHp()">buy</button>
               <p class="m-1">healing potion 50gp</p>
@@ -129,6 +139,9 @@
              </div>
              <div id="diablo" class="m-1 d-flex justify-content-center hidden">
               <button type="button" onclick="hellPortal()">open portal to hell 1000gp</button>
+             </div>
+             <div id="apocalypse" class="m-1 d-flex justify-content-center hidden">
+              <button type="button" onclick="apocalypse()">apocalypse 5000gp</button>
              </div>
           </div>
             <div>
