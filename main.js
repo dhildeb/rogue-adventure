@@ -357,6 +357,7 @@ let attack = Math.floor(Math.random()*50)+5+(player.lvl*2)
       removeHidden()
     }
     dialogBox("you read the scroll and it bursts into flames forming a huge ball of fire that streaks toward the enemy "+attack+" DMG")
+    victory()
   }
   }
   function explodingPot(item){
@@ -380,6 +381,7 @@ let attack = Math.floor(Math.random()*50)+5+(player.lvl*2)
       removeHidden()
     }
     dialogBox("you throw the warm bootle at the monster, it shatters in a fiery explosion "+attack+" DMG")
+    victory()
   }
   }
   function vampiricBracers(){
@@ -424,7 +426,7 @@ let attack = Math.floor(Math.random()*50)+5+(player.lvl*2)
     if(item == "magic staff"){
   
         leave()
-      dialogBox("holding this ancient carved piece of wood slowly regenerates your magic")
+      dialogBox("holding this ancient carved piece of wood you sense it is capable of absorbing magic from the dead")
     }
   }
 
