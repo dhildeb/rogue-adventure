@@ -10,11 +10,19 @@
   </head>
   
   <body>
-    <audio id="theme-music" controls autoplay loop="true"
-     src="minitheme.mp3" preload="auto" type="audio/mpeg" >     
-    </audio>
-    <section id="start" class="d-flex justify-content-center">
-      <div>
+  <style>
+      body{
+        background-image: url('forest.png');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+       background-size: 100% 100%;
+      }
+      </style>
+      <audio id="theme-music" controls autoplay loop="true"
+      src="minitheme.mp3" preload="auto" type="audio/mpeg" >     
+      </audio>
+      <section id="start" class="d-flex justify-content-center">
+        <div>
 
         <h1 class="d-flex justify-content-center">Select player</h1>
         <button type="button" onclick="setCharacter(rogue)">Rogue</button>

@@ -1,6 +1,6 @@
 :root{
 --primary: rgba(223, 171, 0, 0.527);
---light: rgb(206, 202, 151);
+--light: rgba(206, 202, 151, 0.411);
 --dark: rgba(102, 102, 102, 0.39);
 --shadow: rgba(0,0,0,.5);
 --corners: .5em;
@@ -67,7 +67,7 @@ img{
   width: 20%;
   height: 40%;
   border: 3px solid var(--primary);
-  background-color: rgba(206, 202, 151, 0.623);
+  background-color: rgba(206, 202, 151, 0.808);
   border-radius:var(--corners) ;
   opacity: .6;
   text-align: left;
