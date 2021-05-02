@@ -760,10 +760,10 @@ if(confirm("you encounter a strange figure completely clothed in rags, his face 
         dialogBox("you give up but not without analyzing your defeat and learning from this failure")
         player.exp += (player.lvl+1)*10
       }else{
-dialogBox("you decide to take a different approach and stumble upon a secret passage to a treasure hoard! you get 1000gp "+item+" "+rareItem)
+dialogBox("you decide to take a different approach and stumble upon a secret passage to a treasure hoard! you get 1000gp "+item+" "+relic)
         player.gold += 1000
         equipment.push(item)
-        equipment.push(rareItem)
+        equipment.push(relic)
       }
     }else{dialogBox("you ignore the tales of the poor crazy man and venture onto other encounters")}
   }
@@ -1477,7 +1477,13 @@ function drawPlayer(){
   let shield = player.defenseMax+player.defense
   let attack = player.power+player.powerMax
   let hpBar = Math.floor((player.hp / player.hpMax)*100)
-  let expBar = Math.floor((player.exp / player.expMax)*100)
+  let expBar = 0
+  if(player.lvl == 0){
+   expBar = Math.floor(((player.exp) / (player.expMax))*100)
+  }else{
+   expBar = Math.floor(((player.exp-(player.expMax/2)) / (player.expMax-(player.expMax/2)))*100)
+  }
+  console.log(expBar)
   let movement = player.speed
 
    //draw skills/spells button
@@ -1595,11 +1601,11 @@ drawSpells()
   <div id="exp" class="d-flex space-between">
   <div style="width:${expBar}%;">
   <span style="color: black; width: 100%; position: relative;">
-  EXP: 
+  EXP
   </span>
   </div>
-  ${player.exp}/${player.expMax}
   </div>
+  (${player.exp}/${player.expMax})
   `
   if(player.name == "rogue" || player.evade > 0){
     template += `<div class="d-flex space-between">
@@ -1766,21 +1772,21 @@ player.gold -= 500
 
   let chance = Math.floor(Math.random()*player.lvl)+1
   console.log("chance: "+chance)
-  if(chance == 0){
+  if(chance == 1){
     let spawn1 = [Math.floor(Math.random()*monsters.length)]
 
 enemy = monsters[spawn1]
 
-  } else if(chance > 0 && chance < 2){
+  } else if(chance > 1 && chance < 3){
     let spawn2 = [Math.floor(Math.random()*monsters2.length)]
 
     enemy = monsters2[spawn2]
 
-  }else if(chance > 2 && chance < 4){
+  }else if(chance > 3 && chance < 5){
     let spawn3 = [Math.floor(Math.random()*monsters3.length)]
 
     enemy = monsters3[spawn3]
-  }else if(chance > 4 && chance < 7){
+  }else if(chance > 5 && chance < 7){
     let spawn4 = [Math.floor(Math.random()*monsters4.length)]
 
     enemy = monsters4[spawn4]
