@@ -6,6 +6,13 @@
 --corners: .5em;
 }
 
+body{
+  background-image: url('forest.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+ background-size: cover;
+}
+
 p{
   margin: .5em 0;
 }

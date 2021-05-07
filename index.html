@@ -1,166 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-  
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rogue Adventures</title>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  
-  <body>
-  <style>
-      body{
-        background-image: url('forest.png');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-       background-size: 100% 100%;
-      }
-      </style>
-      <audio id="theme-music" controls autoplay loop="true"
-      src="minitheme.mp3" preload="auto" type="audio/mpeg" >     
-      </audio>
-      <section id="start" class="d-flex justify-content-center">
-        <div>
 
-        <h1 class="d-flex justify-content-center">Select player</h1>
-        <button type="button" onclick="setCharacter(rogue)">Rogue</button>
-        <button type="button" onclick="setCharacter(barbarian)">Barbarian</button>
-        <button type="button" onclick="setCharacter(paladin)">Paladin</button>
-        <button type="button" onclick="setCharacter(wizard)">Wizard</button>
-      </div> 
-    </section>
-    
-    <main id="game" class="d-flex justify-content-center">
-      <div id="img" class="player">
-        <img src="rogue.png" alt="rogue" id="rogue" class="hidden">
-        <img src="rogue2.png" id="rogue2" style="max-width: 25%; top: 38%; left: 18%" alt="rogue2" class="hidden">
-        <img src="barbarian.png" alt="barbarian" id="barbarian" class="hidden">
-        <img src="barbarain2.png" alt="barbarian2" id="barbarian2" class="hidden">
-        <img src="paladin.png" alt="paladin" id="paladin" class="hidden">
-        <img src="paladin2.png" alt="paladin2" id="paladin2" class="hidden">
-        <img src="wizrd.png" alt="wizard" id="wizard" class="hidden">
-        <img src="wizard2.png" alt="wizard2" id="wizard2" class="hidden">
-        <img src="death.png" alt="souless" id="souless" class="hidden">
-      </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rogue Adventures</title>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+</head>
 
-      <div id="days" class="days">
+<body>
+
+  <audio id="theme-music" controls autoplay loop="true" src="minitheme.mp3" preload="auto" type="audio/mpeg">
+  </audio>
+  <section id="start" class="d-flex justify-content-center">
+    <div>
+
+      <h1 class="d-flex justify-content-center">Select player</h1>
+      <button type="button" onclick="setCharacter(rogue)">Rogue</button>
+      <button type="button" onclick="setCharacter(barbarian)">Barbarian</button>
+      <button type="button" onclick="setCharacter(paladin)">Paladin</button>
+      <button type="button" onclick="setCharacter(wizard)">Wizard</button>
+    </div>
+  </section>
+
+  <main id="game" class="d-flex justify-content-center">
+    <div id="img" class="player">
+      <img src="rogue.png" alt="rogue" id="rogue" class="hidden">
+      <img src="rogue2.png" id="rogue2" style="max-width: 25%; top: 38%; left: 18%" alt="rogue2" class="hidden">
+      <img src="barbarian.png" alt="barbarian" id="barbarian" class="hidden">
+      <img src="barbarain2.png" alt="barbarian2" id="barbarian2" class="hidden">
+      <img src="paladin.png" alt="paladin" id="paladin" class="hidden">
+      <img src="paladin2.png" alt="paladin2" id="paladin2" class="hidden">
+      <img src="wizrd.png" alt="wizard" id="wizard" class="hidden">
+      <img src="wizard2.png" alt="wizard2" id="wizard2" class="hidden">
+      <img src="death.png" alt="souless" id="souless" class="hidden">
+    </div>
+
+    <h2>
+      <div id="days" class="days"
+        style="color: grey; -webkit-text-fill-color: whitesmoke; -webkit-text-stroke-width: .25px; -webkit-text-stroke-color: grey;">
         <b>Day: 1</b>
       </div>
-      <div id="dialog" class="box">
-        let the adventure begin
-      </div>
+    </h2>
 
-      <div id="player" class="card left">
+    <div id="dialog" class="box">
+      let the adventure begin
+    </div>
+
+    <div id="player" class="card left">
+    </div>
+
+    <section id="events" class="sm-card center hidden">
+      <div class="m-1 d-flex justify-content-center">
+        <button type="button" onclick="spawnEnemy()">Battle!</button>
       </div>
-      
-      <section id="events" class="sm-card center hidden">
-         <div class="m-1 d-flex justify-content-center">
-           <button type="button" onclick="spawnEnemy()">Battle!</button>
-          </div>
-          <div class="m-1 d-flex justify-content-center">
-            <button type="button" onclick="adventure()">Adventure</button>
-           </div>
-          <div class="m-1 d-flex justify-content-center">
-            <button type="button" onclick="rest()">rest</button>
-           </div>
-           <div class="m-1 d-flex justify-content-center">
-            <button type="button" onclick="shop()">shop</button>
-           </div>
-        </section>
-       
-        <section id="actions" class="sm-card center hidden">
-          <div class="m-1 d-flex justify-content-center">
-            <button type="button" class="attack" onclick="attack()">Attack</button>
-            <audio id="player-attack" src="attack.mp3"></audio>
-          </div>
-          <div id="block" class="m-1 d-flex justify-content-center">
-            <button type="button" onclick="blocking()">Block</button>
-          </div>
-          <div id="skills" class="m-1 skills hidden">
-            <button type="button" onclick="drawSkills()">Abilities</button>
-          </div>
-          <div id="spells" class="m-1 spells hidden">
-            <button type="button" onclick="drawSpells()">Spells</button>
-          </div>
-          <div id="flee" class="m-1 d-flex justify-content-center">
-            <button type="button" onclick="flee()">flee</button>
-          </div>
-          <div class="m-1 d-flex justify-content-center">
-            <button type="button" onclick="drawItems()">use item</button>
-          </div>
-        </section>
-         
-        <section class="right">
-            <div id="enemy" class="enemy card w-50 hidden">
-            </div>
-            <audio id="monster-attack" src="Monster Attack.mp3"></audio>
-        <img src="dragon.png" alt="dragon" id="dragon" class="hidden">
-        <img src="demon.png" alt="demon1" id="demon1" class="hidden">
-        <img src="demon2.png" alt="demon2" id="demon2" class="hidden">
-        <img src="demon1.png" alt="demon3" id="demon3" class="hidden">
-        <div id="shop" class="card w-50 hidden">
-          
-          <div class="m-1">
-            <span class="d-flex">
-              <form class="" onsubmit="cheatBox(event)">
-                <div class="d-flex">
-                  <input placeholder="Merchants guild" type="text" name="name" />
-                  <button class="btn-special" type="submit">
-                  </div>
-            </span>
-            <span class="d-flex">
-              <button type="button" onclick="buyHp()">buy</button>
-              <p class="m-1">healing potion 50gp</p>
-            </span>
-            <span class="d-flex">
-              <button type="button" onclick="buyMana()">buy</button>
-              <p class="m-1">mana potion 50gp</p>
-            </span>
-            <span class="d-flex">
-              <button type="button" onclick="buyScroll()">buy</button>
-              <p class="m-1">scroll of fireball 150gp</p>
-            </span>
-            <span class="d-flex">
-              <button type="button" onclick="buyExplosion()">buy</button>
-              <p class="m-1">Exploding potion 150gp</p>
-            </span>
-            <span id="bracers" class="d-flex">
-              <button  type="button" onclick="vampiricBracers()">buy</button>
-              <p class="m-1">Bracers of vampiric touch 5000gp</p>
-            </span>
-            <span id="spikes" class="d-flex">
-            <button  type="button" onclick="spikedArmor()">buy</button>
+      <div class="m-1 d-flex justify-content-center">
+        <button type="button" onclick="adventure()">Adventure</button>
+      </div>
+      <div class="m-1 d-flex justify-content-center">
+        <button type="button" onclick="rest()">rest</button>
+      </div>
+      <div class="m-1 d-flex justify-content-center">
+        <button type="button" onclick="shop()">shop</button>
+      </div>
+    </section>
+
+    <section id="actions" class="sm-card center hidden">
+      <div class="m-1 d-flex justify-content-center">
+        <button type="button" class="attack" onclick="attack()">Attack</button>
+        <audio id="player-attack" src="attack.mp3"></audio>
+      </div>
+      <div id="block" class="m-1 d-flex justify-content-center">
+        <button type="button" onclick="blocking()">Block</button>
+      </div>
+      <div id="skills" class="m-1 skills hidden">
+        <button type="button" onclick="drawSkills()">Abilities</button>
+      </div>
+      <div id="spells" class="m-1 spells hidden">
+        <button type="button" onclick="drawSpells()">Spells</button>
+      </div>
+      <div id="flee" class="m-1 d-flex justify-content-center">
+        <button type="button" onclick="flee()">flee</button>
+      </div>
+      <div class="m-1 d-flex justify-content-center">
+        <button type="button" onclick="drawItems()">use item</button>
+      </div>
+    </section>
+
+    <section class="right">
+      <div id="enemy" class="enemy card w-50 hidden">
+      </div>
+      <audio id="monster-attack" src="Monster Attack.mp3"></audio>
+      <img src="dragon.png" alt="dragon" id="dragon" class="hidden">
+      <img src="demon.png" alt="demon1" id="demon1" class="hidden">
+      <img src="demon2.png" alt="demon2" id="demon2" class="hidden">
+      <img src="demon1.png" alt="demon3" id="demon3" class="hidden">
+      <div id="shop" class="card w-50 hidden">
+
+        <div class="m-1">
+          <span class="d-flex">
+            <form class="" onsubmit="cheatBox(event)">
+              <div class="d-flex">
+                <input placeholder="Merchants guild" type="text" name="name" />
+                <button class="btn-special" type="submit">
+              </div>
+          </span>
+          <span class="d-flex">
+            <button type="button" onclick="buyHp()">buy</button>
+            <p class="m-1">healing potion 50gp</p>
+          </span>
+          <span class="d-flex">
+            <button type="button" onclick="buyMana()">buy</button>
+            <p class="m-1">mana potion 50gp</p>
+          </span>
+          <span class="d-flex">
+            <button type="button" onclick="buyScroll()">buy</button>
+            <p class="m-1">scroll of fireball 150gp</p>
+          </span>
+          <span class="d-flex">
+            <button type="button" onclick="buyExplosion()">buy</button>
+            <p class="m-1">Exploding potion 150gp</p>
+          </span>
+          <span id="bracers" class="d-flex">
+            <button type="button" onclick="vampiricBracers()">buy</button>
+            <p class="m-1">Bracers of vampiric touch 5000gp</p>
+          </span>
+          <span id="spikes" class="d-flex">
+            <button type="button" onclick="spikedArmor()">buy</button>
             <p class="m-1">Spiked armor 4000gp</p>
           </span>
           <span id="spikes" class="d-flex">
-            <button  type="button" onclick="chrisCheaterButt()">buy</button>
-            <p class="m-1">Chris cheater butt  price: your soul</p>
+            <button type="button" onclick="chrisCheaterButt()">buy</button>
+            <p class="m-1">Chris cheater butt price: your soul</p>
           </span>
-            <span id="rare" class="d-flex">
-              <button  type="button" onclick="mysteriousRune()">buy</button>
-              <p class="m-1">mysterious rune 2000gp</p>
-            </span>
-            <div class="m-1 d-flex justify-content-center">
-              <button type="button" onclick="demonBoss()">spawn a demon 500gp</button>
-             </div>
-             <div id="diablo" class="m-1 d-flex justify-content-center hidden">
-              <button type="button" onclick="hellPortal()">open portal to hell 1000gp</button>
-             </div>
-             <div id="apocalypse" class="m-1 d-flex justify-content-center hidden">
-              <button type="button" onclick="apocalypse()">apocalypse 5000gp</button>
-             </div>
+          <span id="rare" class="d-flex">
+            <button type="button" onclick="mysteriousRune()">buy</button>
+            <p class="m-1">mysterious rune 2000gp</p>
+          </span>
+          <div class="m-1 d-flex justify-content-center">
+            <button type="button" onclick="demonBoss()">spawn a demon 500gp</button>
           </div>
-            <div>
-              <button type="button" onclick="leave()">leave</button>
+          <div id="diablo" class="m-1 d-flex justify-content-center hidden">
+            <button type="button" onclick="hellPortal()">open portal to hell 1000gp</button>
+          </div>
+          <div id="apocalypse" class="m-1 d-flex justify-content-center hidden">
+            <button type="button" onclick="apocalypse()">apocalypse 5000gp</button>
           </div>
         </div>
-        <div id="pouch" class="m-1 card w-50 hidden">
+        <div>
+          <button type="button" onclick="leave()">leave</button>
         </div>
-      </section>
-      
-    </main>
-    <script src="main.js"></script>
-  </body>
-  </html>
+      </div>
+      <div id="pouch" class="m-1 card w-50 hidden">
+      </div>
+    </section>
+
+  </main>
+  <script src="main.js"></script>
+</body>
+
+</html>
